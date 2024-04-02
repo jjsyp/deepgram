@@ -1,0 +1,22 @@
+import os
+
+class Storage:
+    def get(self, key):
+        raise NotImplementedError
+
+
+class FilesystemStorage(Storage):
+    def __init__(self, root):
+        self._root = root
+    def get(self, key):
+        with open(os.path.join(self._root, key), 'rb') as fh:
+            return fh.read()
+
+# Initialize the FilesystemStorage object with the root directory path
+storage = FilesystemStorage('localStorage/')
+
+# Get the contents of the 'example.txt' file 
+file_contents = storage.get('test.txt')
+
+# Print the file contents
+print(file_contents)
