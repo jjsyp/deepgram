@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom'; 
-import Logout from '../oauth/Logout'; 
+import { styled } from '@mui/material'
+import Logout from '../oauth/Logout';
+import ControlPanel from '../components/ControlPanel/ControlPanel';
+import Navbar from '../components/Navbar/Navbar'
+
+const TtsToolContainer = styled('div')(() => ({
+    display: 'flex',
+    flexDirection: 'row'
+}))
 
 /**
  * TtsTool component, a functional component that has state values userEmail 
@@ -9,7 +17,7 @@ import Logout from '../oauth/Logout';
  * @returns {React.Element} The rendered React element which display the 
  * logged in user's email and has a Logout button.
  */
-const TtsTool = () => {
+export default function TtsTool() {
     // State variable for holding user's email
     const [userEmail, setUserEmail] = useState('');
 
@@ -48,11 +56,13 @@ const TtsTool = () => {
     }, []);
   
     return (
-      <div>
-        <h1>Welcome {userEmail}</h1>
-        <Logout />
-      </div>
+        <>
+            <Navbar />
+            <TtsToolContainer>
+                <ControlPanel />
+                <h1>Welcome {userEmail}</h1>
+                <Logout />
+            </TtsToolContainer>
+        </>
     );
   };
-
-export default TtsTool;

@@ -1,10 +1,9 @@
 import { Link, useMatch, useResolvedPath } from "react-router-dom";
-import styled from "styled-components";
+import { styled } from '@mui/material';
 
-const NavItems = styled.nav`
-    background: #15171c;
-`;
-
+const NavItems = styled('nav')(() => ({
+    background: '#15171c'
+}))
 
 function CustomLink({ to, children, ...props }) {
     const resolvedPath = useResolvedPath(to)

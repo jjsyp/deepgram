@@ -15,10 +15,12 @@ const HomePage = () => {
   };
 
   return (
-    <div>
-      <h1>Welcome to our site</h1>
-      <button onClick={loginHandler}>Login with Google</button>
-    </div>
+    <>
+        <div>
+            <h1>Welcome to our site</h1>
+            <button onClick={loginHandler}>Login with Google</button>
+        </div>
+    </>
   );
 };
 
