@@ -4,6 +4,8 @@ import { styled } from '@mui/material'
 import Logout from '../oauth/Logout';
 import ControlPanel from '../components/ControlPanel/ControlPanel';
 import Navbar from '../components/Navbar/Navbar'
+import AudioPlayer from '../components/AudioPlayer/AudioPlayer';
+import asteria from '../asteria_file.mp3'
 
 const TtsToolContainer = styled('div')(() => ({
     display: 'flex',
@@ -63,6 +65,7 @@ export default function TtsTool() {
                 <h1>Welcome {userEmail}</h1>
                 <Logout />
             </TtsToolContainer>
+            <AudioPlayer src={asteria}>Model 1</AudioPlayer>
         </>
     );
   };
