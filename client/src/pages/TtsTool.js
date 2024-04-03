@@ -60,12 +60,15 @@ export default function TtsTool() {
     return (
         <>
             <Navbar />
-            <TtsToolContainer>
+            <div>
+                <h1>TtsTool</h1>
+            </div>
+            {/* <TtsToolContainer>
                 <ControlPanel />
                 <h1>Welcome {userEmail}</h1>
                 <Logout />
             </TtsToolContainer>
-            <AudioPlayer src={asteria}>Model 1</AudioPlayer>
+            <AudioPlayer src={asteria}>Model 1</AudioPlayer> */}
         </>
     );
   };

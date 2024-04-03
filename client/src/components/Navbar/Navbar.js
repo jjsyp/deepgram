@@ -23,7 +23,7 @@ export default function Navbar() {
         <>
             <NavItems className="nav">
                 <Link to="/" className="Deepgram">Deepgram</Link>
-                <CustomLink to="/Login">Login</CustomLink>
+                <CustomLink to="/signin-google">Login</CustomLink>
             </NavItems>
         </>
     )
