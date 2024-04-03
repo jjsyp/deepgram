@@ -23,16 +23,18 @@ class FilesystemStorage(Storage):
         return file_contents
 
 
-# Initialize the FilesystemStorage object with the root directory path
-storage = FilesystemStorage('localStorage')
 
-# Get the contents of all files in the 'asteria' directory
-file_contents_dict = storage.get_files_in_directory('asteria')
+#function to take model as the key for the file
+def get_model_storage(model):
+    storage = FilesystemStorage('localStorage')
+    
+    file_contents_dict = storage.get_files_in_directory(model)
+    
+    # Assign the contents of each file to a variable
+    audio = file_contents_dict['audio.mp3']
+    language = file_contents_dict['language.txt']
+    text = file_contents_dict['text.txt']
+    tier = file_contents_dict['tier.txt']
 
-# Assign the contents of each file to a variable
-asteria_audio = file_contents_dict['audio.mp3']
-asteria_language = file_contents_dict['language.txt']
-asteria_text = file_contents_dict['text.txt']
-asteria_tier = file_contents_dict['tier.txt']
+    return audio, language, text, tier
 
-print(asteria_text)
