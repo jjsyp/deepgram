@@ -6,7 +6,7 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
-flask_sessions
+flask_sessions/
 
 
 # dependencies
