@@ -29,12 +29,9 @@ def get_model_storage(model):
     storage = FilesystemStorage('localStorage')
     
     file_contents_dict = storage.get_files_in_directory(model)
-    
-    # Assign the contents of each file to a variable
-    audio = file_contents_dict['audio.mp3']
-    language = file_contents_dict['language.txt']
-    text = file_contents_dict['text.txt']
-    tier = file_contents_dict['tier.txt']
 
-    return audio, language, text, tier
+    return file_contents_dict
+
+
+    
 
