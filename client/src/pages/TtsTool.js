@@ -7,6 +7,23 @@ import Navbar from '../components/Navbar/Navbar'
 import AudioPlayer from '../components/AudioPlayer/AudioPlayer';
 import asteria from '../asteria_file.mp3'
 
+
+const models = [
+    {
+        name: "Asteria"
+    },
+    {
+        name: "Luna"
+    },
+    {
+        name: "Arcas"
+    },
+    {
+        name: "Zeus"
+    }
+]
+
+
 const TtsToolContainer = styled('div')(() => ({
     display: 'flex',
     flexDirection: 'row',
@@ -73,7 +90,17 @@ export default function TtsTool() {
                     {/* Make sure to add functionality to change login button to 
                     logout in the Navbar tag to replace this */}
                     {/* <Logout /> */}
-                    <AudioPlayer src={asteria}>Model 1</AudioPlayer>
+                    {models.map((model) => {
+                        return (
+                            <>
+                                <AudioPlayer 
+                                key={model.name}
+                                src={asteria}>
+                                    {model.name}
+                                </AudioPlayer>
+                            </>
+                        )
+                    })}
                 </Workspace>
             </TtsToolContainer>
         </>
