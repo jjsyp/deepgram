@@ -18,11 +18,12 @@ function CustomLink({ to, children, ...props }) {
     )
 }
 
-export default function Navbar() {
+export default function Navbar({...props}) {
     return (
         <>
             <NavItems className="nav">
                 <Link to="/" className="Deepgram">Deepgram</Link>
+                {props.user ? <span>Welcome {props.user}!</span> : <></>}
                 <CustomLink to="/signin-google">Login</CustomLink>
             </NavItems>
         </>

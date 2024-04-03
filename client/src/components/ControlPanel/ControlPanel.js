@@ -8,7 +8,7 @@ const ControlContainer = styled('div')(() => ({
     margin: '0',
     padding: '10px',
     width: '25%',
-    height: '100%',
+    height: 'auto',
     background: 'black',
 }))
 

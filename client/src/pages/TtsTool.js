@@ -9,7 +9,14 @@ import asteria from '../asteria_file.mp3'
 
 const TtsToolContainer = styled('div')(() => ({
     display: 'flex',
-    flexDirection: 'row'
+    flexDirection: 'row',
+    justifyContent: 'stretch'
+}))
+
+const Workspace = styled('div')(() => ({
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%'
 }))
 
 /**
@@ -59,16 +66,16 @@ export default function TtsTool() {
   
     return (
         <>
-            <Navbar />
-            <div>
-                <h1>TtsTool</h1>
-            </div>
-            {/* <TtsToolContainer>
+            <Navbar user={userEmail}/>
+            <TtsToolContainer>
                 <ControlPanel />
-                <h1>Welcome {userEmail}</h1>
-                <Logout />
+                <Workspace>
+                    {/* Make sure to add functionality to change login button to 
+                    logout in the Navbar tag to replace this */}
+                    {/* <Logout /> */}
+                    <AudioPlayer src={asteria}>Model 1</AudioPlayer>
+                </Workspace>
             </TtsToolContainer>
-            <AudioPlayer src={asteria}>Model 1</AudioPlayer> */}
         </>
     );
   };

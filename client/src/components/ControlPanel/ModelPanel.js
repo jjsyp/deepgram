@@ -5,7 +5,7 @@ const ModelContainer = styled('div')(() => ({
     flexDirection: 'column',
     margin: '10px',
     padding: '20px',
-    width: '100%',
+    width: 'auto',
     background: '#4c4c4c'
 }))
 
