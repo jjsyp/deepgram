@@ -7,7 +7,6 @@ import Navbar from '../components/Navbar/Navbar'
 import AudioPlayer from '../components/AudioPlayer/AudioPlayer';
 import asteria from '../asteria_file.mp3'
 
-
 const models = [
     {
         name: "Asteria"
@@ -56,29 +55,29 @@ export default function TtsTool() {
      * it redirects to the home page.
      */
     useEffect(() => { 
-      fetch(process.env.REACT_APP_API_URL + '/api/auth/user', { credentials: 'include' })
-        .then(response => {
-          // If HTTP Status is not 200 OK, throw an error
-          if (!response.ok) {
-             throw new Error('HTTP error ' + response.status);
-          }
-          // Convert response body to JSON
-          return response.json();
-        })
-        .then(data => {
-          // If data contains email attribute, set it as userEmail
-          if (data.email) {
-            setUserEmail(data.email);
-          } else {
-            // If data doesn't contain email, navigate to home ('/')
-            navigate('/');
-          }
-        }).catch((error) => {
-          // Log error and navigate to home
-          console.error('Fetch error:', error);
-          navigate('/');
-        });
-     // Empty dependency array means this effect runs once when the component mounts.
+        fetch(process.env.REACT_APP_API_URL + '/api/auth/user', { credentials: 'include' })
+            .then(response => {
+            // If HTTP Status is not 200 OK, throw an error
+            if (!response.ok) {
+                throw new Error('HTTP error ' + response.status);
+            }
+            // Convert response body to JSON
+            return response.json();
+            })
+            .then(data => {
+            // If data contains email attribute, set it as userEmail
+            if (data.email) {
+                setUserEmail(data.email);
+            } else {
+                // If data doesn't contain email, navigate to home ('/')
+                navigate('/');
+            }
+            }).catch((error) => {
+                // Log error and navigate to home
+                console.error('Fetch error:', error);
+                navigate('/');
+            });
+        // Empty dependency array means this effect runs once when the component mounts.
     }, []);
   
     return (
@@ -92,13 +91,11 @@ export default function TtsTool() {
                     {/* <Logout /> */}
                     {models.map((model) => {
                         return (
-                            <>
-                                <AudioPlayer 
-                                key={model.name}
-                                src={asteria}>
-                                    {model.name}
-                                </AudioPlayer>
-                            </>
+                            <AudioPlayer 
+                            key={model.name}
+                            src={asteria}>
+                                {model.name}
+                            </AudioPlayer>
                         )
                     })}
                 </Workspace>

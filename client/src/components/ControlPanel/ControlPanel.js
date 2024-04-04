@@ -9,7 +9,7 @@ const ControlContainer = styled('div')(() => ({
     padding: '10px',
     width: '25%',
     height: 'auto',
-    background: 'black',
+    background: '#4c4c4c',
 }))
 
 export default function ControlPanel() {
