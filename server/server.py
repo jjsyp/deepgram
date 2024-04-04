@@ -40,7 +40,10 @@ app.register_blueprint(auth_controller, url_prefix="/api/auth")
 
 
 file_contents = get_model_storage('asteria')
+
 print(file_contents)
+
+
 
 # Runs the Flask application only if the script is executed directly
 if __name__ == "__main__":

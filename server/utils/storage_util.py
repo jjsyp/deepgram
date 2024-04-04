@@ -29,7 +29,7 @@ def get_model_storage(model):
     storage = FilesystemStorage('localStorage')
     
     file_contents_dict = storage.get_files_in_directory(model)
-
+    
     return file_contents_dict
 
 #function that prints os.path.join(self._root, key)
