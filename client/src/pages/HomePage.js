@@ -1,4 +1,5 @@
 import React from 'react';
+import Navbar from '../components/Navbar/Navbar';
 
 /**
  * HomePage component which contains a welcome message and a Login with Google button.
@@ -15,10 +16,16 @@ const HomePage = () => {
   };
 
   return (
-    <div>
-      <h1>Welcome to our site</h1>
-      <button onClick={loginHandler}>Login with Google</button>
-    </div>
+    <>
+        <Navbar />
+        <div>
+            <h1>HomePage</h1>
+        </div>
+        {/* <div>
+            <h1>Welcome to our site</h1>
+            <button onClick={loginHandler}>Login with Google</button>
+        </div> */}
+    </>
   );
 };
 
