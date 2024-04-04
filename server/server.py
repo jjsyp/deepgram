@@ -11,6 +11,7 @@ from dotenv import load_dotenv
 from flask_session import Session
 from controllers.auth_controller import auth_controller
 import os
+from utils.storage_util import get_model_storage
 
 app = Flask(__name__)
 
@@ -38,6 +39,8 @@ Session(app)
 app.register_blueprint(auth_controller, url_prefix="/api/auth")
 
 
+file_contents = get_model_storage('asteria')
+print(file_contents)
 
 # Runs the Flask application only if the script is executed directly
 if __name__ == "__main__":
