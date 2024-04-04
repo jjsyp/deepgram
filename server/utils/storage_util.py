@@ -32,9 +32,3 @@ def get_model_storage(model):
     
     return file_contents_dict
 
-#function that prints os.path.join(self._root, key)
-def print_os_path(model):
-    storage = FilesystemStorage('localStorage')
-    dir_path = os.path.join(storage._root, model)
-    print(dir_path)
-
