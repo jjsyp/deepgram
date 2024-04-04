@@ -21,7 +21,7 @@ def get_user_info():
     Returns:
         JSON: user information.
     """
-    
+    # user is where the email is
     if 'user' in session:
         return jsonify(**session['user']), 200
     else:
@@ -86,7 +86,7 @@ def google_callback():
         return "User email not available or not verified by Google.", 400
 
     session['user'] = {         # Store user information in session
-        "id": unique_id,        # user's unique ID
+        "id": unique_id,        # user's unique ID, #LOOK HERE DUMBASS
         "name": users_name,
         "email": users_email,
         "profile_pic": picture
