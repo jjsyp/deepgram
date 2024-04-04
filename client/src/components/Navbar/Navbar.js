@@ -1,10 +1,9 @@
 import { Link, useMatch, useResolvedPath } from "react-router-dom";
-import styled from "styled-components";
+import { styled } from '@mui/material';
 
-const NavItems = styled.nav`
-    background: #15171c;
-`;
-
+const NavItems = styled('nav')(() => ({
+    background: '#15171c'
+}))
 
 function CustomLink({ to, children, ...props }) {
     const resolvedPath = useResolvedPath(to)
@@ -19,12 +18,13 @@ function CustomLink({ to, children, ...props }) {
     )
 }
 
-export default function Navbar() {
+export default function Navbar({...props}) {
     return (
         <>
             <NavItems className="nav">
                 <Link to="/" className="Deepgram">Deepgram</Link>
-                <CustomLink to="/Login">Login</CustomLink>
+                {props.user ? <span>Welcome {props.user}!</span> : <></>}
+                <CustomLink to="/signin-google">Login</CustomLink>
             </NavItems>
         </>
     )

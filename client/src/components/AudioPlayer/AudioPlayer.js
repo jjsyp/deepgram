@@ -17,24 +17,23 @@ import FastForwardIcon from '@mui/icons-material/FastForward';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
-import Tag from '../Tags/Tag';
 // #endregion ------------ ICONS ---------
 
 // #region -------- Styled Components -----------------------------------------
-
-const Container = styled('div')(({theme}) => ({
-    paddingTop: theme.spacing(6),
-    height: '100vh',
-    width: 'fit-content'
+const Container = styled('div')(() => ({
+    padding: '20px'
 }))
 
-const TrackBar = styled(Paper)(({theme}) => ({
+const ModelName = styled("span")(() => ({
+    color: 'white',
+    fontSize: '42px'
+}))
+
+const TrackBar = styled(Paper)(() => ({
     backgroundColor: '#4c4c4c',
-    marginLeft: theme.spacing(6),
-    marginRight: theme.spacing(6),
-    marginTop: theme.spacing(10),
-    marginBottom: theme.spacing(10),
-    padding: theme.spacing(2),
+    marginBottom: '80px',
+    padding: '20px',
+    width: 'auto'
 }))
 
 const PlaybackSlider = styled(Slider)(({theme, ...props}) => ({
@@ -68,11 +67,6 @@ const DisLikeButton = styled(Paper)(() => ({
     }   
 }))
 
-const ModelName = styled("span")(({theme}) => ({
-    margin: '2rem',
-    color: 'white',
-    fontSize: '42px'
-}))
 // #endregion ---------------------------------------------------------------
 
 const playlist = [];
@@ -82,8 +76,6 @@ export default function AudioPlayer({children, ...props}) {
     const audioPlayer = useRef()
 
     const [index, setIndex] = useState(0);
-
-    const [currentSong] = useState(playlist[index]);
 
     const [isPlaying, setIsPlaying] = useState(false);
     const [volume, setVolume] = useState(30);
@@ -175,7 +167,7 @@ export default function AudioPlayer({children, ...props}) {
         <>
         <Container>
             <ModelName>{children}</ModelName>
-            <audio src={currentSong} ref={audioPlayer} muted={mute} />
+            <audio src={props.src} ref={audioPlayer} muted={mute} />
             <TrackBar>
                 <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
                     <Stack direction='row' spacing={1} 
@@ -231,7 +223,6 @@ export default function AudioPlayer({children, ...props}) {
                     <Typography sx={{color: 'grey'}}>{formatTime(duration - elapsed)}</Typography>
                 </Stack>
             </TrackBar>
-            <Tag tags={props.tags} />
         </Container>
         </>
     )
