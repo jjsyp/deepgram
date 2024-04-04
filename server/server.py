@@ -37,6 +37,8 @@ Session(app)
 # Registering the auth blueprint with the Flask app
 app.register_blueprint(auth_controller, url_prefix="/api/auth")
 
+
+
 # Runs the Flask application only if the script is executed directly
 if __name__ == "__main__":
     app.run(port=5000, debug=True)

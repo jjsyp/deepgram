@@ -1,12 +1,12 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 
-__pycache__/
+__pycache__
 *.py[cod]
 *.pyc
 *.pyo
 *.pyd
-flask_sessions/
+flask_sessions
 
 
 # dependencies
