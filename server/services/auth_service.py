@@ -9,7 +9,6 @@ import os
 import requests
 import json
 from flask import Flask, redirect, request, session, url_for, jsonify
-from models.user import User
 
 # OAuth 2 client setup
 client = WebApplicationClient(os.getenv("GOOGLE_CLIENT_ID"))
@@ -82,7 +81,6 @@ def google_callback():
         unique_id = userinfo_response.json()["sub"]         # user's unique ID
         users_email = userinfo_response.json()["email"]
         user_data = {}                                     # stores data associated with each audio object
-
 
     else:
         return "User email not available or not verified by Google.", 400
