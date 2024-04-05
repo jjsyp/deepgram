@@ -57,27 +57,30 @@ def model_data_from_dict(data):
 #retrieve a modelData object from the session by its key
 def get_model_data_from_session(key):
     """
-    Retrieves a modelData object from the session by its key.
+    Retrieves a modelData object from the session data dictionary by its key.
 
     Args:
-        key (str): The key to retrieve the modelData object from the session.
+        key (str): The key to retrieve the modelData object from the session data dictionary.
 
     Returns:
-        modelData: The modelData object from the session.
+        modelData: The modelData object retrieved from the session.
     """
-        
-    return model_data_from_dict(session[key])
+    if 'user' in session and 'data' in session['user'] and key in session['user']['data']:
+        model_storage_data = session['user']['data'][key]
+        return ModelData.from_dict(model_storage_data)
+    else:
+        return None  # Return None or handle missing key appropriately
 
 #store a modelData object in the session
-def store_model_data_in_session(key, model_data):
+def store_model_data_in_session(key, model_data_instance):
     """
-    Stores a modelData object in the session with the provided key.
+    Stores a modelData object in the session data dictionary with the provided key.
 
     Args:
-        key (str): The key to store the modelData object in the session.
-        model_data (modelData): The modelData object to store in the session.
+        key (str): The key to store the modelData object in the session data dictionary.
+        model_data_instance (ModelData): The modelData object to store in the session.
     """
-    
-    session[key] = model_data_to_dict(model_data)
+    if 'user' in session:
+        session['user']['data'][key] = model_data_instance.to_dict()
     
     

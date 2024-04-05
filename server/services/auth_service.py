@@ -88,7 +88,7 @@ def google_callback():
     session['user'] = {         # Store user information in session
         "id": unique_id,        # user's unique ID
         "email": users_email,
-        "data": model_data
+        "data": {}              # stores data associated with each audio object
     }
     return redirect(os.getenv("FRONTEND_URL") + "/ttstool")
 
