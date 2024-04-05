@@ -1,3 +1,4 @@
+from flask import session
 from models.model_data import ModelData
 
 #create a new modelData object
@@ -46,3 +47,30 @@ def model_data_from_dict(data):
     """
     
     return ModelData.from_dict(data)
+
+#retrieve a modelData object from the session by its key
+def get_model_data_from_session(key):
+    """
+    Retrieves a modelData object from the session by its key.
+
+    Args:
+        key (str): The key to retrieve the modelData object from the session.
+
+    Returns:
+        modelData: The modelData object from the session.
+    """
+        
+    return model_data_from_dict(session[key])
+
+#store a modelData object in the session
+def store_model_data_in_session(key, model_data):
+    """
+    Stores a modelData object in the session with the provided key.
+
+    Args:
+        key (str): The key to store the modelData object in the session.
+        model_data (modelData): The modelData object to store in the session.
+    """
+    
+    session[key] = model_data_to_dict(model_data)
+    
