@@ -9,11 +9,6 @@ def get_model_data():
 
     return get_model()
 
-@model_controller.route('/receive-model-data/<model>', methods=['POST'])
-def receive_model_data(model):
-    
-    return receive_model(model)
-
 @model_controller.route('/tag-list', methods=['GET'])
 def get_tag_list():
     

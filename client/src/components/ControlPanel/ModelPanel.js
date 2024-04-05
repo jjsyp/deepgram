@@ -31,6 +31,17 @@ export default function ModelPanel() {
 
     function handleSubmit(event) {
         event.preventDefault()
+        // fetch(process.env.REACT_APP_API_URL + '/data/receive-model-data/modelName')
+        // .then(response => {
+        //     if (!response.ok) {
+        //         throw new Error('HTTP Error ' + response.status);
+        //     }
+        //     return response.json()
+        // })
+        // .catch((error) => {
+        //     console.error('Fetch error:', error);
+        // });
+
     }
 
     return (
