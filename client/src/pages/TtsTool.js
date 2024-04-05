@@ -68,6 +68,7 @@ export default function TtsTool() {
     }, []);
 
 
+    // This one is for the model populating the audio players
     useEffect(() => {
         fetch(process.env.REACT_APP_API_URL + '/data/get-model-data')
         .then(response => {
