@@ -7,8 +7,5 @@ class Data:
 
 
 def get_model():
-    model = Data (
-            modelname = 'asteria',
-            audio = 'nothing right now'
-        )
+    model = Data ("Test", "test")
     return jsonify(model)
