@@ -69,10 +69,10 @@ export default function TtsTool() {
 
 
     useEffect(() => {
-        fetch(process.env.REACT_APP_API_URL + '/data/get_modelData')
+        fetch(process.env.REACT_APP_API_URL + '/data/get-model-data')
         .then(response => {
             if (!response.ok) {
-                throw new Error('Bad FuncCall: Unable to retreive data from server. ' + response.status);
+                throw new Error('HTTP Error ' + response.status);
             }
             return response.json()
         })
@@ -85,9 +85,7 @@ export default function TtsTool() {
             }
         })
         .catch((error) => {
-            // Log error and navigate to home
             console.error('Fetch error:', error);
-            navigate('/');
         });
     }, [])
   

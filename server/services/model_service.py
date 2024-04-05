@@ -1,13 +1,13 @@
 from flask import jsonify
 
 class Data:
-    def __init__(self, modelName, audio) -> None:
-        self.modelName = modelName
+    def __init__(self, model_name, audio) -> None:
+        self.model_name = model_name
         self.audio = audio
         
     def __dict__(self) -> dict[str]:
         return {
-            "modelName": self.modelName,
+            "modelName": self.model_name,
             "audio": self.audio
         }
 
