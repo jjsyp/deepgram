@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 from flask_session import Session
 from controllers.auth_controller import auth_controller
 import os
-from utils.storage_util import get_model_storage
+from services.model_data_service import *
 
 app = Flask(__name__)
 
@@ -39,12 +39,10 @@ Session(app)
 app.register_blueprint(auth_controller, url_prefix="/api/auth")
 
 
-file_contents = get_model_storage('asteria')
-audio_file = file_contents['audio.mp3']
-print(audio_file)
-
-
-
+#create a new modelData object
+model = create_model_data('asteria')
+model_data = model_data_to_dict(model)
+print (model.audiofile)
 # Runs the Flask application only if the script is executed directly
 if __name__ == "__main__":
     app.run(port=5000, debug=True)

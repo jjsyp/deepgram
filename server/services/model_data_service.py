@@ -1,8 +1,8 @@
 from flask import session
 from models.model_data import ModelData
-
+from utils.storage_util import get_model_storage
 #create a new modelData object
-def create_model_data(model, language, tier, text, audiofile, email):
+def create_model_data(model):
     """
     Creates a new modelData object with the provided data.
 
@@ -18,6 +18,12 @@ def create_model_data(model, language, tier, text, audiofile, email):
         modelData: A new modelData object.
     """
     
+    file_contents = get_model_storage(model)
+    language = file_contents['language.txt']
+    tier = file_contents['tier.txt']
+    text = file_contents['text.txt']
+    audiofile = file_contents['audio.mp3'] 
+    email = ""
     return ModelData(model, language, tier, text, audiofile, email)
 
 #convert modelData object to dictionary
@@ -36,7 +42,7 @@ def model_data_to_dict(model_data):
 
 #convert dictionary to modelData object
 def model_data_from_dict(data):
-    """
+    """model, language, tier, text, audiofile, email
     Converts a dictionary to a modelData object.
 
     Args:
@@ -73,4 +79,5 @@ def store_model_data_in_session(key, model_data):
     """
     
     session[key] = model_data_to_dict(model_data)
+    
     

@@ -1,7 +1,7 @@
 import base64
 
 
-class modelData(object):
+class ModelData(object):
     model: str
     language: str
     tier: str
