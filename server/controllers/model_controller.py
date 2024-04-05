@@ -1,5 +1,5 @@
 from services.model_service import get_model, receive_model
-from flask import Blueprint
+from flask import Blueprint, jsonify
 from utils.tag_list import tag_list
 
 model_controller = Blueprint('model_controller', __name__)
@@ -12,4 +12,6 @@ def get_model_data():
 @model_controller.route('/tag-list', methods=['GET'])
 def get_tag_list():
     
-    return tag_list
+    return jsonify({
+        "tags": tag_list
+    })

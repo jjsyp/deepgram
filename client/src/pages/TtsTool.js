@@ -30,7 +30,10 @@ const Workspace = styled('div')(() => ({
 export default function TtsTool() {
     // State variable for holding user's email
     const [userEmail, setUserEmail] = useState('');
+
     const [models, setModels] = useState([])
+    const [tagPanelList, setTagPanelList] = useState([])
+    const [audioTags, setAudioTags] = useState([])
 
     // Navigation hook for programmatically navigating with react router
     const navigate = useNavigate();
@@ -89,12 +92,40 @@ export default function TtsTool() {
             console.error('Fetch error:', error);
         });
     }, [])
+
+
+    // This one gets the tag list for the control panel
+    useEffect(() => {
+        fetch(process.env.REACT_APP_API_URL + '/data/tag-list')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('HTTP Error ' + response.status);
+            }
+            return response.json()
+        })
+        .then(data => {
+            if (data.tags) {
+                setTagPanelList(data.tags)
+            }
+        })
+        .catch((error) => {
+            console.error('Fetch error:', error);
+        });
+    }, [])
+
+    function selectTag(event) {
+        event.preventDefault()
+        const form = event.target
+        const formData = new FormData(form)
+
+        setAudioTags([...audioTags, formData])
+    }
   
     return (
         <>
             <Navbar user={userEmail}/>
             <TtsToolContainer>
-                <ControlPanel />
+                <ControlPanel tagList={tagPanelList} onTagSelect={selectTag} />
                 <Workspace>
                     {/* Make sure to add functionality to change login button to 
                     logout in the Navbar tag to replace this */}
@@ -103,7 +134,8 @@ export default function TtsTool() {
                         return (
                             <AudioPlayer 
                             key={model.name}
-                            src={model.src}>
+                            src={model.src}
+                            tagList={audioTags}>
                                 {model.name}
                             </AudioPlayer>
                         )
