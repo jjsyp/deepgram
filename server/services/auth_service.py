@@ -80,16 +80,15 @@ def google_callback():
     if userinfo_response.json()["email_verified"]:  # Check if email is verified by Google
         unique_id = userinfo_response.json()["sub"]         # user's unique ID
         users_email = userinfo_response.json()["email"]
-        picture = userinfo_response.json()["picture"]
-        users_name = userinfo_response.json()["given_name"]
+        user_data = {}                                     # stores data associated with each audio object
+
     else:
         return "User email not available or not verified by Google.", 400
 
     session['user'] = {         # Store user information in session
         "id": unique_id,        # user's unique ID
-        "name": users_name,
         "email": users_email,
-        "profile_pic": picture
+        "data": user_data
     }
     return redirect(os.getenv("FRONTEND_URL") + "/ttstool")
 
