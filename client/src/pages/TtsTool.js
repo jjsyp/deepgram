@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom'; 
 import { styled } from '@mui/material'
-import Logout from '../oauth/Logout';
 import ControlPanel from '../components/ControlPanel/ControlPanel';
 import Navbar from '../components/Navbar/Navbar'
 import AudioPlayer from '../components/AudioPlayer/AudioPlayer';
@@ -96,9 +95,6 @@ export default function TtsTool() {
             <TtsToolContainer>
                 <ControlPanel />
                 <Workspace>
-                    {/* Make sure to add functionality to change login button to 
-                    logout in the Navbar tag to replace this */}
-                    {/* <Logout /> */}
                     {models.map(model => {
                         return (
                             <AudioPlayer 
