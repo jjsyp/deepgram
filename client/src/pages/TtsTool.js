@@ -5,22 +5,6 @@ import Logout from '../oauth/Logout';
 import ControlPanel from '../components/ControlPanel/ControlPanel';
 import Navbar from '../components/Navbar/Navbar'
 import AudioPlayer from '../components/AudioPlayer/AudioPlayer';
-import asteria from '../asteria_file.mp3'
-
-const models = [
-    {
-        name: "Asteria"
-    },
-    {
-        name: "Luna"
-    },
-    {
-        name: "Arcas"
-    },
-    {
-        name: "Zeus"
-    }
-]
 
 
 const TtsToolContainer = styled('div')(() => ({
@@ -46,6 +30,8 @@ export default function TtsTool() {
     // State variable for holding user's email
     const [userEmail, setUserEmail] = useState('');
 
+    const [models, setModels] = useState([])
+
     // Navigation hook for programmatically navigating with react router
     const navigate = useNavigate();
   
@@ -57,28 +43,52 @@ export default function TtsTool() {
     useEffect(() => { 
         fetch(process.env.REACT_APP_API_URL + '/api/auth/user', { credentials: 'include' })
             .then(response => {
-            // If HTTP Status is not 200 OK, throw an error
-            if (!response.ok) {
-                throw new Error('HTTP error ' + response.status);
-            }
-            // Convert response body to JSON
-            return response.json();
+                // If HTTP Status is not 200 OK, throw an error
+                if (!response.ok) {
+                    throw new Error('HTTP error ' + response.status);
+                }
+                // Convert response body to JSON
+                return response.json();
             })
             .then(data => {
-            // If data contains email attribute, set it as userEmail
-            if (data.email) {
-                setUserEmail(data.email);
-            } else {
-                // If data doesn't contain email, navigate to home ('/')
-                navigate('/');
-            }
-            }).catch((error) => {
+                // If data contains email attribute, set it as userEmail
+                if (data.email) {
+                    setUserEmail(data.email);
+                } else {
+                    // If data doesn't contain email, navigate to home ('/')
+                    navigate('/');
+                }
+            })
+            .catch((error) => {
                 // Log error and navigate to home
                 console.error('Fetch error:', error);
                 navigate('/');
             });
         // Empty dependency array means this effect runs once when the component mounts.
     }, []);
+
+
+    // This one is for the model populating the audio players
+    useEffect(() => {
+        fetch(process.env.REACT_APP_API_URL + '/data/get-model-data')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('HTTP Error ' + response.status);
+            }
+            return response.json()
+        })
+        .then(data => {
+            if (data.modelName && data.audio) {
+                setModels([...models, {
+                    name: data.modelName,
+                    src: data.audio
+                }])
+            }
+        })
+        .catch((error) => {
+            console.error('Fetch error:', error);
+        });
+    }, [])
   
     return (
         <>
@@ -89,11 +99,11 @@ export default function TtsTool() {
                     {/* Make sure to add functionality to change login button to 
                     logout in the Navbar tag to replace this */}
                     {/* <Logout /> */}
-                    {models.map((model) => {
+                    {models.map(model => {
                         return (
                             <AudioPlayer 
                             key={model.name}
-                            src={asteria}>
+                            src={model.src}>
                                 {model.name}
                             </AudioPlayer>
                         )

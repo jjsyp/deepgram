@@ -12,12 +12,10 @@ const ControlContainer = styled('div')(() => ({
     background: '#4c4c4c',
 }))
 
-export default function ControlPanel() {
+export default function ControlPanel({...props}) {
     return (
-        <>
-            <ControlContainer>
-                <ModelPanel />
-            </ControlContainer>
-        </>
+        <ControlContainer>
+            <ModelPanel />
+        </ControlContainer>
     )
 }

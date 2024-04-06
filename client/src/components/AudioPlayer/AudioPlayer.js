@@ -17,6 +17,7 @@ import FastForwardIcon from '@mui/icons-material/FastForward';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
+import Tags from './AudioTags';
 // #endregion ------------ ICONS ---------
 
 // #region -------- Styled Components -----------------------------------------
@@ -31,7 +32,7 @@ const ModelName = styled("span")(() => ({
 
 const TrackBar = styled(Paper)(() => ({
     backgroundColor: '#4c4c4c',
-    marginBottom: '80px',
+    marginBottom: '20px',
     padding: '20px',
     width: 'auto'
 }))
@@ -164,7 +165,6 @@ export default function AudioPlayer({children, ...props}) {
     }
 
     return (
-        <>
         <Container>
             <ModelName>{children}</ModelName>
             <audio src={props.src} ref={audioPlayer} muted={mute} />
@@ -223,7 +223,7 @@ export default function AudioPlayer({children, ...props}) {
                     <Typography sx={{color: 'grey'}}>{formatTime(duration - elapsed)}</Typography>
                 </Stack>
             </TrackBar>
+            <Tags tagList={props.tagList} />
         </Container>
-        </>
     )
 }

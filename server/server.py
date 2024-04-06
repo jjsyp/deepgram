@@ -10,6 +10,7 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 from flask_session import Session
 from controllers.auth_controller import auth_controller
+from controllers.model_controller import model_controller
 import os
 from services.model_data_service import *
 
@@ -37,7 +38,10 @@ Session(app)
 
 # Registering the auth blueprint with the Flask app
 app.register_blueprint(auth_controller, url_prefix="/api/auth")
+app.register_blueprint(model_controller, url_prefix="/data")
 
+
+file_contents = get_model_storage('asteria')
 
 # Runs the Flask application only if the script is executed directly
 if __name__ == "__main__":
