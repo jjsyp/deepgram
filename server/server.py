@@ -41,8 +41,15 @@ app.register_blueprint(auth_controller, url_prefix="/api/auth")
 
 #create a new modelData object
 model = create_model_data('asteria')
-model_data = model_data_to_dict(model)
-print (model.audiofile)
+print(model)
+model = model.to_dict()
+print(model)
+
+# Assuming 'model' is the dictionary
+model_instance = ModelData.from_dict(model)
+print(model_instance)
+
+
 # Runs the Flask application only if the script is executed directly
 if __name__ == "__main__":
     app.run(port=5000, debug=True)
