@@ -98,6 +98,7 @@ export default function TtsTool() {
           headers: {
             "Content-Type": "application/json"
           },
+          credentials: "include",
           body: JSON.stringify({ model_name: "asteria" }) 
         })
       
