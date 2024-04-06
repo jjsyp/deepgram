@@ -87,6 +87,8 @@ def store_model_data_in_session(key, model_data_instance):
     if 'user' in session:
         session['user']['data'][key] = model_data_instance.to_dict()
         session.modified = True
+    #else:
+      #  raise ValueError("User data not found in session.")
     
 
 def update_model_data_tags(model, new_tags):

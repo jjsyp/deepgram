@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 from flask_session import Session
 from controllers.auth_controller import auth_controller
 import os
-from services.model_data_service import *
+from controllers.model_data_controller import model_data_controller
 
 app = Flask(__name__)
 
@@ -37,6 +37,7 @@ Session(app)
 
 # Registering the auth blueprint with the Flask app
 app.register_blueprint(auth_controller, url_prefix="/api/auth")
+app.register_blueprint(model_data_controller)
 
 
 # Runs the Flask application only if the script is executed directly
