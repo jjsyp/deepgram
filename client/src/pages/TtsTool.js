@@ -79,7 +79,7 @@ export default function TtsTool() {
         .then(data => {
             if (data.modelName && data.audio) {
                 setModels([...models, {
-                    name: data.modelName,
+                    name: data.model_name,
                     src: data.audio
                 }])
             }
@@ -88,6 +88,30 @@ export default function TtsTool() {
             console.error('Fetch error:', error);
         });
     }, [])
+
+    async function createModel() {
+  
+        let modelName = document.querySelector("#modelName").value;
+      
+        let response = await fetch(process.env.REACT_APP_API_URL + "/modeldata", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ model_name: "asteria" }) 
+        })
+      
+        if(response.ok){
+          let result = await response.json();
+          console.log(result.audio_file);
+          // handle the audio_file, probably you want to play it or save somewhere
+        } else {
+          console.log('HTTP-Error: ' + response.status);
+          let error = await response.json();
+          console.log(error);
+          // handle error
+        }
+      }
   
     return (
         <>
@@ -106,6 +130,8 @@ export default function TtsTool() {
                     })}
                 </Workspace>
             </TtsToolContainer>
+
+            <button id="modelName" onClick={createModel}>Click</button>
         </>
     );
   };
