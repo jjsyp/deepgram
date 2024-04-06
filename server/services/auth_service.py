@@ -21,11 +21,7 @@ def get_user_info():
 
     Returns:
         JSON: user information.
-    """
-    
-    # if 'user' in session:
-    #     return jsonify(**session['user']), 200
-    
+    """    
     
     if 'user' in session:
         return jsonify(**session['user']), 200
