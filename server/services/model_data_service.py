@@ -80,6 +80,10 @@ def store_model_data_in_session(key, model_data_instance):
         key (str): The key to store the modelData object in the session data dictionary.
         model_data_instance (ModelData): The modelData object to store in the session.
     """
+    # Check if model_data_instance is of ModelData type
+    if not isinstance(model_data_instance, ModelData):
+        raise ValueError(f"Expected second argument to be a ModelData instance, got {type(model_data_instance)} instead.")
+
     if 'user' in session:
         session['user']['data'][key] = model_data_instance.to_dict()
         session.modified = True

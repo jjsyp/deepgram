@@ -18,8 +18,12 @@ class FilesystemStorage(Storage):
         dir_path = os.path.join(self._root, directory)
         file_contents = {}
         for filename in os.listdir(dir_path):
-            with open(os.path.join(dir_path, filename), 'rb') as fh:
-                file_contents[filename] = fh.read()
+            if filename.endswith('.txt'):      # check if the file is a text file
+                with open(os.path.join(dir_path, filename), 'r') as fh:  # open in text mode
+                    file_contents[filename] = fh.read()
+            elif filename.endswith('.mp3'):    # check if the file is a binary file
+                with open(os.path.join(dir_path, filename), 'rb') as fh:  # open in binary mode
+                    file_contents[filename] = fh.read()
         return file_contents
 
 

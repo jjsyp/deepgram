@@ -28,12 +28,6 @@ def get_user_info():
     
     
     if 'user' in session:
-        #create a new modelData object asteria 
-        model = create_model_data('asteria')
-        #store the modelData object in the session
-        session['user']['data']['asteria'] = model.to_dict()
-        #print the modelDatat object saved in the session
-        print(session['user']['data']['asteria'])
         return jsonify(**session['user']), 200
         
     else:
@@ -107,6 +101,8 @@ def google_callback():
 def logout():
     """
     Clears the user session which effectively logs out the user.
+    And removes all the associated audio data from the session and
+    server's local storage.
 
     Returns:
         String: A "Logged out" message with a HTTP 200 status.
