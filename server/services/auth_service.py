@@ -9,7 +9,6 @@ import os
 import requests
 import json
 from flask import Flask, redirect, request, session, url_for, jsonify
-from services.model_data_service import *
 
 # OAuth 2 client setup
 client = WebApplicationClient(os.getenv("GOOGLE_CLIENT_ID"))
