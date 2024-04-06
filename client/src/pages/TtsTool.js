@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 import { styled } from '@mui/material'
 import ControlPanel from '../components/ControlPanel/ControlPanel';
 import Navbar from '../components/Navbar/Navbar'
@@ -33,13 +33,13 @@ export default function TtsTool() {
 
     // Navigation hook for programmatically navigating with react router
     const navigate = useNavigate();
-  
+
     /**
      * useEffect hook called when the component first mounts, it makes an API call 
      * to fetch user details and updates userEmail state variable. If the call fails, 
      * it redirects to the home page.
      */
-    useEffect(() => { 
+    useEffect(() => {
         fetch(process.env.REACT_APP_API_URL + '/api/auth/user', { credentials: 'include' })
             .then(response => {
                 // If HTTP Status is not 200 OK, throw an error
@@ -66,65 +66,62 @@ export default function TtsTool() {
         // Empty dependency array means this effect runs once when the component mounts.
     }, []);
 
-
-    // This one is for the model populating the audio players
-    useEffect(() => {
-        fetch(process.env.REACT_APP_API_URL + '/data/get-model-data')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('HTTP Error ' + response.status);
-            }
-            return response.json()
-        })
-        .then(data => {
-            if (data.modelName && data.audio) {
-                setModels([...models, {
-                    name: data.model_name,
-                    src: data.audio
-                }])
-            }
-        })
-        .catch((error) => {
-            console.error('Fetch error:', error);
-        });
-    }, [])
-
     async function createModel() {
-  
-        let modelName = document.querySelector("#modelName").value;
-      
+
         let response = await fetch(process.env.REACT_APP_API_URL + "/modeldata", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          credentials: "include",
-          body: JSON.stringify({ model_name: "asteria" }) 
-        })
-      
-        if(response.ok){
-          let result = await response.json();
-          console.log(result.audio_file);
-          // handle the audio_file
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            credentials: "include",
+            body: JSON.stringify({ model_name: "asteria" })
+        });
+
+        if (response.ok) {
+            let result = await response.json();
+            //console.log(result.audio_file);
+            // handle the audio_file
+            playAudio(result.audio_file);
         } else {
-          console.log('HTTP-Error: ' + response.status);
-          let error = await response.json();
-          console.log(error);
-          // handle error
+            console.log('HTTP-Error: ' + response.status);
+            let error = await response.json();
+            console.log(error);
+            // handle error
         }
-      }
-  
+    }
+
+    async function playAudio(base64String) {
+        const binary_string = atob(base64String);
+        const len = binary_string.length;
+        const bytes = new Uint8Array(len);
+        for (var i = 0; i < len; i++) {
+            bytes[i] = binary_string.charCodeAt(i);
+        }
+    
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    
+        audioContext.decodeAudioData(bytes.buffer, function (buffer) {
+            var source = audioContext.createBufferSource(); 
+            source.buffer = buffer;
+            source.connect(audioContext.destination); 
+            source.start(0);
+        }, function (e) {
+            // Log the error message to console
+            console.error("Error with decoding audio data" + e.err); 
+        });
+    }
+
     return (
         <>
-            <Navbar user={userEmail}/>
+            <Navbar user={userEmail} />
             <TtsToolContainer>
                 <ControlPanel />
                 <Workspace>
                     {models.map(model => {
                         return (
-                            <AudioPlayer 
-                            key={model.name}
-                            src={model.src}>
+                            <AudioPlayer
+                                key={model.name}
+                                src={model.src}>
                                 {model.name}
                             </AudioPlayer>
                         )
@@ -135,4 +132,4 @@ export default function TtsTool() {
             <button id="modelName" onClick={createModel}>Click</button>
         </>
     );
-  };
+};

@@ -39,8 +39,6 @@ def create_model_request():
     store_model_data_in_session(model_name, model_data)
 
     audio_file = model_data.to_dict()['audiofile']
-
-    print(session['user'])
     
     # return the audio from the modelData object in the response, audio is a byte string
     return jsonify({'audio_file': audio_file }), 201
