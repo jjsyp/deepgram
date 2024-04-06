@@ -82,5 +82,27 @@ def store_model_data_in_session(key, model_data_instance):
     """
     if 'user' in session:
         session['user']['data'][key] = model_data_instance.to_dict()
+        session.modified = True
     
+
+def update_model_data_tags(model, new_tags):
+    """
+    Updates the tags of a ModelData object in session['user']['data'].
+
+    Args:
+        model (str): The model name used as a key to retrieve the ModelData object from the session.
+        new_tags (list): The new list of tags to assign to the ModelData object.
+
+    Returns:
+        bool: True if successful, False otherwise.
+    """
+    model_data_instance = get_model_data_from_session(model)
+    
+    if model_data_instance is not None:
+        model_data_instance.tags = new_tags
+        store_model_data_in_session(model, model_data_instance)
+        session.modified = True  # Indicates to Flask that the session object should be saved
+        return True
+    else:
+        return False
     
