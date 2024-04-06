@@ -105,7 +105,7 @@ export default function TtsTool() {
         if(response.ok){
           let result = await response.json();
           console.log(result.audio_file);
-          // handle the audio_file, probably you want to play it or save somewhere
+          // handle the audio_file
         } else {
           console.log('HTTP-Error: ' + response.status);
           let error = await response.json();
