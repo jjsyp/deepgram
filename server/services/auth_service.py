@@ -9,6 +9,7 @@ import os
 import requests
 import json
 from flask import Flask, redirect, request, session, url_for, jsonify
+from services.model_data_service import *
 
 # OAuth 2 client setup
 client = WebApplicationClient(os.getenv("GOOGLE_CLIENT_ID"))
@@ -22,8 +23,19 @@ def get_user_info():
         JSON: user information.
     """
     
+    # if 'user' in session:
+    #     return jsonify(**session['user']), 200
+    
+    
     if 'user' in session:
+        #create a new modelData object asteria 
+        model = create_model_data('asteria')
+        #store the modelData object in the session
+        session['user']['data']['asteria'] = model.to_dict()
+        #print the modelDatat object saved in the session
+        print(session['user']['data']['asteria'])
         return jsonify(**session['user']), 200
+        
     else:
         return "Unauthorized", 401 
 
