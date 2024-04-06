@@ -67,45 +67,45 @@ export default function TtsTool() {
     }, []);
 
     async function createModel() {
-
-        let response = await fetch(process.env.REACT_APP_API_URL + "/modeldata", {
+        //test fucntion, be sure to remove hard coded model name and replace with user input
+        let response = await fetch(process.env.REACT_APP_API_URL + "/modeldata", { //endpoint may change after a blueprint controller is assigned a prefix route
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            credentials: "include",
-            body: JSON.stringify({ model_name: "asteria" })
+            credentials: "include",     //credentials are required for the server to identify the user and store in apporpriate session
+            body: JSON.stringify({ model_name: "asteria" }) //hard coded model name for testing, replace with user input
         });
 
         if (response.ok) {
             let result = await response.json();
-            //console.log(result.audio_file);
+            //console.log(result.audio_file);  //uncomment to see the base64 string of the audio file in the console, use to debug if audio is not playing
             // handle the audio_file
-            playAudio(result.audio_file);
+            playAudio(result.audio_file);//play the audio file
         } else {
-            console.log('HTTP-Error: ' + response.status);
-            let error = await response.json();
+            console.log('HTTP-Error: ' + response.status); //log the error status
+            let error = await response.json();      
             console.log(error);
             // handle error
         }
     }
 
-    async function playAudio(base64String) {
-        const binary_string = atob(base64String);
+    async function playAudio(base64String) {  //function to play the audio file
+        const binary_string = atob(base64String); //atob is a built in function to code the base64 string to binary which is needed to play the audio
         const len = binary_string.length;
-        const bytes = new Uint8Array(len);
+        const bytes = new Uint8Array(len);  //create a new array of 8-bit unsigned integers
         for (var i = 0; i < len; i++) {
-            bytes[i] = binary_string.charCodeAt(i);
+            bytes[i] = binary_string.charCodeAt(i);     //convert the binary string to a character code
         }
     
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();    //create a new audio context
     
-        audioContext.decodeAudioData(bytes.buffer, function (buffer) {
-            var source = audioContext.createBufferSource(); 
-            source.buffer = buffer;
-            source.connect(audioContext.destination); 
-            source.start(0);
-        }, function (e) {
+        audioContext.decodeAudioData(bytes.buffer, function (buffer) {     //decode the audio data
+            var source = audioContext.createBufferSource();         //create a new buffer source for the audio context
+            source.buffer = buffer;                                 //set the buffer to the audio file
+            source.connect(audioContext.destination);                //connect the audio context to the destination
+            source.start(0);                                   //start the audio                 
+        }, function (e) {                           //error handling
             // Log the error message to console
             console.error("Error with decoding audio data" + e.err); 
         });
