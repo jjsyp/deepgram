@@ -1,8 +1,10 @@
+import React, { useEffect, useState } from 'react'
 import { styled, Paper } from "@mui/material"
+import * as mui from '@mui/icons-material'
 
 const TagContainer = styled(Paper)(() => ({
     display: 'flex',
-    flexFlow: 'column wrap',
+    flexFlow: 'row wrap',
     backgroundColor: '#4c4c4c',
     color: '#eeeeee',
     marginBottom: '80px',
@@ -10,40 +12,99 @@ const TagContainer = styled(Paper)(() => ({
     width: 'auto'
 }))
 
-const TagName = styled('input')(() => ({
-    display: "none"
-}))
-
-const SubmitTag = styled('input')(() => ({
+const SelectedTags = styled(Paper)(() => ({
     display: 'flex',
-    flexWrap: 'wrap',
+    flexFlow: 'column wrap',
     padding: '6px',
-    border: 'none',
-    background: 'none',
-    color: '#eeeeee',
-    fontSize: '16px',
-    '&:hover': {
-        fontSize: '20px',
-        padding: '10px',
-        background: '#303034',
-        transition: '200ms'
-    },
-    '&:not(hover)': {
-        transition: '200ms'
-    }
+    width: '50%',
+    background: '#101014',
+    color: '#eeeeee'
 }))
 
-export default function Tags({...props}) {
+const TagsHidden = styled(Paper)(() => ({
+    display: 'flex',
+    flexFlow: 'row-reverse wrap',
+    background: 'none',
+    color: '#eeeeee'
+}))
+
+const TagsVisible = styled(Paper)(() => ({
+    display: 'flex',
+    flexFlow: 'row-reverse wrap',
+    background: 'none',
+    color: '#eeeeee'
+}))
+
+const TagsDropdown = styled(Paper)(() => ({
+    display: 'flex',
+    flexFlow: 'column wrap',
+    background: '#101014',
+    color: '#eeeeee'
+}))
+
+export default function Tags() {
+    const [availableTags, setAvailableTags] = useState([])
+    const [selectedTags, setSelectedTags] = useState([])
+    const [showSelectedTags, setShowSelectedTags] = useState(true)
+
+    // gets the full list of available tags from the server
+    useEffect(() => {
+        fetch(process.env.REACT_APP_API_URL + '/data/tag-list')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('HTTP Error ' + response.status);
+            }
+            return response.json()
+        })
+        .then(data => {
+            if (data.tags) {
+                setAvailableTags(data.tags)
+            }
+        })
+        .catch((error) => {
+            console.error('Fetch error:', error);
+        });
+    }, [])
+
+
+    function selectTag(e) {
+        e.preventDefault()
+        const form = e.target
+        const formData = new FormData(form)
+        const tag = formData.get('tags')
+        
+        if (!selectedTags.includes(tag)) {
+            setSelectedTags([...selectedTags, tag])
+        }
+    }
+
     return (
         <TagContainer>
-            {props.tagList.map(tag => {
-                return (
-                    <form key={tag + 'TagForm'} onSubmit={props.onSelectTag}>
-                        <TagName key={tag + 'TagName'} type="text" name={tag} />
-                        <SubmitTag key={tag + 'SubmitTag'} type="submit" value={tag} />
-                    </form>
-                )
-            })}
+            <SelectedTags>
+                {showSelectedTags ? 
+                    <TagsVisible>
+                        <mui.KeyboardArrowDown onClick={() => setShowSelectedTags(!showSelectedTags)} />
+                        <TagsDropdown>
+                            {selectedTags.map(tag => {
+                                return <span key={tag + 'Dropdown'}>{tag}</span>
+                            })}
+                        </TagsDropdown>
+                    </TagsVisible> 
+                : 
+                    <TagsHidden>
+                        <mui.KeyboardArrowUp onClick={() => setShowSelectedTags(!showSelectedTags)} />
+                        <span>Show Tags</span>
+                    </TagsHidden>
+                }
+            </SelectedTags>
+            <form onSubmit={selectTag}>
+                <input type='submit' value='Add Tag' />
+                <select name="tags">
+                    {availableTags.map(tag => {
+                        return <option key={tag + 'Available'} value={tag}>{tag}</option>
+                    })}
+                </select>
+            </form>
         </TagContainer>
     )
 }

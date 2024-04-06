@@ -5,7 +5,6 @@ import Logout from '../oauth/Logout';
 import ControlPanel from '../components/ControlPanel/ControlPanel';
 import Navbar from '../components/Navbar/Navbar'
 import AudioPlayer from '../components/AudioPlayer/AudioPlayer';
-import asteria from '../asteria_file.mp3'
 
 
 const TtsToolContainer = styled('div')(() => ({
@@ -32,8 +31,6 @@ export default function TtsTool() {
     const [userEmail, setUserEmail] = useState('');
 
     const [models, setModels] = useState([])
-    const [tagPanelList, setTagPanelList] = useState([])
-    const [audioTags, setAudioTags] = useState([])
 
     // Navigation hook for programmatically navigating with react router
     const navigate = useNavigate();
@@ -92,62 +89,12 @@ export default function TtsTool() {
             console.error('Fetch error:', error);
         });
     }, [])
-
-
-    // This one gets the tag list for the control panel
-    useEffect(() => {
-        fetch(process.env.REACT_APP_API_URL + '/data/tag-list')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('HTTP Error ' + response.status);
-            }
-            return response.json()
-        })
-        .then(data => {
-            if (data.tags) {
-                setTagPanelList(data.tags)
-            }
-        })
-        .catch((error) => {
-            console.error('Fetch error:', error);
-        });
-    }, [])
-
-    // called when a tag is selected from the tag panel
-    function selectTag(event) {
-        event.preventDefault()
-        const form = event.target
-        const formData = new FormData(form)
-
-        console.log("A tag was selected from the tag panel!")
-        for (const item of formData) {
-            console.log(item)
-            setAudioTags([...audioTags, item[0]])
-        }
-    }
-
-    // called when the tag is removed from the audio panel
-    function removeTag(event) {
-        event.preventDefault()
-        const form = event.target
-        const formData = new FormData(form)
-
-        const newAudioTags = audioTags
-
-        console.log("A tag wants to be removed from the audio player!")
-        for (const item of formData) {
-            console.log(item)
-            const index = newAudioTags.indexOf(item[0])
-            newAudioTags.splice(index, 1)
-            setAudioTags(newAudioTags)
-        }
-    }
   
     return (
         <>
             <Navbar user={userEmail}/>
             <TtsToolContainer>
-                <ControlPanel tagList={tagPanelList} onTagSelect={selectTag} />
+                <ControlPanel />
                 <Workspace>
                     {/* Make sure to add functionality to change login button to 
                     logout in the Navbar tag to replace this */}
@@ -156,9 +103,7 @@ export default function TtsTool() {
                         return (
                             <AudioPlayer 
                             key={model.name}
-                            src={model.src}
-                            tagList={audioTags}
-                            onTagSelect={removeTag}>
+                            src={model.src}>
                                 {model.name}
                             </AudioPlayer>
                         )

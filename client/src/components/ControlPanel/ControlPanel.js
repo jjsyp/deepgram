@@ -1,6 +1,5 @@
 import { styled } from '@mui/material'
 import ModelPanel from "./ModelPanel";
-import TagPanel from './TagPanel';
 
 const ControlContainer = styled('div')(() => ({
     display: 'flex',
@@ -15,11 +14,8 @@ const ControlContainer = styled('div')(() => ({
 
 export default function ControlPanel({...props}) {
     return (
-        <>
-            <ControlContainer>
-                <ModelPanel />
-                <TagPanel tagList={props.tagList} onTagSelect={props.onTagSelect}/>
-            </ControlContainer>
-        </>
+        <ControlContainer>
+            <ModelPanel />
+        </ControlContainer>
     )
 }
