@@ -165,7 +165,6 @@ export default function AudioPlayer({children, ...props}) {
     }
 
     return (
-        <>
         <Container>
             <ModelName>{children}</ModelName>
             <audio src={props.src} ref={audioPlayer} muted={mute} />
@@ -226,6 +225,5 @@ export default function AudioPlayer({children, ...props}) {
             </TrackBar>
             <Tags tagList={props.tagList} />
         </Container>
-        </>
     )
 }

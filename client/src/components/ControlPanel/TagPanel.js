@@ -10,10 +10,6 @@ const TagContainer = styled(Paper)(() => ({
     background: '#101014'
 }))
 
-const TagForm = styled('form')(() => ({
-    
-}))
-
 const TagName = styled('input')(() => ({
     display: 'none'
 }))
@@ -43,10 +39,10 @@ export default function TagPanel({...props}) {
         <TagContainer>
             {props.tagList.map(tag => {
                 return (
-                    <TagForm key={tag + 'TagForm'} onSubmit={props.onTagSelect}>
+                    <form key={tag + 'TagForm'} onSubmit={props.onTagSelect}>
                         <TagName key={tag + 'TagName'} type="text" name={tag} />
                         <SubmitTag key={tag + 'SubmitTag'} type="submit" value={tag} />
-                    </TagForm>
+                    </form>
                 )
             })}
         </TagContainer>

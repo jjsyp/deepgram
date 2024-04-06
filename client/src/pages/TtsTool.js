@@ -113,12 +113,34 @@ export default function TtsTool() {
         });
     }, [])
 
+    // called when a tag is selected from the tag panel
     function selectTag(event) {
         event.preventDefault()
         const form = event.target
         const formData = new FormData(form)
 
-        setAudioTags([...audioTags, formData])
+        console.log("A tag was selected from the tag panel!")
+        for (const item of formData) {
+            console.log(item)
+            setAudioTags([...audioTags, item[0]])
+        }
+    }
+
+    // called when the tag is removed from the audio panel
+    function removeTag(event) {
+        event.preventDefault()
+        const form = event.target
+        const formData = new FormData(form)
+
+        const newAudioTags = audioTags
+
+        console.log("A tag wants to be removed from the audio player!")
+        for (const item of formData) {
+            console.log(item)
+            const index = newAudioTags.indexOf(item[0])
+            newAudioTags.splice(index, 1)
+            setAudioTags(newAudioTags)
+        }
     }
   
     return (
@@ -135,7 +157,8 @@ export default function TtsTool() {
                             <AudioPlayer 
                             key={model.name}
                             src={model.src}
-                            tagList={audioTags}>
+                            tagList={audioTags}
+                            onTagSelect={removeTag}>
                                 {model.name}
                             </AudioPlayer>
                         )
