@@ -1,81 +1,54 @@
 import psycopg2
-from models.model_data import ModelData
+from sqlalchemy import create_engine, text
+import os
+from dotenv import load_dotenv
 
-def create_database_connection(dbname, user, password, host, port):
-    connection = None
-    #attempt to connect to the database
-    try:
-        print('Connecting to the PostgreSQL database...')
-        connection = psycopg2.connect(
-            dbname=dbname,
-            user=user,
-            password=password,
-            host=host,
-            port=port
-        )
-    #if the connection fails, print the error
-    except(Exception, psycopg2.DatabaseError) as error:
-        print("Error:", error)
-    
-    #if the connection is successful return the connection
-    print('Connected to the PostgreSQL database.')
-    return connection
 
-def close_database_connection(connection):
-    #close the connection to the database
-    connection.close()
-    print('Database connection terminated.')
-    
+def create_database_engine(dbname, user, password, host, port):
+    print(dbname, user, password, host, port)
+    engine = create_engine(f'postgresql://{user}:{password}@{host}:{port}/{dbname}')
+    print('Engine for PostgreSQL database created.')
+    return engine
 
-def is_open(connection):
-    try:
-        # create a new cursor
-        cur = connection.cursor()
-        # execute an SQL command
-        cur.execute("SELECT 1")
-        # connection is open
-        return True
-    except (Exception, psycopg2.DatabaseError) as error:
-        # connection is not open
-        return False
 
 #funciton to send data to the database using the existing connection
-def send_to_database(connection, data_objects):
+def send_to_database(engine, data_objects):
     try:
-        #create a cursor to interact with the database
-        cursor = connection.cursor()
+        #do not created connection here, connection = engine.connect() is used as the connection
+        with engine.connect() as connection:
+            #create a cursor to interact with the database
+            trans = connection.begin()
+            # if the data_objects is not a list, make it a list
+            if not isinstance(data_objects, list):
+                data_objects = [data_objects]
 
-        #if the data_objects is not a list, make it a list
-        if not isinstance(data_objects, list):
-            data_objects = [data_objects]
-        
-        #for each data object in the list
-        for data in data_objects:
-            # Check if model already exists
-            cursor.execute("SELECT id FROM audio WHERE model='%s' AND language='%s' AND tier='%s' AND text='%s'" %
-                           (data.model, data.language, data.tier, data.text))
-            result = cursor.fetchone()
-            print('Result:', result)
+            #for each data object in the list
+            for data in data_objects:
+                
+                # Check if model already exists
+                result = connection.execute(text("SELECT id FROM audio WHERE model=:model AND language=:language AND tier=:tier AND text=:text"),
+                                            {'model': data.model, 'language': data.language, 'tier': data.tier, 'text': data.text}).fetchone()
+                print('Result:', result)
 
-            # If result is not null, skip this insert statement
-            if result is None:
-                # Store a record in the audio table
-                cursor.execute("INSERT INTO audio (model, language, tier, text, audiofile) VALUES (%s, %s, %s, %s, %s)",
-                               (data.model, data.language, data.tier, data.text, data.audiofile))
+                # If result is not null, skip this insert statement
+                if result is None:
+                    # Store a record in the audio table
+                    connection.execute(text("INSERT INTO audio (model, language, tier, text, audiofile) VALUES (:model, :language, :tier, :text, :audiofile)"),
+                                       {'model': data.model, 'language': data.language, 'tier': data.tier, 'text': data.text, 'audiofile': data.audiofile})
+                
+                result = connection.execute(text("SELECT id FROM audio WHERE model=:model AND language=:language AND tier=:tier AND text=:text"),
+                                            {'model': data.model, 'language': data.language, 'tier': data.tier, 'text': data.text}).fetchone()
+                audioid = result[0]
+                print('Result:', result)
 
-            cursor.execute("SELECT id FROM audio WHERE model='%s' AND language='%s' AND tier='%s' AND text='%s'" %
-                           (data.model, data.language, data.tier, data.text))
-            result = cursor.fetchone()
-            audioid = result[0]
-            print('Result:', result)
-
-            # Store a record in the tagging table
-            cursor.execute("INSERT INTO tagging (email, audioid, tags, score, quantifier) VALUES (%s, %s, %s, %s, %s)",
-                           (data.email, audioid, data.tags, data.score, data.quantifier))
-
-        connection.commit()
-        print("Data inserted successfully!")
+                # Store a record in the tagging table
+                connection.execute(text("INSERT INTO tagging (email, audioid, tags, score, quantifier) VALUES (:email, :audioid, :tags, :score, :quantifier)"),
+                               {'email': data.email, 'audioid': audioid, 'tags': data.tags, 'score': data.score, 'quantifier': data.quantifier})
+            
+            trans.commit()
+            print("Data inserted successfully!")
         
     #handle any errors that occur during the database connection
-    except(Exception, psycopg2.DatabaseError) as error:
+    except Exception as error:
         print("Error:", error)
+

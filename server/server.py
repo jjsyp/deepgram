@@ -11,12 +11,12 @@ from dotenv import load_dotenv
 from flask_session import Session
 from controllers.auth_controller import auth_controller
 from controllers.model_data_controller import model_data_controller
-from utils.testing import test_send_to_database
 import os
 
-from services.model_data_service import create_model_data
-from utils.database_util import create_database_connection, close_database_connection, is_open, send_to_database
-from models.model_data import ModelData
+
+from utils.database_util import create_database_engine
+
+from controllers.database_controller import test_send_to_database
 
 
 app = Flask(__name__)
@@ -40,32 +40,18 @@ app.config.update(
 
 # Applying the session configurations to the Flask app
 Session(app) 
-
+print("before engine create")
 # Registering the auth blueprint with the Flask app
 app.register_blueprint(auth_controller, url_prefix="/api/auth")
 app.register_blueprint(model_data_controller)
 
-#create model
-model_data = create_model_data("asteria")
-#change audio file due to original audio file size for testing.
-model_data.audiofile = b'\x00\x01\x0222'
 
-connection = create_database_connection(os.getenv("DB_NAME"), os.getenv("DB_USER"), os.getenv("DB_PASS"), os.getenv("DB_HOST"), os.getenv("DB_PORT"))
 
-if is_open(connection):
-    print("Connection is open.")
-else:
-    print("Connection is not open.")
-    
-send_to_database(connection, model_data)
+print(os.getenv("DB_NAME"), os.getenv("DB_USER"), os.getenv("DB_PASS"), os.getenv("DB_HOST"), os.getenv("DB_PORT"))
 
-# Close the database connection
-close_database_connection(connection)
+engine = create_database_engine(os.getenv("DB_NAME"), os.getenv("DB_USER"), os.getenv("DB_PASS"), os.getenv("DB_HOST"), os.getenv("DB_PORT"))
+test_send_to_database(engine)
 
-if is_open(connection):
-    print("Connection is open.")
-else:
-    print("Connection is not open.")
 
 # Runs the Flask application only if the script is executed directly
 #if __name__ == "__main__":
