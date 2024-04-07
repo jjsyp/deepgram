@@ -1,4 +1,5 @@
 import psycopg2
+from models.model_data import ModelData
 
 def send_to_database(dbname, user, password, host, port, data_objects):
     connection = None
@@ -14,11 +15,16 @@ def send_to_database(dbname, user, password, host, port, data_objects):
         print('Connecting to the PostgreSQL database...')
         cursor = connection.cursor()
 
+        print(type(data_objects.audiofile))
+        if not isinstance(data_objects, list):
+            data_objects = [data_objects]
+        
         for data in data_objects:
             # Check if model already exists
             cursor.execute("SELECT id FROM audio WHERE model='%s' AND language='%s' AND tier='%s' AND text='%s'" %
                            (data.model, data.language, data.tier, data.text))
             result = cursor.fetchone()
+            print('Result:', result)
 
             # If result is not null, skip this insert statement
             if result is None:
@@ -30,6 +36,7 @@ def send_to_database(dbname, user, password, host, port, data_objects):
                            (data.model, data.language, data.tier, data.text))
             result = cursor.fetchone()
             audioid = result[0]
+            print('Result:', result)
 
             # Store a record in the tagging table
             cursor.execute("INSERT INTO tagging (email, audioid, tags, score, quantifier) VALUES (%s, %s, %s, %s, %s)",

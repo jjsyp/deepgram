@@ -1,6 +1,7 @@
 import os
-from models.databaseStorage import classStorage
+#from models.databaseStorage import classStorage
 from utils.database import send_to_database
+from services.model_data_service import create_model_data
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -13,19 +14,12 @@ dbPort = os.getenv("DB_PORT")
 
 
 def test_send_to_database():
-    # Dummy data for testing
-    model = "Sample Model 2"
-    language = "English"
-    tier = "Basic"
-    text = "This is a sample text."
-    audiofile = b'\x00\x01\x02'  # Example bytes for audio file
-    tags = ["good", "bad", "indifferent", "who cares"]
-    score = 0
-    quantifier = "no bueno"
-    email = "fuckingWork@gmail.com"
+    model_data = create_model_data("asteria")
 
-    # Create a list of databaseStorage objects
-    data_objects = [classStorage(model, language, tier, text, audiofile, tags, score, quantifier, email)]
+    model_data.email = "testing, dataobject as list"
+    model_data.tags = ["new", "test"]
+    model_data.audiofile = b'\x00\x01\x02'
+    model_data.text = "new text but same audio"
 
     # Call the send_to_database method
-    send_to_database(dbName, dbUser, dbPassword, dbHost, dbPort, data_objects)
+    send_to_database(dbName, dbUser, dbPassword, dbHost, dbPort, model_data)
