@@ -14,7 +14,9 @@ from controllers.model_data_controller import model_data_controller
 from utils.testing import test_send_to_database
 import os
 
-from utils.database_util import create_database_connection, close_database_connection
+from services.model_data_service import create_model_data
+from utils.database_util import create_database_connection, close_database_connection, is_open, send_to_database
+from models.model_data import ModelData
 
 
 app = Flask(__name__)
@@ -44,15 +46,26 @@ app.register_blueprint(auth_controller, url_prefix="/api/auth")
 app.register_blueprint(model_data_controller)
 
 #create model
-
-# run testing.py
-#test_send_to_database()
+model_data = create_model_data("asteria")
+#change audio file due to original audio file size for testing.
+model_data.audiofile = b'\x00\x01\x0222'
 
 connection = create_database_connection(os.getenv("DB_NAME"), os.getenv("DB_USER"), os.getenv("DB_PASS"), os.getenv("DB_HOST"), os.getenv("DB_PORT"))
+
+if is_open(connection):
+    print("Connection is open.")
+else:
+    print("Connection is not open.")
+    
+send_to_database(connection, model_data)
 
 # Close the database connection
 close_database_connection(connection)
 
+if is_open(connection):
+    print("Connection is open.")
+else:
+    print("Connection is not open.")
 
 # Runs the Flask application only if the script is executed directly
 #if __name__ == "__main__":
