@@ -1,2 +1,0 @@
-empty holder so github tracks models folder.
-delete once there is a file other than placeholder.txt

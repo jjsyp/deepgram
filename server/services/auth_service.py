@@ -21,9 +21,9 @@ def get_user_info():
     Returns:
         JSON: user information.
     """
-    # user is where the email is
     if 'user' in session:
         return jsonify(**session['user']), 200
+        
     else:
         return "Unauthorized", 401 
 
@@ -80,22 +80,23 @@ def google_callback():
     if userinfo_response.json()["email_verified"]:  # Check if email is verified by Google
         unique_id = userinfo_response.json()["sub"]         # user's unique ID
         users_email = userinfo_response.json()["email"]
-        picture = userinfo_response.json()["picture"]
-        users_name = userinfo_response.json()["given_name"]
+        model_data = {}                                     # stores data associated with each audio object
+
     else:
         return "User email not available or not verified by Google.", 400
 
     session['user'] = {         # Store user information in session
-        "id": unique_id,        # user's unique ID, #LOOK HERE DUMBASS
-        "name": users_name,
+        "id": unique_id,        # user's unique ID
         "email": users_email,
-        "profile_pic": picture
+        "data": {}              # stores data associated with each audio object
     }
     return redirect(os.getenv("FRONTEND_URL") + "/ttstool")
 
 def logout():
     """
     Clears the user session which effectively logs out the user.
+    And removes all the associated audio data from the session and
+    server's local storage.
 
     Returns:
         String: A "Logged out" message with a HTTP 200 status.
