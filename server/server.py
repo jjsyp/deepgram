@@ -10,6 +10,7 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 from flask_session import Session
 from controllers.auth_controller import auth_controller
+from utils.testing import test_send_to_database
 import os
 
 app = Flask(__name__)
@@ -36,6 +37,11 @@ Session(app)
 
 # Registering the auth blueprint with the Flask app
 app.register_blueprint(auth_controller, url_prefix="/api/auth")
+
+
+# run testing.py
+test_send_to_database()
+
 
 # Runs the Flask application only if the script is executed directly
 if __name__ == "__main__":

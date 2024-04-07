@@ -1,7 +1,18 @@
-from server.models.databaseStorage import classStorage
-from database import send_to_database
+import os
+from models.databaseStorage import classStorage
+from utils.database import send_to_database
+from dotenv import load_dotenv
 
-if __name__ == "__main__":
+load_dotenv()
+
+dbName = os.getenv("DB_NAME")
+dbUser = os.getenv("DB_USER")
+dbPassword = os.getenv("DB_PASS")
+dbHost = os.getenv("DB_HOST")
+dbPort = os.getenv("DB_PORT")
+
+
+def test_send_to_database():
     # Dummy data for testing
     model = "Sample Model 2"
     language = "English"
@@ -17,4 +28,4 @@ if __name__ == "__main__":
     data_objects = [classStorage(model, language, tier, text, audiofile, tags, score, quantifier, email)]
 
     # Call the send_to_database method
-    send_to_database(dbname='deepgramtestdb', user='postgres', password='MrRed3000!', host='localhost', port='2024', data_objects=data_objects)
+    send_to_database(dbName, dbUser, dbPassword, dbHost, dbPort, data_objects)
