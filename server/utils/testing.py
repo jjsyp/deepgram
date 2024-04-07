@@ -18,8 +18,9 @@ def test_send_to_database():
 
     model_data.email = "testing, dataobject as list"
     model_data.tags = ["new", "test"]
-    model_data.audiofile = b'\x00\x01\x02'
-    model_data.text = "new text but same audio"
+    #model_data.audiofile = b'\x00\x01\x0222'
+    model_data.text = "audio file from model"
+    model_data.score = 3
 
     # Call the send_to_database method
     send_to_database(dbName, dbUser, dbPassword, dbHost, dbPort, model_data)

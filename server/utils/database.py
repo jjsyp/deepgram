@@ -30,7 +30,7 @@ def send_to_database(dbname, user, password, host, port, data_objects):
             if result is None:
                 # Store a record in the audio table
                 cursor.execute("INSERT INTO audio (model, language, tier, text, audiofile) VALUES (%s, %s, %s, %s, %s)",
-                               (data.model, data.language, data.tier, data.text, psycopg2.Binary(data.audiofile)))
+                               (data.model, data.language, data.tier, data.text, data.audiofile))
 
             cursor.execute("SELECT id FROM audio WHERE model='%s' AND language='%s' AND tier='%s' AND text='%s'" %
                            (data.model, data.language, data.tier, data.text))

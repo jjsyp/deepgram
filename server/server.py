@@ -14,6 +14,8 @@ from controllers.model_data_controller import model_data_controller
 from utils.testing import test_send_to_database
 import os
 
+from utils.database_util import create_database_connection, close_database_connection
+
 
 app = Flask(__name__)
 
@@ -44,7 +46,12 @@ app.register_blueprint(model_data_controller)
 #create model
 
 # run testing.py
-test_send_to_database()
+#test_send_to_database()
+
+connection = create_database_connection(os.getenv("DB_NAME"), os.getenv("DB_USER"), os.getenv("DB_PASS"), os.getenv("DB_HOST"), os.getenv("DB_PORT"))
+
+# Close the database connection
+close_database_connection(connection)
 
 
 # Runs the Flask application only if the script is executed directly
