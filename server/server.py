@@ -44,5 +44,5 @@ test_send_to_database()
 
 
 # Runs the Flask application only if the script is executed directly
-if __name__ == "__main__":
-    app.run(port=5000, debug=True)
+#if __name__ == "__main__":
+    #app.run(port=5000, debug=True)
