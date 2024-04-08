@@ -10,6 +10,8 @@ database_controller = Blueprint("database_controller", __name__)
 @database_controller.route("/database", methods=["POST"])
 def test_send_to_database():
     engine = get_db()
+
+    
     model_data = create_model_data("asteria")
 
     model_data.email = "testing@email"

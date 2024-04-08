@@ -85,7 +85,11 @@ def store_model_data_in_session(key, model_data_instance):
         raise ValueError(f"Expected second argument to be a ModelData instance, got {type(model_data_instance)} instead.")
 
     if 'user' in session:
-        session['user']['data'][key] = model_data_instance.to_dict()
+        #add user email to the modelData object
+        model_data_instance.email = session['user']['email']
+        #store the modelData object in the session
+        session['user']['data'][key] = model_data_instance.to_dict()       
+        #indicate to Flask that the session object should be saved
         session.modified = True
     else:
         raise ValueError("User data not found in session.")

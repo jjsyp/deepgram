@@ -118,11 +118,7 @@ export default function TtsTool() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                // replace this with your data
-                body: JSON.stringify({
-                    key1: "value1",
-                    key2: "value2"
-                })
+                credentials: "include",
             });
     
             if(!response.ok) {
