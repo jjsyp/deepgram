@@ -1,6 +1,8 @@
 from flask import Blueprint, request, jsonify, session
 from services.model_data_service import create_model_data, store_model_data_in_session
 from models.model_data import ModelData
+from utils.database_util import send_to_database
+from utils.database import get_db
 
 #create blueprint
 model_data_controller = Blueprint("model_data_controller", __name__)
@@ -33,7 +35,6 @@ def create_model_request():
     except Exception as e:
         # handle error if model_data creation fails
         return jsonify({"error": "An error occurred while creating model data: " + str(e)}), 500
-
   
     # store the modelData object in the session
     store_model_data_in_session(model_name, model_data)

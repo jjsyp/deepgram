@@ -111,6 +111,29 @@ export default function TtsTool() {
         });
     }
 
+    async function sendToDatabase() {
+        try {
+            let response = await fetch(process.env.REACT_APP_API_URL + "/database", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                // replace this with your data
+                body: JSON.stringify({
+                    key1: "value1",
+                    key2: "value2"
+                })
+            });
+    
+            if(!response.ok) {
+                alert(`HTTP error! status: ${response.status}`);
+            } else {
+                alert('Data sent successfully!');
+            }
+        } catch(error) {
+            console.error('Error:', error);
+        }
+    }
     return (
         <>
             <Navbar user={userEmail} />
@@ -130,6 +153,8 @@ export default function TtsTool() {
             </TtsToolContainer>
 
             <button id="modelName" onClick={createModel}>Click</button>
+
+            <button id="database" onClick={sendToDatabase}>DataBase</button>
         </>
     );
 };
