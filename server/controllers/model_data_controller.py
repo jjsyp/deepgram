@@ -3,7 +3,7 @@ from services.model_data_service import create_model_data, store_model_data_in_s
 from models.model_data import ModelData
 from utils.database_util import send_to_database
 from utils.database import get_db
-from utils.model_list import model_list
+from utils.model_list import create_model_list
 
 #create blueprint
 model_data_controller = Blueprint("model_data_controller", __name__)
@@ -54,7 +54,9 @@ def get_model_list():
     Returns:
         JSON: A list of available models.
     """
-    print("Model List:", model_list)
+    
+    model_list = create_model_list()
+    print(model_list)
     return jsonify({
         "models": model_list
     })

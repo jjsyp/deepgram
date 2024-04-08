@@ -84,32 +84,32 @@ export default function TtsTool() {
     //function to handle the model selection
     async function handleModelSelection(e) {
         const newModel = e.target.value;
-        
+
         // Call createModel function with selected model's name
-        createModel(newModel);
-    
-        // Add the new model to the chosenModels array and remove it from allModels
-        setChosenModels(chosenModels.concat(newModel));
+        const createdModel = await createModel(newModel);
+
+        // Add the new model and its audio file to the chosenModels array 
+        // and remove it from allModels
+        setChosenModels([...chosenModels, { name: newModel, audio: createdModel.audio_file }]);
         setAllModels(allModels.filter(model => model !== newModel));
-    
+
         // Reset currentModel to empty string
         setCurrentModel('');
     }
 
     async function createModel(modelName) {
-        // Replace "asteria" with modelName in the fetch request body
         let response = await fetch(process.env.REACT_APP_API_URL + "/modeldata", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             credentials: "include",
-            body: JSON.stringify({ model_name: modelName }) // Use modelName as the model name
+            body: JSON.stringify({ model_name: modelName })
         });
 
         if (response.ok) {
             let result = await response.json();
-            playAudio(result.audio_file);
+            return result.audio_file; // return the base64 string
         } else {
             console.log('HTTP-Error: ' + response.status);
             let error = await response.json();
@@ -160,20 +160,6 @@ export default function TtsTool() {
     return (
         <>
             <Navbar user={userEmail} />
-            <TtsToolContainer>
-                <ControlPanel />
-                <Workspace>
-                    {models.map(model => {
-                        return (
-                            <AudioPlayer
-                                key={model.name}
-                                src={model.src}>
-                                {model.name}
-                            </AudioPlayer>
-                        )
-                    })}
-                </Workspace>
-            </TtsToolContainer>
             <div className="chosen-models">
                 Select a model:
                 <select value={currentModel} onChange={handleModelSelection}>
@@ -183,9 +169,16 @@ export default function TtsTool() {
                     )}
                 </select>
                 <div className="chosen-models">
-                    Chosen Models: {chosenModels.join(', ')}
+                    Chosen Models: {chosenModels.map(model => model.name).join(', ')}
                 </div>
                 <button onClick={sendToDatabase}>Send to Database</button>
+                {
+                    chosenModels.map((model, i) =>
+                        <AudioPlayer key={i} src={model.audio}>
+                            {model.name}
+                        </AudioPlayer>
+                    )
+                }
             </div>
         </>
     );
