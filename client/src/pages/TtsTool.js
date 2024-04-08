@@ -87,6 +87,7 @@ export default function TtsTool() {
 
         // Call createModel function with selected model's name
         const createdModel = await createModel(newModel);
+        
 
         // Add the new model and its audio file to the chosenModels array 
         // and remove it from allModels
@@ -109,7 +110,9 @@ export default function TtsTool() {
 
         if (response.ok) {
             let result = await response.json();
-            return result.audio_file; // return the base64 string
+            playAudio(result.audio_file);
+            let audioBase64 = `data:audio/mp3;base64,${result.audio_file}`; // adding prefix
+            return audioBase64; // return the base64 string
         } else {
             console.log('HTTP-Error: ' + response.status);
             let error = await response.json();
@@ -174,7 +177,7 @@ export default function TtsTool() {
                 <button onClick={sendToDatabase}>Send to Database</button>
                 {
                     chosenModels.map((model, i) =>
-                        <AudioPlayer key={i} src={model.audio}>
+                        <AudioPlayer key={i} src={model.audio_file}>
                             {model.name}
                         </AudioPlayer>
                     )
