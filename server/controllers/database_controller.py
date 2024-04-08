@@ -19,7 +19,13 @@ def test_send_to_database():
     model_data.audiofile = b'\x00\x01\x0222'
     model_data.text = "test1 using sqlalchemy"
     model_data.score = 3
+    
+    model_data2 = create_model_data("asteria")
+    model_data2.audiofile = b'\x00\x01\x0222'
+    
+    modellist = [model_data, model_data2]
+
 
     # Call the send_to_database method
-    send_to_database(engine, model_data)
+    send_to_database(engine, modellist)
     return jsonify({'message': 'Data inserted successfully!'}), 200
