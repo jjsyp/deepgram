@@ -7,10 +7,10 @@ def get_model_list():
         #do not created connection here, connection = engine.connect() is used as the connection
         with engine.connect() as connection:
             #create a cursor to interact with the database
-            trans = connection.begin()
+            cursor = connection.cursor()
 
             #get a list of all models from db
-            connection.execute("SELECT * FROM models;")
+            cursor.execute("SELECT * FROM models;")
             modellist = connection.fetchall()
 
             return modellist

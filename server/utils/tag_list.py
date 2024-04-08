@@ -7,10 +7,10 @@ def get_tag_list():
         #do not created connection here, connection = engine.connect() is used as the connection
         with engine.connect() as connection:
             #create a cursor to interact with the database
-            trans = connection.begin()
+            cursor = connection.cursor()
 
             #get a list of all tags from db
-            connection.execute("SELECT * FROM tags;")
+            cursor.execute("SELECT * FROM tags;")
             taglist = connection.fetchall()
 
             return taglist
