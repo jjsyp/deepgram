@@ -29,7 +29,13 @@ export default function TtsTool() {
     // State variable for holding user's email
     const [userEmail, setUserEmail] = useState('');
 
+
     const [models, setModels] = useState([])
+
+    // New state variable for model selection
+    const [allModels, setAllModels] = useState([]);
+    const [currentModel, setCurrentModel] = useState('');
+    const [chosenModels, setChosenModels] = useState([]);
 
     // Navigation hook for programmatically navigating with react router
     const navigate = useNavigate();
@@ -63,30 +69,51 @@ export default function TtsTool() {
                 console.error('Fetch error:', error);
                 navigate('/');
             });
+        fetch(process.env.REACT_APP_API_URL + '/model-list', { credentials: 'include' }) // replace '/model-list-endpoint' with the actual endpoint for fetching model names
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('HTTP error ' + response.status);
+                }
+                return response.json();
+            })
+            .then(data => setAllModels(data.models))
+            .catch(error => console.error('Fetch error:', error));
         // Empty dependency array means this effect runs once when the component mounts.
     }, []);
 
-    async function createModel() {
-        //test fucntion, be sure to remove hard coded model name and replace with user input
-        let response = await fetch(process.env.REACT_APP_API_URL + "/modeldata", { //endpoint may change after a blueprint controller is assigned a prefix route
+    //function to handle the model selection
+    async function handleModelSelection(e) {
+        const newModel = e.target.value;
+        
+        // Call createModel function with selected model's name
+        createModel(newModel);
+    
+        // Add the new model to the chosenModels array and remove it from allModels
+        setChosenModels(chosenModels.concat(newModel));
+        setAllModels(allModels.filter(model => model !== newModel));
+    
+        // Reset currentModel to empty string
+        setCurrentModel('');
+    }
+
+    async function createModel(modelName) {
+        // Replace "asteria" with modelName in the fetch request body
+        let response = await fetch(process.env.REACT_APP_API_URL + "/modeldata", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            credentials: "include",     //credentials are required for the server to identify the user and store in apporpriate session
-            body: JSON.stringify({ model_name: "asteria" }) //hard coded model name for testing, replace with user input
+            credentials: "include",
+            body: JSON.stringify({ model_name: modelName }) // Use modelName as the model name
         });
 
         if (response.ok) {
             let result = await response.json();
-            //console.log(result.audio_file);  //uncomment to see the base64 string of the audio file in the console, use to debug if audio is not playing
-            // handle the audio_file
-            playAudio(result.audio_file);//play the audio file
+            playAudio(result.audio_file);
         } else {
-            console.log('HTTP-Error: ' + response.status); //log the error status
-            let error = await response.json();      
+            console.log('HTTP-Error: ' + response.status);
+            let error = await response.json();
             console.log(error);
-            // handle error
         }
     }
 
@@ -97,9 +124,9 @@ export default function TtsTool() {
         for (var i = 0; i < len; i++) {
             bytes[i] = binary_string.charCodeAt(i);     //convert the binary string to a character code
         }
-    
+
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();    //create a new audio context
-    
+
         audioContext.decodeAudioData(bytes.buffer, function (buffer) {     //decode the audio data
             var source = audioContext.createBufferSource();         //create a new buffer source for the audio context
             source.buffer = buffer;                                 //set the buffer to the audio file
@@ -107,7 +134,7 @@ export default function TtsTool() {
             source.start(0);                                   //start the audio                 
         }, function (e) {                           //error handling
             // Log the error message to console
-            console.error("Error with decoding audio data" + e.err); 
+            console.error("Error with decoding audio data" + e.err);
         });
     }
 
@@ -120,13 +147,13 @@ export default function TtsTool() {
                 },
                 credentials: "include",
             });
-    
-            if(!response.ok) {
+
+            if (!response.ok) {
                 alert(`HTTP error! status: ${response.status}`);
             } else {
                 alert('Data sent successfully!');
             }
-        } catch(error) {
+        } catch (error) {
             console.error('Error:', error);
         }
     }
@@ -147,10 +174,19 @@ export default function TtsTool() {
                     })}
                 </Workspace>
             </TtsToolContainer>
-
-            <button id="modelName" onClick={createModel}>Click</button>
-
-            <button id="database" onClick={sendToDatabase}>DataBase</button>
+            <div className="chosen-models">
+                Select a model:
+                <select value={currentModel} onChange={handleModelSelection}>
+                    <option value="">Select a model</option>
+                    {allModels.map((model, index) =>
+                        <option key={index} value={model}>{model}</option>
+                    )}
+                </select>
+                <div className="chosen-models">
+                    Chosen Models: {chosenModels.join(', ')}
+                </div>
+                <button onClick={sendToDatabase}>Send to Database</button>
+            </div>
         </>
     );
 };

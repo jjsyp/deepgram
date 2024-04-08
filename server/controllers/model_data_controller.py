@@ -54,7 +54,7 @@ def get_model_list():
     Returns:
         JSON: A list of available models.
     """
-    
+    print("Model List:", model_list)
     return jsonify({
         "models": model_list
     })
