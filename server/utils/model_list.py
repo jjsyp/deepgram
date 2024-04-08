@@ -6,9 +6,9 @@ def create_model_list():
 
     try:
         with engine.connect() as connection:
-            result_proxy = connection.execute(text("SELECT * FROM models"))
-            modellist = result_proxy.fetchall()
-            print(modellist)
+            result_proxy = connection.execute(text("SELECT name FROM models"))
+            modellist = [row[0] for row in result_proxy.fetchall()] 
+
             return modellist
 
     except Exception as error:
