@@ -3,6 +3,7 @@ from services.model_data_service import create_model_data, store_model_data_in_s
 from models.model_data import ModelData
 from utils.database_util import send_to_database
 from utils.database import get_db
+from utils.model_list import model_list
 
 #create blueprint
 model_data_controller = Blueprint("model_data_controller", __name__)
@@ -43,3 +44,17 @@ def create_model_request():
     
     # return the audio from the modelData object in the response, audio is a byte string
     return jsonify({'audio_file': audio_file }), 201
+
+#create route for sending the model list to the client
+@model_data_controller.route("/model-list", methods=["GET"])
+def get_model_list():
+    """
+    Sends the list of available models to the client.
+
+    Returns:
+        JSON: A list of available models.
+    """
+    
+    return jsonify({
+        "models": model_list
+    })
