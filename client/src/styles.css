@@ -3,19 +3,31 @@
   box-sizing: border-box;
 }
 
+html, body{
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 body {
-  background: #101014;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+               linear-gradient(to right,#000, #436ebd, indigo, #000);
+  height: 100%;
+  width: 100%;
   margin: 0;
   padding: 0;
 }
 
+
 .container {
-margin: 1rem;
+margin: 1rem auto;
 text-align: center;
+display: flex;
+justify-content: center;
+align-items: center;
 }
 
 .nav {
-background-color: #333;
 color: white;
 display: flex;
 justify-content: space-between;
@@ -24,9 +36,11 @@ gap: 2rem;
 padding: 0 1rem;
 }
 
+
 .site-title {
 font-size: 2rem;
 }
+
 
 .nav ul {
 padding: 0;
@@ -35,6 +49,7 @@ list-style: none;
 display: flex;
 gap: 1rem;
 }
+
 
 .nav a {
 color: inherit;
@@ -53,7 +68,28 @@ background-color: #555;
 background-color: #777;
 }
 
-/* New CSS class for your chosen models display */
-.chosen-models {
-color: white;
+.welcome-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  height: 100vh;
 }
+
+.welcome-message{
+  color: white;
+  font-size: 2rem;
+  text-align: center;
+
+}
+
+.container{
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chosen-models {
+  color: white;
+  }

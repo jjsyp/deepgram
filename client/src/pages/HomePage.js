@@ -16,16 +16,17 @@ const HomePage = () => {
   };
 
   return (
-    <>
-        <Navbar />
-        <div>
-            <h1>HomePage</h1>
-        </div>
-        {/* <div>
+  <>
+    <Navbar />
+    <div className="welcome-container">
+        <div className ="welcome-message">
             <h1>Welcome to our site</h1>
+        </div>
+        <div className="container">
             <button onClick={loginHandler}>Login with Google</button>
-        </div> */}
-    </>
+        </div>
+    </div>
+  </>
   );
 };
 
