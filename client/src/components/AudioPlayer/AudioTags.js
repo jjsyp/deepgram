@@ -49,7 +49,7 @@ export default function Tags() {
 
     // gets the full list of available tags from the server
     useEffect(() => {
-        fetch(process.env.REACT_APP_API_URL + '/data/tag-list')
+        fetch(process.env.REACT_APP_API_URL + '/tag-list')
         .then(response => {
             if (!response.ok) {
                 throw new Error('HTTP Error ' + response.status);

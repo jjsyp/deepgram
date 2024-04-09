@@ -60,3 +60,18 @@ def get_model_list():
     return jsonify({
         "models": model_list
     })
+    
+#create route for sending the tag list to the client
+@model_data_controller.route("/tag-list", methods=["GET"])
+def get_tag_list():
+    """
+    Sends the list of available tags to the client.
+
+    Returns:
+        JSON: A list of available tags.
+    """
+    
+    tag_list = ["new", "test"]
+    return jsonify({
+        "tags": tag_list
+    })
