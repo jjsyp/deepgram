@@ -3,6 +3,7 @@ from services.model_data_service import create_model_data
 from utils.database import get_db
 from flask import jsonify
 from flask import Blueprint
+from flask import request
 
 #create blueprint
 database_controller = Blueprint("database_controller", __name__)
@@ -10,22 +11,18 @@ database_controller = Blueprint("database_controller", __name__)
 @database_controller.route("/database", methods=["POST"])
 def test_send_to_database():
     engine = get_db()
+    data = request.get_json()
+    model_tags = data.get('modelTags', [])
 
-    
-    model_data = create_model_data("asteria")
+    engine = get_db()
 
-    model_data.email = "testing@email"
-    model_data.tags = ["new", "test"]
-    model_data.audiofile = b'\x00\x01\x0222'
-    model_data.text = "test1 using sqlalchemy"
-    model_data.score = 3
-    
-    model_data2 = create_model_data("asteria")
-    model_data2.audiofile = b'\x00\x01\x0222'
-    
-    modellist = [model_data, model_data2]
+    # For each model-tag pair, send the data to the database
+    for model_tag in model_tags:
+        model_name = model_tag.get('modelName', None)
+        tags = model_tag.get('tags', [])
 
+        if model_name and tags:
+            # Call the send_to_database method for each model and its tags
+            send_to_database(engine, model_name, tags)
 
-    # Call the send_to_database method
-    send_to_database(engine, modellist)
     return jsonify({'message': 'Data inserted successfully!'}), 200

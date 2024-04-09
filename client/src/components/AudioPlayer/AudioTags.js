@@ -61,12 +61,12 @@ const CloseButton = styled(Paper)(() => ({
 }))
 
 
-export default function Tags() {
+
+export default function ModelTagTable({ modelName, selectedTags, onTagAdded, onTagRemoved }) {
     const [availableTags, setAvailableTags] = useState([])
-    const [selectedTags, setSelectedTags] = useState([])
     const [showSelectedTags, setShowSelectedTags] = useState(true)
 
-    // gets the full list of available tags from the server
+    // Fetch available tags from server
     useEffect(() => {
         fetch(process.env.REACT_APP_API_URL + '/tag-list')
             .then(response => {
@@ -85,18 +85,17 @@ export default function Tags() {
             });
     }, [])
 
-
-    function selectTag(e) {
+    const selectTag = (e) => {
         const tag = e.target.value;
-    
-        if (tag && !selectedTags.includes(tag)) {
-            setSelectedTags([...selectedTags, tag]);
-        }
-        e.target.value = "";  // reset the dropdown to the no-selection state
-    }
-    function handleRemoveTag(index) {
-        setSelectedTags(selectedTags.filter((tag, i) => i !== index));
-    }
+        // Call the parent's onTagAdded method to truly add this tag
+        onTagAdded(tag);
+    };
+
+    // This will filter the selected tags array and update it
+    const handleRemoveTag = (tag) => {
+        // Inform the parent component we desire to remove this tag.
+        onTagRemoved(tag);
+    };
 
     return (
         <TagContainer>
@@ -104,12 +103,11 @@ export default function Tags() {
                 {showSelectedTags ?
                     <TagsVisible>
                         <mui.KeyboardArrowDown onClick={() => setShowSelectedTags(!showSelectedTags)} />
-
                         <TagsDropdown>
-                            {selectedTags.map((tag, index) => (
-                                <Tag key={tag + 'Dropdown'}>
+                            {selectedTags.map((tag) => (
+                                <Tag key={tag}>
                                     {tag}
-                                    <CloseButton onClick={() => handleRemoveTag(index)}>
+                                    <CloseButton onClick={() => handleRemoveTag(tag)}>
                                         x
                                     </CloseButton>
                                 </Tag>

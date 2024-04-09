@@ -4,7 +4,7 @@ import { styled } from '@mui/material'
 import ControlPanel from '../components/ControlPanel/ControlPanel';
 import Navbar from '../components/Navbar/Navbar'
 import AudioPlayer from '../components/AudioPlayer/AudioPlayer';
-
+import ModelTagTable from '../components/AudioPlayer/AudioTags';
 
 const TtsToolContainer = styled('div')(() => ({
     display: 'flex',
@@ -30,12 +30,12 @@ export default function TtsTool() {
     const [userEmail, setUserEmail] = useState('');
 
 
-    const [models, setModels] = useState([])
-
     // New state variable for model selection
     const [allModels, setAllModels] = useState([]);
     const [currentModel, setCurrentModel] = useState('');
     const [chosenModels, setChosenModels] = useState([]);
+    const [tagDictionary, setTagDictionary] = useState({});
+
 
     // Navigation hook for programmatically navigating with react router
     const navigate = useNavigate();
@@ -84,14 +84,14 @@ export default function TtsTool() {
     useEffect(() => {
         console.log(chosenModels);
     }, [chosenModels]);
-    
+
     //function to handle the model selection
     async function handleModelSelection(e) {
         const newModel = e.target.value;
 
         // Call createModel function with selected model's name
         const createdModel = await createModel(newModel);
-        
+
 
         // Add the new model and its audio file to the chosenModels array 
         // and remove it from allModels
@@ -116,7 +116,7 @@ export default function TtsTool() {
         if (response.ok) {
             let result = await response.json();
 
-            return result; 
+            return result;
         } else {
             console.log('HTTP-Error: ' + response.status);
             let error = await response.json();
@@ -127,14 +127,21 @@ export default function TtsTool() {
 
     async function sendToDatabase() {
         try {
+            // Map over all chosen models and create an array of model-tag pairs
+            const modelTags = chosenModels.map(model => ({
+                modelName: model.name,
+                tags: tagDictionary[model.name] || [] // Retrieve tags for this model from `tagDictionary`
+            }));
+    
             let response = await fetch(process.env.REACT_APP_API_URL + "/database", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                body: JSON.stringify({ modelTags }), // Send modelTags to server
                 credentials: "include",
             });
-
+    
             if (!response.ok) {
                 alert(`HTTP error! status: ${response.status}`);
             } else {
@@ -144,6 +151,20 @@ export default function TtsTool() {
             console.error('Error:', error);
         }
     }
+
+    const handleTagAdded = (model, tag) => {
+        setTagDictionary(prevDict => ({
+            ...prevDict,
+            [model]: [...(prevDict[model] || []), tag]
+        }));
+    };
+
+    const handleTagRemoved = (model, tag) => {
+        setTagDictionary(prevDict => ({
+            ...prevDict,
+            [model]: (prevDict[model] || []).filter(existingTag => existingTag !== tag)
+        }));
+    };
     return (
         <>
           <Navbar user={userEmail} />
@@ -168,19 +189,27 @@ export default function TtsTool() {
                   byteNumbers[i] = byteCharacters.charCodeAt(i);
                 }
                 const byteArray = new Uint8Array(byteNumbers);
-      
+                
                 // Create blob from ArrayBuffer
                 const blob = new Blob([byteArray], { type: "audio/mpeg" });
                 const blobUrl = URL.createObjectURL(blob);
       
                 return (
-                  <AudioPlayer key={i} src={blobUrl}>
-                    {model.name}
-                  </AudioPlayer>
+                  <div key={i}>
+                    <AudioPlayer src={blobUrl}>
+                      {model.name}
+                    </AudioPlayer>
+                    <ModelTagTable
+                      modelName={model.name}
+                      selectedTags={tagDictionary[model.name] || []}
+                      onTagAdded={(tag) => handleTagAdded(model.name, tag)}
+                      onTagRemoved={(tag) => handleTagRemoved(model.name, tag)}
+                    />
+                  </div>
                 );
               })
             }
           </div>
         </>
       );
-};
+    }

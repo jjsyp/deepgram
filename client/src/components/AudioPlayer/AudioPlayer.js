@@ -223,7 +223,6 @@ export default function AudioPlayer({children, ...props}) {
                     <Typography sx={{color: 'grey'}}>{formatTime(duration - elapsed)}</Typography>
                 </Stack>
             </TrackBar>
-            <Tags tagList={props.tagList} />
         </Container>
     )
 }
