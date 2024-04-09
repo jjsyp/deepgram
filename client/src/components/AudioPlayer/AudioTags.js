@@ -56,6 +56,7 @@ const CloseButton = styled(Paper)(() => ({
     position: 'absolute',
     top: 0,
     right: 0,
+    padding: '1px 5px',
     backgroundColor: '#ff0000', // adjust as needed
     color: '#ffffff', // adjust as needed
     cursor: 'pointer'
