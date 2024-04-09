@@ -26,6 +26,10 @@ const Workspace = styled('div')(() => ({
  * logged in user's email and has a Logout button.
  */
 export default function TtsTool() {
+    // Initialize initial states
+    const initialAudioStates = [];
+    const initialTagStates = {};
+
     // State variable for holding user's email
     const [userEmail, setUserEmail] = useState('');
 
@@ -34,8 +38,8 @@ export default function TtsTool() {
     const [allModels, setAllModels] = useState([]);
     const [currentModel, setCurrentModel] = useState('');
     const [chosenModels, setChosenModels] = useState([]);
-    const [tagDictionary, setTagDictionary] = useState({});
-    const [audioPlayerStates, setAudioPlayerStates] = useState([]);
+    const [tagDictionary, setTagDictionary] = useState(initialTagStates);
+    const [audioPlayerStates, setAudioPlayerStates] = useState(initialAudioStates);
 
 
     // Navigation hook for programmatically navigating with react router
@@ -146,6 +150,14 @@ export default function TtsTool() {
                 alert(`HTTP error! status: ${response.status}`);
             } else {
                 alert('Data sent successfully!');
+                // Get a copy of the chosen models' names before clearing them
+                const oldModelNames = chosenModels.map(model => model.name);
+                setChosenModels([]);
+                setAudioPlayerStates(initialAudioStates);
+                setTagDictionary(initialTagStates);
+
+                // Add the old models back to the allModels array again
+                setAllModels(prev => [...prev, ...oldModelNames]);
             }
         } catch (error) {
             console.error('Error:', error);
@@ -168,16 +180,16 @@ export default function TtsTool() {
 
     function handleRemove(modelName) {
         setChosenModels(prevModels => prevModels.filter(model => model.name !== modelName));
-        
+
         // Add here: remove tag selections for this model
         setTagDictionary(prevTags => {
-          const newTags = { ...prevTags };
-          delete newTags[modelName];
-          return newTags;
+            const newTags = { ...prevTags };
+            delete newTags[modelName];
+            return newTags;
         });
-      
+
         setAllModels(prevModels => [...prevModels, modelName]);
-      }
+    }
 
     return (
         <>
@@ -213,7 +225,7 @@ export default function TtsTool() {
                             return (
                                 <div key={i}>
                                     <AudioPlayer src={blobUrl}>
-                                       {model.name} <button onClick={() => handleRemove(model.name)}>X</button>
+                                        {model.name} <button onClick={() => handleRemove(model.name)}>X</button>
                                     </AudioPlayer>
                                     <ModelTagTable
                                         modelName={model.name}
