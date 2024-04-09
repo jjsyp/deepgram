@@ -2,6 +2,7 @@ from utils.database_util import send_to_database
 from utils.database import get_db
 from flask import jsonify, request, session, Blueprint
 from models.model_data import ModelData
+from services.model_data_service import remove_model_data_from_session
 
 #create blueprint
 database_controller = Blueprint("database_controller", __name__)
@@ -34,5 +35,10 @@ def frontend_send_to_database():
         
     # Call the send_to_database method
     send_to_database(engine, model_list)
+    
+    #remove the model data from the session
+    for model in model_list:
+        remove_model_data_from_session(model.model)
+        
 
     return jsonify({'message': 'Data inserted successfully!'}), 200

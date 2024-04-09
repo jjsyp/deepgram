@@ -116,3 +116,23 @@ def update_model_data_tags(model, new_tags):
     else:
         return False
     
+
+#remove a modelData object from the session
+def remove_model_data_from_session(key):
+    """
+    Removes a modelData object in the session data dictionary with the provided key.
+
+    Args:
+        key (str): The key to remove the modelData object in the session data dictionary.
+    """
+
+    if 'user' in session:
+        if key in session['user']['data']:
+            # Remove the modelData object from the session data dictionary
+            session['user']['data'].pop(key)
+            # Indicate to Flask that the session object should be saved
+            session.modified = True
+        else:
+            raise KeyError(f"Key '{key}' not found in session data.")
+    else:
+        raise ValueError("User data not found in session.")
