@@ -2,14 +2,15 @@ import React, { useEffect, useState } from 'react'
 import { styled, Paper } from "@mui/material"
 import * as mui from '@mui/icons-material'
 
+
 const TagContainer = styled(Paper)(() => ({
     display: 'flex',
     flexFlow: 'row wrap',
     backgroundColor: '#4c4c4c',
     color: '#eeeeee',
-    marginBottom: '80px',
-    padding: '20px',
-    width: 'auto'
+    marginBottom: '40px',
+    padding: '10px',
+    width: '100%'
 }))
 
 const SelectedTags = styled(Paper)(() => ({
