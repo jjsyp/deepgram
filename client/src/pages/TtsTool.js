@@ -116,12 +116,8 @@ export default function TtsTool() {
         if (response.ok) {
             let result = await response.json();
             playAudio(result.audio_file);
-<<<<<<< HEAD
+
             return result; 
-=======
-            let audioBase64 = `data:audio/mp3;base64,${result.audio_file}`; // adding prefix
-            return audioBase64; // return the base64 string
->>>>>>> unified_testing_playaudio
         } else {
             console.log('HTTP-Error: ' + response.status);
             let error = await response.json();
@@ -181,28 +177,7 @@ export default function TtsTool() {
               )}
             </select>
             <div className="chosen-models">
-<<<<<<< HEAD
               Chosen Models: {chosenModels.map(model => model.name).join(', ')}
-=======
-                Select a model:
-                <select value={currentModel} onChange={handleModelSelection}>
-                    <option value="">Select a model</option>
-                    {allModels.map((model, index) =>
-                        <option key={index} value={model}>{model}</option>
-                    )}
-                </select>
-                <div className="chosen-models">
-                    Chosen Models: {chosenModels.map(model => model.name).join(', ')}
-                </div>
-                <button onClick={sendToDatabase}>Send to Database</button>
-                {
-                    chosenModels.map((model, i) =>
-                        <AudioPlayer key={i} src={model.audio_file}>
-                            {model.name}
-                        </AudioPlayer>
-                    )
-                }
->>>>>>> unified_testing_playaudio
             </div>
             <button onClick={sendToDatabase}>Send to Database</button>
             {
