@@ -1,7 +1,5 @@
-import psycopg2
 from sqlalchemy import create_engine, text
-import os
-from dotenv import load_dotenv
+
 
 
 def create_database_engine(dbname, user, password, host, port):

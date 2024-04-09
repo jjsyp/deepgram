@@ -57,7 +57,6 @@ def get_model_list():
     """
     
     model_list = create_model_list()
-    print(model_list)
     return jsonify({
         "models": model_list
     })

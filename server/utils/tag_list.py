@@ -1,6 +1,5 @@
 from utils.database import get_db
 from sqlalchemy import text
-from sqlalchemy import text
 
 def create_tag_list():
     engine = get_db()
