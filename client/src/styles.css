@@ -104,6 +104,7 @@ body {
 }
 
 .select-models {
+  font-size: 20px;
   color: white;
   margin-top: 5vh;
 }
@@ -111,10 +112,10 @@ body {
 .chosen-models {
   color: white;
   margin-top: 5vh;
-  border: 1px solid white;
   padding: 5px;
-  height: 100px; /* Adjust the height as necessary */
+  height: 200px; /* Adjust the height as necessary */
   overflow: auto; /* For scrollbar if content exceeds box height */
   margin-bottom: 20px; /* Add some space below this box */
+  font-size: 20px;
 }
 
