@@ -115,7 +115,6 @@ export default function TtsTool() {
 
         if (response.ok) {
             let result = await response.json();
-            playAudio(result.audio_file);
 
             return result; 
         } else {
@@ -125,26 +124,6 @@ export default function TtsTool() {
         }
     }
 
-    async function playAudio(base64String) {  //function to play the audio file
-        const binary_string = atob(base64String); //atob is a built in function to code the base64 string to binary which is needed to play the audio
-        const len = binary_string.length;
-        const bytes = new Uint8Array(len);  //create a new array of 8-bit unsigned integers
-        for (var i = 0; i < len; i++) {
-            bytes[i] = binary_string.charCodeAt(i);     //convert the binary string to a character code
-        }
-
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();    //create a new audio context
-
-        audioContext.decodeAudioData(bytes.buffer, function (buffer) {     //decode the audio data
-            var source = audioContext.createBufferSource();         //create a new buffer source for the audio context
-            source.buffer = buffer;                                 //set the buffer to the audio file
-            source.connect(audioContext.destination);                //connect the audio context to the destination
-            source.start(0);                                   //start the audio                 
-        }, function (e) {                           //error handling
-            // Log the error message to console
-            console.error("Error with decoding audio data" + e.err);
-        });
-    }
 
     async function sendToDatabase() {
         try {
