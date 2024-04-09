@@ -81,6 +81,10 @@ export default function TtsTool() {
         // Empty dependency array means this effect runs once when the component mounts.
     }, []);
 
+    useEffect(() => {
+        console.log(chosenModels);
+    }, [chosenModels]);
+    
     //function to handle the model selection
     async function handleModelSelection(e) {
         const newModel = e.target.value;
@@ -91,6 +95,7 @@ export default function TtsTool() {
         // Add the new model and its audio file to the chosenModels array 
         // and remove it from allModels
         setChosenModels([...chosenModels, { name: newModel, audio: createdModel.audio_file }]);
+        console.log(chosenModels);
         setAllModels(allModels.filter(model => model !== newModel));
 
         // Reset currentModel to empty string
@@ -109,7 +114,8 @@ export default function TtsTool() {
 
         if (response.ok) {
             let result = await response.json();
-            return result.audio_file; // return the base64 string
+            playAudio(result.audio_file);
+            return result; 
         } else {
             console.log('HTTP-Error: ' + response.status);
             let error = await response.json();
@@ -159,27 +165,41 @@ export default function TtsTool() {
     }
     return (
         <>
-            <Navbar user={userEmail} />
+          <Navbar user={userEmail} />
+          <div className="chosen-models">
+            Select a model:
+            <select value={currentModel} onChange={handleModelSelection}>
+              <option value="">Select a model</option>
+              {allModels.map((model, index) =>
+                <option key={index} value={model}>{model}</option>
+              )}
+            </select>
             <div className="chosen-models">
-                Select a model:
-                <select value={currentModel} onChange={handleModelSelection}>
-                    <option value="">Select a model</option>
-                    {allModels.map((model, index) =>
-                        <option key={index} value={model}>{model}</option>
-                    )}
-                </select>
-                <div className="chosen-models">
-                    Chosen Models: {chosenModels.map(model => model.name).join(', ')}
-                </div>
-                <button onClick={sendToDatabase}>Send to Database</button>
-                {
-                    chosenModels.map((model, i) =>
-                        <AudioPlayer key={i} src={model.audio}>
-                            {model.name}
-                        </AudioPlayer>
-                    )
-                }
+              Chosen Models: {chosenModels.map(model => model.name).join(', ')}
             </div>
+            <button onClick={sendToDatabase}>Send to Database</button>
+            {
+              chosenModels.map((model, i) => {
+                // Convert base64 to ArrayBuffer
+                const byteCharacters = atob(model.audio);
+                const byteNumbers = new Array(byteCharacters.length);
+                for (let i = 0; i < byteCharacters.length; i++) {
+                  byteNumbers[i] = byteCharacters.charCodeAt(i);
+                }
+                const byteArray = new Uint8Array(byteNumbers);
+      
+                // Create blob from ArrayBuffer
+                const blob = new Blob([byteArray], { type: "audio/mpeg" });
+                const blobUrl = URL.createObjectURL(blob);
+      
+                return (
+                  <AudioPlayer key={i} src={blobUrl}>
+                    {model.name}
+                  </AudioPlayer>
+                );
+              })
+            }
+          </div>
         </>
-    );
+      );
 };
