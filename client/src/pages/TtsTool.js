@@ -111,8 +111,8 @@ export default function TtsTool() {
         if (response.ok) {
             let result = await response.json();
             playAudio(result.audio_file);
-            let audioBase64 = `data:audio/mp3;base64,${result.audio_file}`; // adding prefix
-            return audioBase64; // return the base64 string
+
+            return result; 
         } else {
             console.log('HTTP-Error: ' + response.status);
             let error = await response.json();
@@ -162,27 +162,41 @@ export default function TtsTool() {
     }
     return (
         <>
-            <Navbar user={userEmail} />
+          <Navbar user={userEmail} />
+          <div className="chosen-models">
+            Select a model:
+            <select value={currentModel} onChange={handleModelSelection}>
+              <option value="">Select a model</option>
+              {allModels.map((model, index) =>
+                <option key={index} value={model}>{model}</option>
+              )}
+            </select>
             <div className="chosen-models">
-                Select a model:
-                <select value={currentModel} onChange={handleModelSelection}>
-                    <option value="">Select a model</option>
-                    {allModels.map((model, index) =>
-                        <option key={index} value={model}>{model}</option>
-                    )}
-                </select>
-                <div className="chosen-models">
-                    Chosen Models: {chosenModels.map(model => model.name).join(', ')}
-                </div>
-                <button onClick={sendToDatabase}>Send to Database</button>
-                {
-                    chosenModels.map((model, i) =>
-                        <AudioPlayer key={i} src={model.audio_file}>
-                            {model.name}
-                        </AudioPlayer>
-                    )
-                }
+              Chosen Models: {chosenModels.map(model => model.name).join(', ')}
             </div>
+            <button onClick={sendToDatabase}>Send to Database</button>
+            {
+              chosenModels.map((model, i) => {
+                // Convert base64 to ArrayBuffer
+                const byteCharacters = atob(model.audio);
+                const byteNumbers = new Array(byteCharacters.length);
+                for (let i = 0; i < byteCharacters.length; i++) {
+                  byteNumbers[i] = byteCharacters.charCodeAt(i);
+                }
+                const byteArray = new Uint8Array(byteNumbers);
+      
+                // Create blob from ArrayBuffer
+                const blob = new Blob([byteArray], { type: "audio/mpeg" });
+                const blobUrl = URL.createObjectURL(blob);
+      
+                return (
+                  <AudioPlayer key={i} src={blobUrl}>
+                    {model.name}
+                  </AudioPlayer>
+                );
+              })
+            }
+          </div>
         </>
-    );
+      );
 };
