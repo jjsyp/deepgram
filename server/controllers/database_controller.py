@@ -1,8 +1,6 @@
 from utils.database_util import send_to_database
-from services.model_data_service import create_model_data
 from utils.database import get_db
-from flask import jsonify, request, session
-from flask import Blueprint
+from flask import jsonify, request, session, Blueprint
 from models.model_data import ModelData
 
 #create blueprint

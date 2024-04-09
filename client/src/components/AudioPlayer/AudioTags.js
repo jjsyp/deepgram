@@ -65,6 +65,8 @@ const CloseButton = styled(Paper)(() => ({
 export default function ModelTagTable({ modelName, selectedTags, onTagAdded, onTagRemoved }) {
     const [availableTags, setAvailableTags] = useState([])
     const [showSelectedTags, setShowSelectedTags] = useState(true)
+    const [dropdownTag, setDropdownTag] = useState("")
+    const selectableTags = availableTags.filter(tag => !selectedTags.includes(tag));
 
     // Fetch available tags from server
     useEffect(() => {
@@ -77,7 +79,7 @@ export default function ModelTagTable({ modelName, selectedTags, onTagAdded, onT
             })
             .then(data => {
                 if (data.tags) {
-                    setAvailableTags(data.tags)
+                    setAvailableTags(data.tags.sort())
                 }
             })
             .catch((error) => {
@@ -87,14 +89,15 @@ export default function ModelTagTable({ modelName, selectedTags, onTagAdded, onT
 
     const selectTag = (e) => {
         const tag = e.target.value;
-        // Call the parent's onTagAdded method to truly add this tag
         onTagAdded(tag);
+        setDropdownTag("");
+        setAvailableTags(availableTags.filter(t => t !== tag).sort());
     };
 
     // This will filter the selected tags array and update it
     const handleRemoveTag = (tag) => {
-        // Inform the parent component we desire to remove this tag.
         onTagRemoved(tag);
+        setAvailableTags([...availableTags, tag].sort()); // Add removed tag back to available tags
     };
 
     return (
@@ -122,10 +125,11 @@ export default function ModelTagTable({ modelName, selectedTags, onTagAdded, onT
                 }
             </SelectedTags>
             <form>
-                <select name="tags" onChange={selectTag}>
-                    {availableTags.map(tag => {
-                        return <option key={tag + 'Available'} value={tag}>{tag}</option>
-                    })}
+                <select name="tags" value={dropdownTag} onChange={selectTag}>
+                    <option key="default" value="">Select a tag</option>
+                    {selectableTags.map(tag =>
+                        <option key={tag + 'Available'} value={tag}>{tag}</option>
+                    )}
                 </select>
             </form>
         </TagContainer>
