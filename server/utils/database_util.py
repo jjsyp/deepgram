@@ -42,7 +42,6 @@ def send_to_database(engine, data_objects):
                 print('Result:', result)
 
                 # Store a record in the tagging table
-                print('Debug: ', data.email, data.tags, data.score, data.quantifier)   # debug statement
                 connection.execute(text("INSERT INTO tagging (email, audioid, tags, score, quantifier) VALUES (:email, :audioid, :tags, :score, :quantifier)"),
                                {'email': data.email, 'audioid': audioid, 'tags': data.tags, 'score': data.score, 'quantifier': data.quantifier})
             

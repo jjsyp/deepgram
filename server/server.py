@@ -3,7 +3,7 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 from flask_session import Session
 from sqlalchemy import create_engine
-from controllers.database_controller import test_send_to_database
+from controllers.database_controller import frontend_send_to_database
 import os
 
 # Create engine instance to be used across the application.

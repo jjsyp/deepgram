@@ -9,7 +9,7 @@ from models.model_data import ModelData
 database_controller = Blueprint("database_controller", __name__)
 
 @database_controller.route("/database", methods=["POST"])
-def test_send_to_database():
+def frontend_send_to_database():
     engine = get_db()
 
     # Load modelTagss from the request body
@@ -22,25 +22,16 @@ def test_send_to_database():
     
     model_list = []  # to hold ModelData instances
 
-    #print model tags
-    #print(model_tags)
-    #print(len(model_tags))
     #loop through model tags, use modelname as key to associate the tags with the tags in session.
     for tag in model_tags:
-        model_name = tag['modelName']
-        tags = tag['tags']
-        #use model name as key to get the model from session
-        model = session_models[model_name]
-        #add the tags to the model
-        model['tags'] = tags
-        #print(model)
-        #print(type(model))
-        model['score'] = 6
+        model_name = tag['modelName']  # get the model name from the tag
+        tags = tag['tags']  # get the tags from the tag
+        model = session_models[model_name]  # get the model from the session
+        model['tags'] = tags # add the tags to the model
+
 
         # Create a ModelData instance
-        print('Debug pre ModelData:', model)  # Debug to verify model content
         model = ModelData(model['model'], model['language'], model['tier'], model['text'], model['audiofile'], model['email'], model['tags'], model['score'], model['quantifier'])
-        print('Debug post ModelData:', model)
         model_list.append(model)
         
     # Call the send_to_database method
