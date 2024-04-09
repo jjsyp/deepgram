@@ -3,38 +3,64 @@
   box-sizing: border-box;
 }
 
-html, body{
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+html, body {
+  max-height: 100vh;
+  overflow: hidden; /* This line disables scrolling on body */
 }
+
 body {
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
-               linear-gradient(to right,#000, #436ebd, indigo, #000);
+    linear-gradient(to right, #000, #436ebd, indigo, #000);
   height: 100%;
   width: 100%;
   margin: 0;
   padding: 0;
 }
 
+.main-container {
+  display: flex;
+  flex-direction: row;
+  height: 100vh; /* full viewport height */
+}
+
+.left-column {
+  position: sticky;
+  top : 0;
+  flex: 0.23;  /* Adjust this value as needed */
+}
+
+.left-column:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: -20px; /* Adjust as per your desired border thickness */
+  bottom: 0;
+  width: 20px; /* Adjust as per your desired border thickness */
+  background: linear-gradient(to right, transparent, black, transparent);
+}
+
+.right-column {
+  overflow-y: auto; /* enables scrolling */
+  flex: 0.77;  /* Adjust this value as needed */
+  padding-left: 20px; /* Adjust this value as needed */
+}
 
 .container {
-margin: 1rem auto;
-text-align: center;
-display: flex;
-justify-content: center;
-align-items: center;
+  margin: 1rem auto;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .nav {
-color: white;
-background-color: #15171c;
-display: flex;
-justify-content: space-between;
-align-items: stretch;
-gap: 2rem;
-padding: .8vh 1rem;
+  color: white;
+  background-color: #15171c;
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 2rem;
+  padding: .8vh 1rem;
 }
 
 .nav .welcomeMessage {
@@ -43,10 +69,10 @@ padding: .8vh 1rem;
 }
 
 .site-title {
-font-size: 2rem;
+  font-size: 2rem;
 }
 
-.welcome-container{
+.welcome-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -54,20 +80,32 @@ font-size: 2rem;
   height: 100vh;
 }
 
-.welcome-message{
+.welcome-message {
   color: white;
   font-size: 2rem;
   text-align: center;
 
 }
 
-.container{
+.container {
   margin-top: 1rem;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+.select-models {
+  color: white;
+  margin-top: 5vh;
+}
+
 .chosen-models {
   color: white;
-  }
+  margin-top: 5vh;
+  border: 1px solid white;
+  padding: 5px;
+  height: 100px; /* Adjust the height as necessary */
+  overflow: auto; /* For scrollbar if content exceeds box height */
+  margin-bottom: 20px; /* Add some space below this box */
+}
+

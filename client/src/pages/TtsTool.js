@@ -194,51 +194,58 @@ export default function TtsTool() {
     return (
         <>
             <Navbar user={userEmail} />
-            <div className="chosen-models">
-                Select a model:
-                <select value={currentModel} onChange={handleModelSelection}>
-                    <option value="">Select a model</option>
-                    {allModels.map((model, index) =>
-                        <option key={index} value={model}>{model}</option>
-                    )}
-                </select>
-                <div className="chosen-models">
-                    Chosen Models: {chosenModels.map(model => model.name).join(', ')}
+            <div className="main-container">
+                <div className="left-column">
+                    <div className="select-models">Choose a model</div>
+                    <select value={currentModel} onChange={handleModelSelection}>
+                        <option value="">Select a model</option>
+                        {allModels.map((model, index) =>
+                            <option key={index} value={model}>{model}</option>
+                        )}
+                    </select>
+                    <div className="chosen-models">
+                        Chosen Models:
+                        {chosenModels.map(model => (
+                            <div key={model.name}>{model.name}</div>
+                        ))}
+                    </div>
+                    <button onClick={sendToDatabase}>Send to Database</button>
                 </div>
-                <button onClick={sendToDatabase}>Send to Database</button>
-                {
-                    chosenModels.map((model, i) => {
-                        // Convert base64 to ArrayBuffer
-                        const byteCharacters = atob(model.audio);
-                        const byteNumbers = new Array(byteCharacters.length);
-                        for (let i = 0; i < byteCharacters.length; i++) {
-                            byteNumbers[i] = byteCharacters.charCodeAt(i);
-                        }
-                        const byteArray = new Uint8Array(byteNumbers);
+                <div className="right-column">
+                    {
+                        chosenModels.map((model, i) => {
+                            // Convert base64 to ArrayBuffer
+                            const byteCharacters = atob(model.audio);
+                            const byteNumbers = new Array(byteCharacters.length);
+                            for (let i = 0; i < byteCharacters.length; i++) {
+                                byteNumbers[i] = byteCharacters.charCodeAt(i);
+                            }
+                            const byteArray = new Uint8Array(byteNumbers);
 
-                        // Create blob from ArrayBuffer
-                        const blob = new Blob([byteArray], { type: "audio/mpeg" });
-                        const blobUrl = URL.createObjectURL(blob);
+                            // Create blob from ArrayBuffer
+                            const blob = new Blob([byteArray], { type: "audio/mpeg" });
+                            const blobUrl = URL.createObjectURL(blob);
 
-                        // Check if audio player state at this index is not false before rendering
-                        if (audioPlayerStates[i]) {
-                            return (
-                                <div key={i}>
-                                    <AudioPlayer src={blobUrl}>
-                                        {model.name} <button onClick={() => handleRemove(model.name)}>X</button>
-                                    </AudioPlayer>
-                                    <ModelTagTable
-                                        modelName={model.name}
-                                        selectedTags={tagDictionary[model.name] || []}
-                                        onTagAdded={(tag) => handleTagAdded(model.name, tag)}
-                                        onTagRemoved={(tag) => handleTagRemoved(model.name, tag)}
-                                    />
-                                </div>
-                            );
-                        }
-                        return null;  // Return null if audioPlayerStates[i] is false.
-                    })
-                }
+                            // Check if audio player state at this index is not false before rendering
+                            if (audioPlayerStates[i]) {
+                                return (
+                                    <div key={i}>
+                                        <AudioPlayer src={blobUrl}>
+                                            {model.name} <button onClick={() => handleRemove(model.name)}>X</button>
+                                        </AudioPlayer>
+                                        <ModelTagTable
+                                            modelName={model.name}
+                                            selectedTags={tagDictionary[model.name] || []}
+                                            onTagAdded={(tag) => handleTagAdded(model.name, tag)}
+                                            onTagRemoved={(tag) => handleTagRemoved(model.name, tag)}
+                                        />
+                                    </div>
+                                );
+                            }
+                            return null;  // Return null if audioPlayerStates[i] is false.
+                        })
+                    }
+                </div>
             </div>
         </>
     );
