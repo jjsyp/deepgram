@@ -1,4 +1,3 @@
-import { styled } from '@mui/material';
 import React from 'react';
 
 /**
@@ -8,12 +7,7 @@ import React from 'react';
  * @returns {React.Element} The rendered React element.
  */
 
-const DeepgramLogo = styled('button')(() => ({
-    background: 'none',
-    border: 'none'
-}))
-
-export default function Logout({children}) {
+const Logout = () => {
 
   /**
    * This function handles the logout process by sending a fetch request 
@@ -40,5 +34,7 @@ export default function Logout({children}) {
     });
   };
 
-  return <DeepgramLogo onClick={logoutHandler}>{children}</DeepgramLogo>;
+  return <button onClick={logoutHandler}>Logout</button>;
 };
+
+export default Logout;

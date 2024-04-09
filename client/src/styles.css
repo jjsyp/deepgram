@@ -29,6 +29,7 @@ align-items: center;
 
 .nav {
 color: white;
+background-color: #15171c;
 display: flex;
 justify-content: space-between;
 align-items: stretch;
@@ -36,6 +37,10 @@ gap: 2rem;
 padding: 0 1rem;
 }
 
+.nav .welcomeMessage {
+  flex: 1;
+  text-align: center;
+}
 
 .site-title {
 font-size: 2rem;

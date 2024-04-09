@@ -20,7 +20,7 @@ const HomePage = () => {
     <Navbar />
     <div className="welcome-container">
         <div className ="welcome-message">
-            <h1>Welcome to our site</h1>
+            <h1>DeepGram TTS Benchmarking Tool</h1>
         </div>
         <div className="container">
             <button onClick={loginHandler}>Login with Google</button>
