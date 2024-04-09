@@ -8,7 +8,7 @@ const TagContainer = styled(Paper)(() => ({
     flexFlow: 'row wrap',
     backgroundColor: '#4c4c4c',
     color: '#eeeeee',
-    marginBottom: '40px',
+    marginBottom: '50px',
     padding: '10px',
     width: '100%'
 }))

@@ -22,7 +22,7 @@ import Tags from './AudioTags';
 
 // #region -------- Styled Components -----------------------------------------
 const Container = styled('div')(() => ({
-    padding: '20px'
+    padding: '1px'
 }))
 
 const ModelName = styled("span")(() => ({
@@ -32,8 +32,8 @@ const ModelName = styled("span")(() => ({
 
 const TrackBar = styled(Paper)(() => ({
     backgroundColor: '#4c4c4c',
-    marginBottom: '20px',
-    padding: '20px',
+    marginBottom: '2px',
+    padding: '10px',
     width: 'auto'
 }))
 

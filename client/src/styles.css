@@ -45,7 +45,7 @@ body {
   flex: 0.77;  
   padding-left: 20px; 
   align-items: center;
-  justify-content: center;
+
   flex-direction: column;
 }
 
