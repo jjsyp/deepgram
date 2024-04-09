@@ -47,6 +47,7 @@ const Tag = styled(Paper)(() => ({
     padding: '5px',
     position: 'relative',
     display: 'inline-block',
+    padding: '5px 25px 5px 5px',
     height: 'auto',
     backgroundColor: '#FFA500', // adjust as needed
 }))
