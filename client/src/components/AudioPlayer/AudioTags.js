@@ -23,21 +23,21 @@ const SelectedTags = styled(Paper)(() => ({
 
 const TagsHidden = styled(Paper)(() => ({
     display: 'flex',
-    flexFlow: 'row-reverse wrap',
+    flexFlow: 'row wrap',
     background: 'none',
     color: '#eeeeee'
 }))
 
 const TagsVisible = styled(Paper)(() => ({
     display: 'flex',
-    flexFlow: 'row-reverse wrap',
+    flexFlow: 'row wrap',
     background: 'none',
     color: '#eeeeee'
 }))
 
 const TagsDropdown = styled(Paper)(() => ({
     display: 'flex',
-    flexFlow: 'column wrap',
+    flexFlow: 'row wrap',
     background: '#101014',
     color: '#eeeeee'
 }))

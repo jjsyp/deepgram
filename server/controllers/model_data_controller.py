@@ -4,6 +4,7 @@ from models.model_data import ModelData
 from utils.database_util import send_to_database
 from utils.database import get_db
 from utils.model_list import create_model_list
+from utils.tag_list import create_tag_list
 
 #create blueprint
 model_data_controller = Blueprint("model_data_controller", __name__)
@@ -71,7 +72,7 @@ def get_tag_list():
         JSON: A list of available tags.
     """
     
-    tag_list = ["new", "test"]
+    tag_list = create_tag_list()
     return jsonify({
         "tags": tag_list
     })
