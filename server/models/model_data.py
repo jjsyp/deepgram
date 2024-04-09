@@ -12,16 +12,17 @@ class ModelData(object):
     quantifier: str
     email: str
 
-    def __init__(self, model, language, tier, text, audiofile, email):
+    def __init__(self, model, language, tier, text, audiofile, email, tags=None, score = None, quantifier = None):
         self.model = model
         self.language = language
         self.tier = tier
         self.text = text
         self.audiofile = audiofile
         self.email = email
-        self.tags = []
-        self.score = 0
-        self.quantifier = ""
+        self.tags = tags if tags is not None else []
+        self.score = score if score is not None else 0
+        self.quantifier = quantifier if quantifier is not None else ''
+        
 
     def to_dict(self):
         return {
