@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { styled } from '@mui/material'
-import ControlPanel from '../components/ControlPanel/ControlPanel';
 import Navbar from '../components/Navbar/Navbar'
 import AudioPlayer from '../components/AudioPlayer/AudioPlayer';
 import ModelTagTable from '../components/AudioPlayer/AudioTags';
