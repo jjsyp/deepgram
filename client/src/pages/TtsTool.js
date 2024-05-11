@@ -1,21 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { styled } from '@mui/material'
 import Navbar from '../components/Navbar/Navbar'
 import AudioPlayer from '../components/AudioPlayer/AudioPlayer';
 import ModelTagTable from '../components/AudioPlayer/AudioTags';
 
-const TtsToolContainer = styled('div')(() => ({
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'stretch'
-}))
-
-const Workspace = styled('div')(() => ({
-    display: 'flex',
-    flexDirection: 'column',
-    width: '100%'
-}))
 
 /**
  * TtsTool component, a functional component that has state values userEmail 
