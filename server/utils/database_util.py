@@ -26,7 +26,6 @@ def send_to_database(engine, data_objects):
                 # Check if model already exists
                 result = connection.execute(text("SELECT id FROM audio WHERE model=:model AND language=:language AND tier=:tier AND text=:text"),
                                             {'model': data.model, 'language': data.language, 'tier': data.tier, 'text': data.text}).fetchone()
-                print('Result:', result)
 
                 # If result is not null, skip this insert statement
                 if result is None:
@@ -37,7 +36,6 @@ def send_to_database(engine, data_objects):
                 result = connection.execute(text("SELECT id FROM audio WHERE model=:model AND language=:language AND tier=:tier AND text=:text"),
                                             {'model': data.model, 'language': data.language, 'tier': data.tier, 'text': data.text}).fetchone()
                 audioid = result[0]
-                print('Result:', result)
 
                 # Store a record in the tagging table
                 connection.execute(text("INSERT INTO tagging (email, audioid, tags, score, quantifier) VALUES (:email, :audioid, :tags, :score, :quantifier)"),

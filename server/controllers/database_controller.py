@@ -17,7 +17,6 @@ def frontend_send_to_database():
 
     # Fetch models from session
     session_models = session['user']['data']
-    print(type(session_models))
     
     model_list = []  # to hold ModelData instances
 
