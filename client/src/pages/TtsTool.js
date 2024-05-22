@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar/Navbar'
 import AudioPlayer from '../components/AudioPlayer/AudioPlayer';
 import ModelTagTable from '../components/AudioPlayer/AudioTags';
+import { AssessmentSharp } from '@mui/icons-material';
 
 
 /**
@@ -151,6 +152,42 @@ export default function TtsTool() {
         }
     }
 
+    //function that sends all information to the database but retains the current models, resets the tags, and loads new audio
+    async function saveAndKeep() {
+        try {
+            // Map over all chosen models and create an array of model-tag pairs
+            const modelTags = chosenModels.map(model => ({
+                modelName: model.name,
+                tags: tagDictionary[model.name] || [] // Retrieve tags for this model from `tagDictionary`
+            }));
+
+            let response = await fetch(process.env.REACT_APP_API_URL + "/database", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ modelTags }), // Send modelTags to server
+                credentials: "include",
+            });
+
+            if (!response.ok) {
+                alert(`HTTP error! status: ${response.status}`);
+            } else {
+                alert('Data sent successfully!');
+                // Get a copy of the chosen models' names before clearing them
+                const oldModelNames = chosenModels.map(model => model.name);
+                //keep the current choosen models and their respective audio tables and tag tables
+                //setAudioPlayerStates(initialAudioStates);
+                setTagDictionary(initialTagStates);
+
+                // Add the old models back to the allModels array again
+                setAllModels(prev => [...prev, ...oldModelNames]);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
     const handleTagAdded = (model, tag) => {
         setTagDictionary(prevDict => ({
             ...prevDict,
@@ -197,6 +234,7 @@ export default function TtsTool() {
                         ))}
                     </div>
                     <button onClick={sendToDatabase}>Send to Database</button>
+                    <button onClick={saveAndKeep}>Save and Keep</button>
                 </div>
                 <div className="right-column">
                     {
