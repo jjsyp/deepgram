@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar/Navbar'
 import AudioPlayer from '../components/AudioPlayer/AudioPlayer';
 import ModelTagTable from '../components/AudioPlayer/AudioTags';
-import { AssessmentSharp } from '@mui/icons-material';
 
 
 /**
@@ -177,8 +176,21 @@ export default function TtsTool() {
                 // Get a copy of the chosen models' names before clearing them
                 const oldModelNames = chosenModels.map(model => model.name);
                 //keep the current choosen models and their respective audio tables and tag tables
-                //setAudioPlayerStates(initialAudioStates);
-                setTagDictionary(initialTagStates);
+                setChosenModels([]);
+                setAudioPlayerStates(initialAudioStates);
+                setTagDictionary(initialTagStates); 
+               
+
+                //iterate over the chosen models and create a new audio file for each model
+                for (let i = 0; i < oldModelNames.length; i++) {
+                    const newModel = oldModelNames[i];
+                    const createdModel = await createModel(newModel);
+                    setChosenModels(prevModels => [...prevModels, { name: newModel, audio: createdModel.audio_file }]);
+                    setAudioPlayerStates(prevStates => [...prevStates, true]);
+                    
+                }
+                
+
 
                 // Add the old models back to the allModels array again
                 //setAllModels(prev => [...prev, ...oldModelNames]);
@@ -262,7 +274,7 @@ export default function TtsTool() {
                                             modelName={model.name}
                                             selectedTags={tagDictionary[model.name] || []}
                                             onTagAdded={(tag) => handleTagAdded(model.name, tag)}
-                                            onTagRemoved={(tag) => handleTagRemoved(model.name, tag)}
+                                            onTagRemoved={(tag) => handleTagRemoved(model.name, tag)} 
                                         />
                                     </div>
                                 );
