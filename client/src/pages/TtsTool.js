@@ -181,7 +181,7 @@ export default function TtsTool() {
                 setTagDictionary(initialTagStates);
 
                 // Add the old models back to the allModels array again
-                setAllModels(prev => [...prev, ...oldModelNames]);
+                //setAllModels(prev => [...prev, ...oldModelNames]);
             }
         } catch (error) {
             console.error('Error:', error);
