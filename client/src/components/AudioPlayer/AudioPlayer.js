@@ -91,13 +91,17 @@ export default function AudioPlayer({ children, ...props }) {
     }, [volume, isPlaying]);
 
     function formatTime(time) {
-        if (time && !isNaN(time)) {
-            const minutes = Math.floor(time / 60) < 10 ? `0${Math.floor(time / 60)}` : Math.floor(time / 60);
-            const seconds = Math.floor(time % 60) < 10 ? `0${Math.floor(time % 60)}` : Math.floor(time % 60);
+        if (!time || isNaN(time)) return '00:00.0';
 
-            return `${minutes}:${seconds}`;
-        }
-        return '00:00';
+        const minutes = Math.floor(time / 60);
+        const seconds = Math.floor(time % 60);
+        const tenthsOfSecond = Math.round((time % 1) * 10); // calculate tenths of a second
+
+        const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+        const formattedSeconds = seconds < 10 ? `0${seconds}` : seconds;
+        const formattedTenths = `${tenthsOfSecond}`; // no need for leading zeros for tenths of a second
+
+        return `${formattedMinutes}:${formattedSeconds}.${formattedTenths}`;
     }
 
     // Plays and pause the audio of a given track
