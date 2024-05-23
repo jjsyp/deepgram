@@ -22,18 +22,23 @@ const Container = styled('div')(() => ({
     padding: '1px'
 }))
 
+// This is the model name that appears at the top of the audio player
 const ModelName = styled("span")(() => ({
     color: 'white',
     fontSize: '42px'
 }))
 
+// this is the large container that holds the audio player
 const TrackBar = styled(Paper)(() => ({
     backgroundColor: '#4c4c4c',
     marginBottom: '2px',
     padding: '10px',
-    width: 'auto'
+    width: 'auto',
+    borderTopLeftRadius: '10px',  // This rounds the top-left corner
+    borderTopRightRadius: '10px',  // This rounds the top-right corner
 }))
 
+// This is the slider that controls the volume
 const PlaybackSlider = styled(Slider)(({ theme, ...props }) => ({
     color: '#EEEEEE',
     height: 2,
