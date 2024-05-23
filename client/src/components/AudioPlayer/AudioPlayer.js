@@ -125,10 +125,16 @@ export default function AudioPlayer({ children, ...props }) {
                     : <VolumeUpIcon sx={{ color: 'grey', '&:hover': { color: 'white' } }} onClick={() => setMute(!mute)} />
     }
 
+    function resetPlayer() {
+        audioPlayer.current.pause();
+        audioPlayer.current.currentTime = 0;
+        setIsPlaying(false);
+      }
+
     return (
         <Container>
             <ModelName>{children}</ModelName>
-            <audio src={props.src} ref={audioPlayer} muted={mute} />
+            <audio src={props.src} ref={audioPlayer} muted={mute} onEnded={resetPlayer}/>
             <TrackBar>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     <Stack direction='row' spacing={1}
