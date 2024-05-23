@@ -22,20 +22,7 @@ const SelectedTags = styled(Paper)(() => ({
     color: '#eeeeee'
 }))
 
-const TagsHidden = styled(Paper)(() => ({
-    display: 'flex',
-    flexFlow: 'row wrap',
-    background: 'none',
-    color: '#eeeeee'
-}))
-
-const TagsVisible = styled(Paper)(() => ({
-    display: 'flex',
-    flexFlow: 'row wrap',
-    background: 'none',
-    color: '#eeeeee'
-}))
-
+//
 const TagsDropdown = styled(Paper)(() => ({
     display: 'flex',
     flexFlow: 'row wrap',
@@ -43,6 +30,7 @@ const TagsDropdown = styled(Paper)(() => ({
     color: '#eeeeee'
 }))
 
+//the background block behind the tag text
 const Tag = styled(Paper)(() => ({
     margin: '5px',
     padding: '5px',
@@ -53,6 +41,7 @@ const Tag = styled(Paper)(() => ({
     backgroundColor: '#FFA500', // adjust as needed
 }))
 
+// Close button for removing tags
 const CloseButton = styled(Paper)(() => ({
     position: 'absolute',
     top: 0,
@@ -67,7 +56,6 @@ const CloseButton = styled(Paper)(() => ({
 
 export default function ModelTagTable({ modelName, selectedTags, onTagAdded, onTagRemoved }) {
     const [availableTags, setAvailableTags] = useState([])
-    const [showSelectedTags, setShowSelectedTags] = useState(true)
     const [dropdownTag, setDropdownTag] = useState("")
     const selectableTags = availableTags.filter(tag => !selectedTags.includes(tag));
 
@@ -106,26 +94,16 @@ export default function ModelTagTable({ modelName, selectedTags, onTagAdded, onT
     return (
         <TagContainer>
             <SelectedTags>
-                {showSelectedTags ?
-                    <TagsVisible>
-                        <mui.KeyboardArrowDown onClick={() => setShowSelectedTags(!showSelectedTags)} />
-                        <TagsDropdown>
-                            {selectedTags.map((tag) => (
-                                <Tag key={tag}>
-                                    {tag}
-                                    <CloseButton onClick={() => handleRemoveTag(tag)}>
-                                        x
-                                    </CloseButton>
-                                </Tag>
-                            ))}
-                        </TagsDropdown>
-                    </TagsVisible>
-                    :
-                    <TagsHidden>
-                        <mui.KeyboardArrowUp onClick={() => setShowSelectedTags(!showSelectedTags)} />
-                        <span>Show Tags</span>
-                    </TagsHidden>
-                }
+                <TagsDropdown>
+                    {selectedTags.map((tag) => (
+                        <Tag key={tag}>
+                            {tag}
+                            <CloseButton onClick={() => handleRemoveTag(tag)}>
+                                x
+                            </CloseButton>
+                        </Tag>
+                    ))}
+                </TagsDropdown>
             </SelectedTags>
             <form>
                 <select name="tags" value={dropdownTag} onChange={selectTag}>
