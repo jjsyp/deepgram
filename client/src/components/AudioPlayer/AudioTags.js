@@ -13,6 +13,7 @@ const TagContainer = styled(Paper)(() => ({
     width: '100%'
 }))
 
+// The container for the currently selected tags
 const SelectedTags = styled(Paper)(() => ({
     display: 'flex',
     flexFlow: 'column wrap',
