@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { styled, Paper } from "@mui/material"
 import * as mui from '@mui/icons-material'
 
-
+//main container
 const TagContainer = styled(Paper)(() => ({
     display: 'flex',
     flexFlow: 'row wrap',
@@ -13,17 +13,17 @@ const TagContainer = styled(Paper)(() => ({
     width: '100%'
 }))
 
-// The container for the currently selected tags
+// The outer container for the currently selected tags
 const SelectedTags = styled(Paper)(() => ({
     display: 'flex',
     flexFlow: 'column wrap',
-    padding: '6px',
-    width: '50%',
+    padding: '3px',
+    width: '60%',
     background: '#101014',
     color: '#eeeeee'
 }))
 
-//
+//the inner container for the currently selected tags
 const TagsDropdown = styled(Paper)(() => ({
     display: 'flex',
     flexFlow: 'row wrap',
