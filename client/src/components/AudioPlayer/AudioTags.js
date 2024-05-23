@@ -10,7 +10,9 @@ const TagContainer = styled(Paper)(() => ({
     color: '#eeeeee',
     marginBottom: '50px',
     padding: '10px',
-    width: '100%'
+    width: '100%',
+    borderBottomLeftRadius: '10px',  // This rounds the top-left corner
+    borderBottomRightRadius: '10px',  // This rounds the top-right corner
 }))
 
 // The outer container for the currently selected tags
