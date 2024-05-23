@@ -72,19 +72,23 @@ export default function AudioPlayer({ children, ...props }) {
         }
 
 
+        let interval;
         if (isPlaying) {
-            setInterval(() => {
-                const _duration = Math.floor(audioPlayer?.current?.duration);
-                const _elapsed = Math.floor(audioPlayer?.current?.currentTime);
+            interval = setInterval(() => {
+                const _duration = audioPlayer?.current?.duration;
+                const _elapsed = audioPlayer?.current?.currentTime; // Use fractional time to ensure slider moves smoothly
 
                 setDuration(_duration);
                 setElapsed(_elapsed);
             }, 100);
         }
-
-    }, [
-        volume, isPlaying
-    ]);
+        // This function will run when the component unmounts or when `volume` or `isPlaying` changes
+        return () => {
+            if (interval) {
+                clearInterval(interval);
+            }
+        };
+    }, [volume, isPlaying]);
 
     function formatTime(time) {
         if (time && !isNaN(time)) {
@@ -129,12 +133,12 @@ export default function AudioPlayer({ children, ...props }) {
         audioPlayer.current.pause();
         audioPlayer.current.currentTime = 0;
         setIsPlaying(false);
-      }
+    }
 
     return (
         <Container>
             <ModelName>{children}</ModelName>
-            <audio src={props.src} ref={audioPlayer} muted={mute} onEnded={resetPlayer}/>
+            <audio src={props.src} ref={audioPlayer} muted={mute} onEnded={resetPlayer} />
             <TrackBar>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     <Stack direction='row' spacing={1}
