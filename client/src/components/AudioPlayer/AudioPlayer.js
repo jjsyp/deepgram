@@ -15,7 +15,6 @@ import PauseIcon from '@mui/icons-material/Pause';
 import FastRewindIcon from '@mui/icons-material/FastRewind';
 import FastForwardIcon from '@mui/icons-material/FastForward';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import Tags from './AudioTags';
 // #endregion ------------ ICONS ---------
 
 // #region -------- Styled Components -----------------------------------------
@@ -48,33 +47,15 @@ const PlaybackSlider = styled(Slider)(({ theme, ...props }) => ({
     }
 }))
 
-const LikeButton = styled(Paper)(() => ({
-    color: 'grey',
-    width: "2",
-    height: "2",
-    '&:hover': {
-        cursor: "auto",
-    }
-}))
 
-const DisLikeButton = styled(Paper)(() => ({
-    color: 'grey',
-    width: "2",
-    height: "2",
-    '&:hover': {
-        cursor: "auto",
-    }
-}))
 
 // #endregion ---------------------------------------------------------------
 
-const playlist = [];
 
 
 export default function AudioPlayer({ children, ...props }) {
     const audioPlayer = useRef()
 
-    const [index, setIndex] = useState(0);
 
     const [isPlaying, setIsPlaying] = useState(false);
     const [volume, setVolume] = useState(30);
