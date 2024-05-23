@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import {
     styled, Typography, Slider,
     Paper, Stack, Box
@@ -15,8 +15,6 @@ import PauseIcon from '@mui/icons-material/Pause';
 import FastRewindIcon from '@mui/icons-material/FastRewind';
 import FastForwardIcon from '@mui/icons-material/FastForward';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import SkipNextIcon from '@mui/icons-material/SkipNext';
-import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import Tags from './AudioTags';
 // #endregion ------------ ICONS ---------
 
@@ -37,7 +35,7 @@ const TrackBar = styled(Paper)(() => ({
     width: 'auto'
 }))
 
-const PlaybackSlider = styled(Slider)(({theme, ...props}) => ({
+const PlaybackSlider = styled(Slider)(({ theme, ...props }) => ({
     color: '#EEEEEE',
     height: 2,
     '&:hover': {
@@ -51,21 +49,21 @@ const PlaybackSlider = styled(Slider)(({theme, ...props}) => ({
 }))
 
 const LikeButton = styled(Paper)(() => ({
-    color: 'grey', 
+    color: 'grey',
     width: "2",
     height: "2",
     '&:hover': {
-    cursor: "auto",
-    }   
+        cursor: "auto",
+    }
 }))
 
 const DisLikeButton = styled(Paper)(() => ({
-    color: 'grey', 
+    color: 'grey',
     width: "2",
     height: "2",
     '&:hover': {
-    cursor: "auto",
-    }   
+        cursor: "auto",
+    }
 }))
 
 // #endregion ---------------------------------------------------------------
@@ -73,7 +71,7 @@ const DisLikeButton = styled(Paper)(() => ({
 const playlist = [];
 
 
-export default function AudioPlayer({children, ...props}) {
+export default function AudioPlayer({ children, ...props }) {
     const audioPlayer = useRef()
 
     const [index, setIndex] = useState(0);
@@ -86,12 +84,12 @@ export default function AudioPlayer({children, ...props}) {
     const [duration, setDuration] = useState(0);
 
     useEffect(() => {
-        if(audioPlayer){
+        if (audioPlayer) {
             audioPlayer.current.volume = volume / 100;
         }
 
-        
-        if(isPlaying){
+
+        if (isPlaying) {
             setInterval(() => {
                 const _duration = Math.floor(audioPlayer?.current?.duration);
                 const _elapsed = Math.floor(audioPlayer?.current?.currentTime);
@@ -106,7 +104,7 @@ export default function AudioPlayer({children, ...props}) {
     ]);
 
     function formatTime(time) {
-        if(time && !isNaN(time)){
+        if (time && !isNaN(time)) {
             const minutes = Math.floor(time / 60) < 10 ? `0${Math.floor(time / 60)}` : Math.floor(time / 60);
             const seconds = Math.floor(time % 60) < 10 ? `0${Math.floor(time % 60)}` : Math.floor(time % 60);
 
@@ -117,7 +115,7 @@ export default function AudioPlayer({children, ...props}) {
 
     // Plays and pause the audio of a given track
     function togglePlay() {
-        if(!isPlaying) {
+        if (!isPlaying) {
             audioPlayer.current.play()
         } else {
             audioPlayer.current.pause()
@@ -135,33 +133,13 @@ export default function AudioPlayer({children, ...props}) {
         audioPlayer.current.currentTime -= 10;
     }
 
-    // will skip
-    function toggleSkipForward() {
-        if(index >= playlist.length - 1) {
-            setIndex(0);
-            audioPlayer.current.src = playlist[0];
-            audioPlayer.current.play();
-        } else {
-            setIndex(prev => prev + 1);
-            audioPlayer.current.src = playlist[index + 1];
-            audioPlayer.current.play();
-        }
-    }
 
-    function toggleSkipBackward() {
-        if(index > 0) {
-            setIndex(prev => prev - 1);
-            audioPlayer.current.src = playlist[index - 1];
-            audioPlayer.current.play();
-        }
-    }
-    
     function VolumeBtns() {
         return mute
-            ? <VolumeOffIcon sx={{color: 'grey', '&:hover': {color: 'white'}}} onClick={() => setMute(!mute)} />
-            : volume <= 20 ? <VolumeMuteIcon sx={{color: 'grey', '&:hover': {color: 'white'}}} onClick={() => setMute(!mute)} />
-            : volume <= 75 ? <VolumeDownIcon sx={{color: 'grey', '&:hover': {color: 'white'}}} onClick={() => setMute(!mute)} />
-            : <VolumeUpIcon sx={{color: 'grey', '&:hover': {color: 'white'}}} onClick={() => setMute(!mute)} />
+            ? <VolumeOffIcon sx={{ color: 'grey', '&:hover': { color: 'white' } }} onClick={() => setMute(!mute)} />
+            : volume <= 20 ? <VolumeMuteIcon sx={{ color: 'grey', '&:hover': { color: 'white' } }} onClick={() => setMute(!mute)} />
+                : volume <= 75 ? <VolumeDownIcon sx={{ color: 'grey', '&:hover': { color: 'white' } }} onClick={() => setMute(!mute)} />
+                    : <VolumeUpIcon sx={{ color: 'grey', '&:hover': { color: 'white' } }} onClick={() => setMute(!mute)} />
     }
 
     return (
@@ -169,8 +147,8 @@ export default function AudioPlayer({children, ...props}) {
             <ModelName>{children}</ModelName>
             <audio src={props.src} ref={audioPlayer} muted={mute} />
             <TrackBar>
-                <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
-                    <Stack direction='row' spacing={1} 
+                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <Stack direction='row' spacing={1}
                         sx={{
                             display: 'flex',
                             justifyContent: 'flex-start',
@@ -178,7 +156,7 @@ export default function AudioPlayer({children, ...props}) {
                             alignItems: 'center'
                         }}
                     >
-                        <VolumeBtns  />
+                        <VolumeBtns />
 
                         <PlaybackSlider min={0} max={100} value={volume}
                             onChange={(e, v) => setVolume(v)}
@@ -191,22 +169,18 @@ export default function AudioPlayer({children, ...props}) {
                             width: '40%',
                             alignItems: 'center'
                         }}>
-                        <SkipPreviousIcon 
-                            sx={{
-                                color: 'grey', 
-                                '&:hover': {color: 'white'}
-                            }} 
-                            onClick={toggleSkipBackward} disabled={true}/>
-                        <FastRewindIcon sx={{color: 'grey', '&:hover': {color: 'white'}}} onClick={toggleBackward}/>
+
+
+                        <FastRewindIcon sx={{ color: 'grey', '&:hover': { color: 'white' } }} onClick={toggleBackward} />
 
                         {!isPlaying
-                            ?   <PlayArrowIcon fontSize={'large'} sx={{color: 'grey', '&:hover': {color: 'white'}}} onClick={togglePlay}/>
-                            :   <PauseIcon fontSize={'large'} sx={{color: 'grey', '&:hover': {color: 'white'}}} onClick={togglePlay}/>
+                            ? <PlayArrowIcon fontSize={'large'} sx={{ color: 'grey', '&:hover': { color: 'white' } }} onClick={togglePlay} />
+                            : <PauseIcon fontSize={'large'} sx={{ color: 'grey', '&:hover': { color: 'white' } }} onClick={togglePlay} />
                         }
 
 
-                        <FastForwardIcon sx={{color: 'grey', '&:hover': {color: 'white'}}} onClick={toggleForward} />
-                        <SkipNextIcon sx={{color: 'grey', '&:hover': {color: 'white'}}} onClick={toggleSkipForward}/>
+                        <FastForwardIcon sx={{ color: 'grey', '&:hover': { color: 'white' } }} onClick={toggleForward} />
+
                     </Stack>
 
                     <Stack sx={{
@@ -218,9 +192,9 @@ export default function AudioPlayer({children, ...props}) {
                     display: 'flex',
                     alignItems: 'center'
                 }}>
-                    <Typography sx={{color: 'grey'}}>{formatTime(elapsed)}</Typography>
+                    <Typography sx={{ color: 'grey' }}>{formatTime(elapsed)}</Typography>
                     <PlaybackSlider thumbless value={elapsed} max={duration} />
-                    <Typography sx={{color: 'grey'}}>{formatTime(duration - elapsed)}</Typography>
+                    <Typography sx={{ color: 'grey' }}>{formatTime(duration - elapsed)}</Typography>
                 </Stack>
             </TrackBar>
         </Container>
