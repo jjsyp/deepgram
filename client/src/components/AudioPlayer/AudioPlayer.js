@@ -55,12 +55,9 @@ const PlaybackSlider = styled(Slider)(({ theme, ...props }) => ({
 
 export default function AudioPlayer({ children, ...props }) {
     const audioPlayer = useRef()
-
-
     const [isPlaying, setIsPlaying] = useState(false);
     const [volume, setVolume] = useState(30);
     const [mute, setMute] = useState(false);
-
     const [elapsed, setElapsed] = useState(0);
     const [duration, setDuration] = useState(0);
 

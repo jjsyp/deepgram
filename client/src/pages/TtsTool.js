@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar/Navbar'
 import AudioPlayer from '../components/AudioPlayer/AudioPlayer';
 import ModelTagTable from '../components/AudioPlayer/AudioTags';
+import '../styles.css';
 
 
 /**
@@ -268,7 +269,10 @@ export default function TtsTool() {
                                 return (
                                     <div key={i}>
                                         <AudioPlayer src={blobUrl}>
-                                            {model.name} <button onClick={() => handleRemove(model.name)}>X</button>
+                                            {model.name} 
+                                            <button 
+                                                className="remove-btn"
+                                                onClick={() => handleRemove(model.name)}>X</button>
                                         </AudioPlayer>
                                         <ModelTagTable
                                             modelName={model.name}
