@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import {
-    styled, Typography, Slider,
-    Paper, Stack, Box
+    Typography, Slider,
 } from '@mui/material';
 import "./audioplayer.css";
 
@@ -16,47 +15,6 @@ import PauseIcon from '@mui/icons-material/Pause';
 import FastRewindIcon from '@mui/icons-material/FastRewind';
 import FastForwardIcon from '@mui/icons-material/FastForward';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-// #endregion ------------ ICONS ---------
-
-// #region -------- Styled Components -----------------------------------------
-const Container = styled('div')(() => ({
-    padding: '1px'
-}))
-
-// This is the model name that appears at the top of the audio player
-const ModelName = styled("span")(() => ({
-    color: 'white',
-    fontSize: '42px'
-}))
-
-// this is the large container that holds the audio player
-const TrackBar = styled(Paper)(() => ({
-    backgroundColor: '#4c4c4c',
-    marginBottom: '2px',
-    padding: '10px',
-    width: 'auto',
-    borderTopLeftRadius: '10px',  // This rounds the top-left corner
-    borderTopRightRadius: '10px',  // This rounds the top-right corner
-}))
-
-// This is the slider that controls the volume
-const PlaybackSlider = styled(Slider)(({ theme, ...props }) => ({
-    color: '#EEEEEE',
-    height: 2,
-    '&:hover': {
-        cursor: 'auto',
-    },
-    '& .MuiSlider-thumb': {
-        width: '13px',
-        height: '13px',
-        display: props.thumbless ? 'none' : 'block',
-    }
-}))
-
-
-
-// #endregion ---------------------------------------------------------------
-const StyledSlider = Slider;
 
 
 export default function AudioPlayer({ children, ...props }) {
@@ -154,6 +112,7 @@ export default function AudioPlayer({ children, ...props }) {
                             />
                         </div>
                         <div className="stack-center">
+                            {/* Adding the rewind-icon and fast-forward-icon classes */}
                             <FastRewindIcon className="rewind-icon" onClick={toggleBackward} />
                             {!isPlaying
                                 ? <PlayArrowIcon className="play-pause-icon" onClick={togglePlay} />
@@ -161,7 +120,7 @@ export default function AudioPlayer({ children, ...props }) {
                             }
                             <FastForwardIcon className="fast-forward-icon" onClick={toggleForward} />
                         </div>
-                        <div className="stack-flex-end"></div> 
+                        <div className="stack-flex-end"></div>
                     </div>
                     <div className="time-stamp">
                         <Typography className="time-stamp">{formatTime(elapsed)}</Typography>
