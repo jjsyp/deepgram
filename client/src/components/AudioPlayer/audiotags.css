@@ -1,0 +1,67 @@
+/* audiotags    .css */
+
+/*main container*/
+.tag_container {
+    display: flex;
+    flex-flow: row nowrap;
+    background-color: #4c4c4c;
+    color: #eeeeee;
+    margin-bottom: 50px;
+    padding: 10px;
+    width: 100%;
+    border-bottom-left-radius: 10px;  /* This rounds the top-left corner */
+    border-bottom-right-radius: 10px;  /* This rounds the top-right corner */
+  }
+  
+    /* This is the container for the selected tags and tag text */
+  .selected_tags {
+    display: flex;
+    flex-flow: row wrap;
+    padding: 3px;
+    width: 60%;
+    background: #101014;
+    color: #030303;
+  }
+  
+  /* This is small container for each individually selected tag*/
+  .tag_background {
+    margin: 5px;
+    padding: 5px;
+    position: relative;
+    display: inline-block;
+    padding: 5px 25px 5px 5px;
+    height: auto;
+    background-color: #f19e20f5; /* adjust as needed */
+    border-top-left-radius: 5px;  
+    border-top-right-radius: 5px; 
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;  
+  }
+  
+  /* This is the 'x' button to remove a tag */
+  .close_button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 1px 5px;
+    background-color: #ff0000; /* adjust as needed */
+    color: #ffffff; /* adjust as needed */
+    cursor: pointer;
+    border-top-left-radius: 5px;  
+    border-top-right-radius: 5px; 
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;  
+  }
+  
+  /* creates spacing between select tag and rate model dropdown */
+  form {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+    /* creates spacing between select tag and rate model dropdown */
+  form div:first-child {
+    margin-right: 20px;
+  }
+  
+  

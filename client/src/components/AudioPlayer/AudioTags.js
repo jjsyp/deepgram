@@ -1,67 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { styled, Paper } from "@mui/material"
-
-
-//main container
-const TagContainer = styled(Paper)(() => ({
-    display: 'flex',
-    flexFlow: 'row wrap',
-    backgroundColor: '#4c4c4c',
-    color: '#eeeeee',
-    marginBottom: '50px',
-    padding: '10px',
-    width: '100%',
-    borderBottomLeftRadius: '10px',  // This rounds the top-left corner
-    borderBottomRightRadius: '10px',  // This rounds the top-right corner
-}))
-
-// The outer container for the currently selected tags
-const SelectedTags = styled(Paper)(() => ({
-    display: 'flex',
-    flexFlow: 'column wrap',
-    padding: '3px',
-    width: '60%',
-    background: '#101014',
-    color: '#eeeeee'
-}))
-
-//the inner container for the currently selected tags
-const TagsDropdown = styled(Paper)(() => ({
-    display: 'flex',
-    flexFlow: 'row wrap',
-    background: '#101014',
-    color: '#eeeeee'
-}))
-
-//the background block behind the tag text
-const Tag = styled(Paper)(() => ({
-    margin: '5px',
-    padding: '5px',
-    position: 'relative',
-    display: 'inline-block',
-    padding: '5px 25px 5px 5px',
-    height: 'auto',
-    backgroundColor: '#FFA500', // adjust as needed
-}))
-
-// Close button for removing tags
-const CloseButton = styled(Paper)(() => ({
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    padding: '1px 5px',
-    backgroundColor: '#ff0000', // adjust as needed
-    color: '#ffffff', // adjust as needed
-    cursor: 'pointer'
-}))
-
-const DropdownContainer = styled(Paper)(() => ({
-    display: 'flex',
-    justifyContent: 'space-between',
-    width: '40%',  // Adjust accordingly for your needs. 
-    background: '#101014',  // Same background as other components.
-}))
-
+import "./audiotags.css";
 
 
 export default function ModelTagTable({ modelName, selectedTags, onTagAdded, onTagRemoved }) {
@@ -108,21 +46,19 @@ export default function ModelTagTable({ modelName, selectedTags, onTagAdded, onT
     };
 
     return (
-        <TagContainer>
-            <SelectedTags>
-                <TagsDropdown>
+        <div className="tag_container">
+            <div className="selected_tags">
                     {selectedTags.map((tag) => (
-                        <Tag key={tag}>
+                        <div className="tag_background" key={tag}>
                             {tag}
-                            <CloseButton onClick={() => handleRemoveTag(tag)}>
+                            <div className="close_button" onClick={() => handleRemoveTag(tag)}>
                                 x
-                            </CloseButton>
-                        </Tag>
+                            </div>
+                        </div>
                     ))}
-                </TagsDropdown>
-            </SelectedTags>
-            <form style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <div style={{ marginRight: '20px' }}>
+            </div>
+            <form>
+                <div>
                     <select name="tags" value={dropdownTag} onChange={selectTag}>
                         <option key="default" value="">Select a tag</option>
                         {selectableTags.map(tag =>
@@ -140,6 +76,6 @@ export default function ModelTagTable({ modelName, selectedTags, onTagAdded, onT
                     </select>
                 </div>
             </form>
-        </TagContainer>
+        </div>
     )
 }
