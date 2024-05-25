@@ -61,7 +61,7 @@
   
     /* creates spacing between select tag and rate model dropdown */
   form div:first-child {
-    margin-right: 20px;
+    margin-right: 2%;
   }
   
   
