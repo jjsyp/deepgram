@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { styled, Paper } from "@mui/material"
-import * as mui from '@mui/icons-material'
+
 
 //main container
 const TagContainer = styled(Paper)(() => ({
@@ -121,10 +121,10 @@ export default function ModelTagTable({ modelName, selectedTags, onTagAdded, onT
                     ))}
                 </TagsDropdown>
             </SelectedTags>
-            <form>
+            <form style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <div style={{ marginRight: '20px' }}>
                     <select name="tags" value={dropdownTag} onChange={selectTag}>
-                        <option key="default-tag" value="">Select a tag</option>
+                        <option key="default" value="">Select a tag</option>
                         {selectableTags.map(tag =>
                             <option key={tag + 'Available'} value={tag}>{tag}</option>
                         )}
