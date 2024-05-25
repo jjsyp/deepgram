@@ -55,12 +55,20 @@ const CloseButton = styled(Paper)(() => ({
     cursor: 'pointer'
 }))
 
+const DropdownContainer = styled(Paper)(() => ({
+    display: 'flex',
+    justifyContent: 'space-between',
+    width: '40%',  // Adjust accordingly for your needs. 
+    background: '#101014',  // Same background as other components.
+}))
+
 
 
 export default function ModelTagTable({ modelName, selectedTags, onTagAdded, onTagRemoved }) {
     const [availableTags, setAvailableTags] = useState([])
     const [dropdownTag, setDropdownTag] = useState("")
     const selectableTags = availableTags.filter(tag => !selectedTags.includes(tag));
+    const [selectedScore, setSelectedScore] = useState("");
 
     // Fetch available tags from server
     useEffect(() => {
@@ -94,6 +102,11 @@ export default function ModelTagTable({ modelName, selectedTags, onTagAdded, onT
         setAvailableTags([...availableTags, tag].sort()); // Add removed tag back to available tags
     };
 
+    const selectScore = (e) => {
+        const score = e.target.value;
+        setSelectedScore(score);
+    };
+
     return (
         <TagContainer>
             <SelectedTags>
@@ -109,12 +122,23 @@ export default function ModelTagTable({ modelName, selectedTags, onTagAdded, onT
                 </TagsDropdown>
             </SelectedTags>
             <form>
-                <select name="tags" value={dropdownTag} onChange={selectTag}>
-                    <option key="default" value="">Select a tag</option>
-                    {selectableTags.map(tag =>
-                        <option key={tag + 'Available'} value={tag}>{tag}</option>
-                    )}
-                </select>
+                <div style={{ marginRight: '20px' }}>
+                    <select name="tags" value={dropdownTag} onChange={selectTag}>
+                        <option key="default-tag" value="">Select a tag</option>
+                        {selectableTags.map(tag =>
+                            <option key={tag + 'Available'} value={tag}>{tag}</option>
+                        )}
+                    </select>
+                </div>
+                <div>
+                    <select name="numbers" value={selectedScore} onChange={selectScore}>
+                        <option key="default-number" value="">Rate Model</option>
+                        <option key="no-rating" value="No Rating">No Rating</option>
+                        {[...Array(11).keys()].map(num =>
+                            <option key={num} value={num}>{num}</option>
+                        )}
+                    </select>
+                </div>
             </form>
         </TagContainer>
     )
