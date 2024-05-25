@@ -3,6 +3,7 @@ import {
     styled, Typography, Slider,
     Paper, Stack, Box
 } from '@mui/material';
+import "./audioplayer.css";
 
 
 // #region ------------ ICONS ---------
@@ -55,7 +56,7 @@ const PlaybackSlider = styled(Slider)(({ theme, ...props }) => ({
 
 
 // #endregion ---------------------------------------------------------------
-
+const StyledSlider = Slider;
 
 
 export default function AudioPlayer({ children, ...props }) {
@@ -140,60 +141,35 @@ export default function AudioPlayer({ children, ...props }) {
     }
 
     return (
-        <Container>
-            <ModelName>{children}</ModelName>
-            <audio src={props.src} ref={audioPlayer} muted={mute} onEnded={resetPlayer} />
-            <TrackBar>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Stack direction='row' spacing={1}
-                        sx={{
-                            display: 'flex',
-                            justifyContent: 'flex-start',
-                            width: '25%',
-                            alignItems: 'center'
-                        }}
-                    >
-                        <VolumeBtns />
-
-                        <PlaybackSlider min={0} max={100} value={volume}
-                            onChange={(e, v) => setVolume(v)}
-                        />
-                    </Stack>
-
-                    <Stack direction='row' spacing={1}
-                        sx={{
-                            display: 'flex',
-                            width: '40%',
-                            alignItems: 'center'
-                        }}>
-
-
-                        <FastRewindIcon sx={{ color: 'grey', '&:hover': { color: 'white' } }} onClick={toggleBackward} />
-
-                        {!isPlaying
-                            ? <PlayArrowIcon fontSize={'large'} sx={{ color: 'grey', '&:hover': { color: 'white' } }} onClick={togglePlay} />
-                            : <PauseIcon fontSize={'large'} sx={{ color: 'grey', '&:hover': { color: 'white' } }} onClick={togglePlay} />
-                        }
-
-
-                        <FastForwardIcon sx={{ color: 'grey', '&:hover': { color: 'white' } }} onClick={toggleForward} />
-
-                    </Stack>
-
-                    <Stack sx={{
-                        display: 'flex',
-                        justifyContent: 'flex-end',
-                    }} />
-                </Box>
-                <Stack spacing={1} direction='row' sx={{
-                    display: 'flex',
-                    alignItems: 'center'
-                }}>
-                    <Typography sx={{ color: 'grey' }}>{formatTime(elapsed)}</Typography>
-                    <PlaybackSlider thumbless value={elapsed} max={duration} />
-                    <Typography sx={{ color: 'grey' }}>{formatTime(duration - elapsed)}</Typography>
-                </Stack>
-            </TrackBar>
-        </Container>
+        <div>
+            <div className="model-name">{children}</div>
+            <div className="container">
+                <audio src={props.src} ref={audioPlayer} muted={mute} onEnded={resetPlayer} />
+                <div className="track-bar">
+                    <div className="controls">
+                        <div className="stack-flex-start">
+                            <VolumeBtns />
+                            <Slider className="volume-slider" min={0} max={100} value={volume}
+                                onChange={(e, v) => setVolume(v)}
+                            />
+                        </div>
+                        <div className="stack-center">
+                            <FastRewindIcon className="rewind-icon" onClick={toggleBackward} />
+                            {!isPlaying
+                                ? <PlayArrowIcon className="play-pause-icon" onClick={togglePlay} />
+                                : <PauseIcon className="play-pause-icon" onClick={togglePlay} />
+                            }
+                            <FastForwardIcon className="fast-forward-icon" onClick={toggleForward} />
+                        </div>
+                        <div className="stack-flex-end"></div> 
+                    </div>
+                    <div className="time-stamp">
+                        <Typography className="time-stamp">{formatTime(elapsed)}</Typography>
+                        <Slider className="playback-slider slider" value={elapsed} max={duration} />
+                        <Typography className="time-stamp">{formatTime(duration - elapsed)}</Typography>
+                    </div>
+                </div>
+            </div>
+        </div>
     )
 }

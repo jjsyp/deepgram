@@ -1,0 +1,95 @@
+.container {
+    padding: 1px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.model-name {
+    color: white;
+    font-size: 42px;
+}
+
+.track-bar {
+    background-color: #4c4c4c;
+    margin-bottom: 2px;
+    padding: 10px;
+    width: 100%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.playback-slider {
+    color: #EEEEEE;
+    height: 2px;
+}
+
+.playback-slider:hover {
+    cursor: auto;
+}
+
+.playback-slider .MuiSlider-thumb {
+    width: 13px;
+    height: 13px;
+}
+
+.volume-slider {
+    justify-content: left;
+    flex-basis: 100%; /* to make the volume slider take up 25% of the space */
+    max-width: 100%; /* in case flex-basis isn't respected */
+}
+
+.volume-btns {
+    color: grey;
+}
+
+.volume-btns:hover {
+    color: white;
+}
+
+.play-pause-icon {
+    color: grey;
+}
+
+.play-pause-icon:hover {
+    color: white;
+}
+
+/* The CSS for FastRewindIcon, FastForwardIcon, and other icons can be added similarly */
+
+.stack-flex-start,
+.stack-flex-end {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-shrink: 0; /* Prevents it from shrinking */
+    flex-grow: 0; /* Prevents it from growing */
+    flex-basis: 25%; /* Assigns initial width*/
+}
+
+.stack-center {
+    flex-shrink: 1; /* Allows it to shrink if necessary */
+    flex-grow: 1; /* Allows it to grow if necessary */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.time-stamp {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: grey;
+}
+
+.control-center {
+    display: center;
+    flex-grow: 2;
+  }
+  
+  .controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
