@@ -247,6 +247,8 @@ export default function TtsTool() {
                         ))}
                     </div>
                     <button onClick={sendToDatabase}>Send to Database</button>
+                    <br></br>
+                    <br></br>
                     <button onClick={saveAndKeep}>Save and Keep</button>
                 </div>
                 <div className="right-column">
