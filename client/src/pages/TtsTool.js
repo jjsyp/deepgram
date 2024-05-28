@@ -120,10 +120,14 @@ export default function TtsTool() {
     async function sendToDatabase() {
         try {
             // Map over all chosen models and create an array of model-tag pairs
-            const modelTags = chosenModels.map(model => ({
-                modelName: model.name,
-                tags: tagDictionary[model.name] || [] // Retrieve tags for this model from `tagDictionary`
-            }));
+            const modelTags = chosenModels.map(model => {
+                const potentialScore = parseInt(selectedScores[model.name], 10);
+                return {
+                    modelName: model.name,
+                    tags: tagDictionary[model.name] || [], // Retrieve tags for this model from `tagDictionary`
+                    score: isNaN(potentialScore) ? -1 : potentialScore
+                };
+            });
 
             let response = await fetch(process.env.REACT_APP_API_URL + "/database", {
                 method: 'POST',
@@ -156,14 +160,14 @@ export default function TtsTool() {
     async function saveAndKeep() {
         try {
             // Map over all chosen models and create an array of model-tag pairs
-        const modelTags = chosenModels.map(model => {
-            const potentialScore = parseInt(selectedScores[model.name], 10);
-            return {
-                modelName: model.name,
-                tags: tagDictionary[model.name] || [], // Retrieve tags for this model from `tagDictionary`
-                score: isNaN(potentialScore) ? -1 : potentialScore
-            };
-        });
+            const modelTags = chosenModels.map(model => {
+                const potentialScore = parseInt(selectedScores[model.name], 10);
+                return {
+                    modelName: model.name,
+                    tags: tagDictionary[model.name] || [], // Retrieve tags for this model from `tagDictionary`
+                    score: isNaN(potentialScore) ? -1 : potentialScore
+                };
+            });
 
             console.log(modelTags);
             let response = await fetch(process.env.REACT_APP_API_URL + "/database", {
@@ -184,9 +188,9 @@ export default function TtsTool() {
                 //keep the current choosen models and their respective audio tables and tag tables
                 setChosenModels([]);
                 setAudioPlayerStates(initialAudioStates);
-                setTagDictionary(initialTagStates); 
+                setTagDictionary(initialTagStates);
                 setSelectedScores({});
-               
+
 
                 //iterate over the chosen models and create a new audio file for each model
                 for (let i = 0; i < oldModelNames.length; i++) {
@@ -194,7 +198,7 @@ export default function TtsTool() {
                     const createdModel = await createModel(newModel);
                     setChosenModels(prevModels => [...prevModels, { name: newModel, audio: createdModel.audio_file }]);
                     setAudioPlayerStates(prevStates => [...prevStates, true]);
-                    
+
                 }
 
             }
@@ -233,10 +237,10 @@ export default function TtsTool() {
     //function to handle score selection
     const handleScoreChanged = (model, score) => {
         setSelectedScores({
-          ...selectedScores,
-          [model]: score,
+            ...selectedScores,
+            [model]: score,
         });
-      };
+    };
 
     return (
         <>
@@ -281,8 +285,8 @@ export default function TtsTool() {
                                 return (
                                     <div key={i}>
                                         <AudioPlayer src={blobUrl}>
-                                            {model.name} 
-                                            <button 
+                                            {model.name}
+                                            <button
                                                 className="remove-btn"
                                                 onClick={() => handleRemove(model.name)}>X</button>
                                         </AudioPlayer>
@@ -291,7 +295,7 @@ export default function TtsTool() {
                                             selectedTags={tagDictionary[model.name] || []}
                                             onTagAdded={(tag) => handleTagAdded(model.name, tag)}
                                             onTagRemoved={(tag) => handleTagRemoved(model.name, tag)}
-                                            onScoreChanged={(score) => handleScoreChanged(model.name, score)} 
+                                            onScoreChanged={(score) => handleScoreChanged(model.name, score)}
                                         />
                                     </div>
                                 );
