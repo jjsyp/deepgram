@@ -28,7 +28,7 @@ export default function TtsTool() {
     const [chosenModels, setChosenModels] = useState([]);
     const [tagDictionary, setTagDictionary] = useState(initialTagStates);
     const [audioPlayerStates, setAudioPlayerStates] = useState(initialAudioStates);
-
+    const [selectedScores, setSelectedScores] = useState({});
 
     // Navigation hook for programmatically navigating with react router
     const navigate = useNavigate();
@@ -228,6 +228,14 @@ export default function TtsTool() {
         setAllModels(prevModels => [...prevModels, modelName]);
     }
 
+    //function to handle score selection
+    const handleScoreChanged = (model, score) => {
+        setSelectedScores({
+          ...selectedScores,
+          [model]: score,
+        });
+      };
+
     return (
         <>
             <Navbar user={userEmail} />
@@ -280,7 +288,8 @@ export default function TtsTool() {
                                             modelName={model.name}
                                             selectedTags={tagDictionary[model.name] || []}
                                             onTagAdded={(tag) => handleTagAdded(model.name, tag)}
-                                            onTagRemoved={(tag) => handleTagRemoved(model.name, tag)} 
+                                            onTagRemoved={(tag) => handleTagRemoved(model.name, tag)}
+                                            onScoreChanged={(score) => handleScoreChanged(model.name, score)} 
                                         />
                                     </div>
                                 );

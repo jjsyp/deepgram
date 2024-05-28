@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import "./audiotags.css";
 
 
-export default function ModelTagTable({ modelName, selectedTags, onTagAdded, onTagRemoved }) {
+export default function ModelTagTable({ modelName, selectedTags, onTagAdded, onTagRemoved, onScoreChanged }) {
     const [availableTags, setAvailableTags] = useState([])
     const [dropdownTag, setDropdownTag] = useState("")
     const selectableTags = availableTags.filter(tag => !selectedTags.includes(tag));
@@ -43,7 +43,7 @@ export default function ModelTagTable({ modelName, selectedTags, onTagAdded, onT
     const selectScore = (e) => {
         const score = e.target.value;
         setSelectedScore(score);
-        console.log(score);
+        onScoreChanged(score);
     };
 
     return (
