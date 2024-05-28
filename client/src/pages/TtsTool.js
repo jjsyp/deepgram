@@ -156,11 +156,16 @@ export default function TtsTool() {
     async function saveAndKeep() {
         try {
             // Map over all chosen models and create an array of model-tag pairs
-            const modelTags = chosenModels.map(model => ({
+        const modelTags = chosenModels.map(model => {
+            const potentialScore = parseInt(selectedScores[model.name], 10);
+            return {
                 modelName: model.name,
-                tags: tagDictionary[model.name] || [] // Retrieve tags for this model from `tagDictionary`
-            }));
+                tags: tagDictionary[model.name] || [], // Retrieve tags for this model from `tagDictionary`
+                score: isNaN(potentialScore) ? -1 : potentialScore
+            };
+        });
 
+            console.log(modelTags);
             let response = await fetch(process.env.REACT_APP_API_URL + "/database", {
                 method: 'POST',
                 headers: {
@@ -180,6 +185,7 @@ export default function TtsTool() {
                 setChosenModels([]);
                 setAudioPlayerStates(initialAudioStates);
                 setTagDictionary(initialTagStates); 
+                setSelectedScores({});
                
 
                 //iterate over the chosen models and create a new audio file for each model
@@ -190,11 +196,7 @@ export default function TtsTool() {
                     setAudioPlayerStates(prevStates => [...prevStates, true]);
                     
                 }
-                
 
-
-                // Add the old models back to the allModels array again
-                //setAllModels(prev => [...prev, ...oldModelNames]);
             }
         } catch (error) {
             console.error('Error:', error);

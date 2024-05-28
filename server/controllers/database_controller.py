@@ -14,6 +14,7 @@ def frontend_send_to_database():
     # Load modelTagss from the request body
     data = request.get_json()
     model_tags = data.get('modelTags', [])
+    
 
     # Fetch models from session
     session_models = session['user']['data']
@@ -24,9 +25,10 @@ def frontend_send_to_database():
     for tag in model_tags:
         model_name = tag['modelName']  # get the model name from the tag
         tags = tag['tags']  # get the tags from the tag
+        score = tag['score']
         model = session_models[model_name]  # get the model from the session
         model['tags'] = tags # add the tags to the model
-
+        model['score'] = score
 
         # Create a ModelData instance
         model = ModelData(model['model'], model['language'], model['tier'], model['text'], model['audiofile'], model['email'], model['tags'], model['score'], model['quantifier'])
