@@ -83,3 +83,11 @@
     align-items: center;
     width: 100%;
 }
+
+.spacer-left {
+    padding-left: 10px;
+}
+
+.spacer-right {
+    padding-right: 10px;
+}

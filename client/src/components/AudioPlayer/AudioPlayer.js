@@ -123,9 +123,9 @@ export default function AudioPlayer({ children, ...props }) {
                         <div className="stack-flex-end"></div>
                     </div>
                     <div className="time-stamp">
-                        <Typography className="time-stamp">{formatTime(elapsed)}</Typography>
+                        <Typography className="spacer-right">{formatTime(elapsed)}</Typography>
                         <Slider className="playback-slider slider" value={elapsed} max={duration} />
-                        <Typography className="time-stamp">{formatTime(duration - elapsed)}</Typography>
+                        <Typography className="spacer-left">{formatTime(duration - elapsed)}</Typography>
                     </div>
                 </div>
             </div>
