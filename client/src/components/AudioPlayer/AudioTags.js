@@ -43,6 +43,7 @@ export default function ModelTagTable({ modelName, selectedTags, onTagAdded, onT
     const selectScore = (e) => {
         const score = e.target.value;
         setSelectedScore(score);
+        console.log(score);
     };
 
     return (
