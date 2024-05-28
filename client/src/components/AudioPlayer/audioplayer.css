@@ -2,6 +2,8 @@
     padding: 1px;
     display: flex;
     justify-content: space-between;
+    margin-top: 1%;
+    margin-bottom: 1%;
 }
 
 .model-name {
@@ -11,7 +13,7 @@
 
 .track-bar {
     background-color: #4c4c4c;
-    margin-bottom: 2px;
+    margin-bottom: 1px;
     padding: 10px;
     width: 100%;
     border-top-left-radius: 10px;
