@@ -86,10 +86,12 @@ export default function AudioPlayer({ children, ...props }) {
 
     function VolumeBtns() {
         return mute
-            ? <VolumeOffIcon sx={{ color: 'grey', '&:hover': { color: 'white' } }} onClick={() => setMute(!mute)} />
-            : volume <= 20 ? <VolumeMuteIcon sx={{ color: 'grey', '&:hover': { color: 'white' } }} onClick={() => setMute(!mute)} />
-                : volume <= 75 ? <VolumeDownIcon sx={{ color: 'grey', '&:hover': { color: 'white' } }} onClick={() => setMute(!mute)} />
-                    : <VolumeUpIcon sx={{ color: 'grey', '&:hover': { color: 'white' } }} onClick={() => setMute(!mute)} />
+            ? <VolumeOffIcon className="volume-btns" onClick={() => setMute(!mute)} />
+            : volume <= 20
+                ? <VolumeMuteIcon className="volume-btns" onClick={() => setMute(!mute)} />
+                : volume <= 75
+                    ? <VolumeDownIcon className="volume-btns" onClick={() => setMute(!mute)} />
+                    : <VolumeUpIcon className="volume-btns" onClick={() => setMute(!mute)} />
     }
 
     function resetPlayer() {
@@ -106,8 +108,10 @@ export default function AudioPlayer({ children, ...props }) {
                 <div className="track-bar">
                     <div className="controls">
                         <div className="stack-flex-start">
+                            <div className='spacer-right'>
                             <VolumeBtns />
-                            <Slider className="volume-slider" min={0} max={100} value={volume}
+                            </div>
+                            <Slider className="spacer-left" min={0} max={100} value={volume}
                                 onChange={(e, v) => setVolume(v)}
                             />
                         </div>
