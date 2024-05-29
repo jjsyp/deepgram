@@ -5,7 +5,7 @@ import AudioPlayer from '../components/AudioPlayer/AudioPlayer';
 import ModelTagTable from '../components/AudioPlayer/AudioTags';
 import '../styles.css';
 import TextContainer from '../components/Contaniers/TextContainer';
-
+import QuantifierContainer from '../components/Contaniers/QuantifierContainer';
 
 /**
  * TtsTool component, a functional component that has state values userEmail 
@@ -250,6 +250,14 @@ export default function TtsTool() {
             <Navbar user={userEmail} />
             <div className="main-container">
                 <div className="left-column">
+                    {
+                        /* Origininal developer did not have details on how the quantifier is saved or accessed
+                        on DeepGram's side, as such the quantifier container has been set up to display text
+                        but will need a function built in house to populate the appropriate value*/
+                    }
+                    <div className={`${process.env.REACT_APP_HIDE_QUANTIFIER === 'true' ? 'hidden' : ''}`}> 
+                        <QuantifierContainer text = ""/>
+                    </div>
                     <div className="select-models">Choose a model</div>
                     <select value={currentModel} onChange={handleModelSelection}>
                         <option value="">Select a model</option>

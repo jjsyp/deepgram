@@ -10,12 +10,12 @@ const QuantifierContainer = ({ text, children }) => (
     </div>
   );
   
-  TextContainer.propTypes = {
+  QuantifierContainer.propTypes = {
     text: PropTypes.string,
     children: PropTypes.node,
   };
   
-  TextContainer.defaultProps = {
+  QuantifierContainer.defaultProps = {
     text: null,
     children: null,
   };
