@@ -4,6 +4,7 @@ import Navbar from '../components/Navbar/Navbar'
 import AudioPlayer from '../components/AudioPlayer/AudioPlayer';
 import ModelTagTable from '../components/AudioPlayer/AudioTags';
 import '../styles.css';
+import TextContainer from '../components/Contaniers/TextContainer';
 
 
 /**
@@ -29,6 +30,11 @@ export default function TtsTool() {
     const [tagDictionary, setTagDictionary] = useState(initialTagStates);
     const [audioPlayerStates, setAudioPlayerStates] = useState(initialAudioStates);
     const [selectedScores, setSelectedScores] = useState({});
+    
+
+    //
+    const audioText = "sample text";
+    
 
     // Navigation hook for programmatically navigating with react router
     const navigate = useNavigate();
@@ -85,7 +91,7 @@ export default function TtsTool() {
 
         // Add the new model and its audio file to the chosenModels array 
         // and remove it from allModels
-        setChosenModels([...chosenModels, { name: newModel, audio: createdModel.audio_file }]);
+        setChosenModels([...chosenModels, { name: newModel, audio: createdModel.audio_file, text: createdModel.audio_text }]);
         setAllModels(allModels.filter(model => model !== newModel));
 
         // Add a new audio player state
@@ -266,6 +272,7 @@ export default function TtsTool() {
                     <button onClick={saveAndKeep}>Save and Keep</button>
                 </div>
                 <div className="right-column">
+                <TextContainer text={ chosenModels.length > 0 ? chosenModels[0].text : "No model audio loaded" } />
                     {
                         chosenModels.map((model, i) => {
                             // Convert base64 to ArrayBuffer
