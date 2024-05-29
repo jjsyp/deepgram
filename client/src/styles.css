@@ -58,7 +58,7 @@ body {
   width: 100%;
 }
 
-
+/*nav bar styling at top of site*/
 .nav {
   color: white;
   background-color: #15171c;
@@ -72,10 +72,6 @@ body {
 .nav .welcomeMessage {
   flex: 1;
   text-align: center;
-}
-
-.site-title {
-  font-size: 2rem;
 }
 
 .welcome-container {
