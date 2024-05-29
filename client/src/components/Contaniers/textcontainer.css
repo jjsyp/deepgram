@@ -1,0 +1,7 @@
+.text_container {
+    border: 1px solid #000;
+    padding: 1em;
+    margin: 1em 0;
+    text-align: left;
+    word-wrap: break-word;
+}
