@@ -126,7 +126,7 @@ export default function TtsTool() {
     /**
      * This function sends model-tags pairs to the backend to be stored in database.
      */
-    async function sendToDatabase() {
+    async function saveAndClear() {
         try {
             // Map over all chosen models and create an array of model-tag pairs
             const modelTags = chosenModels.map(model => {
@@ -285,10 +285,10 @@ export default function TtsTool() {
                             <div key={model.name}>{model.name}</div>
                         ))}
                     </div>
-                    <button onClick={sendToDatabase}>Send to Database</button>
-                    <br></br>
-                    <br></br>
                     <button onClick={saveAndKeep}>Save and Keep</button>
+                    <br></br>
+                    <br></br>
+                    <button onClick={saveAndClear}>Save and Clear</button>
                 </div>
                 <div className="right-column">
                     <div className={`${process.env.REACT_APP_HIDE_TEXT === 'true' ? 'hidden' : ''}`}>
