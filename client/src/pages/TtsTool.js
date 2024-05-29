@@ -129,14 +129,7 @@ export default function TtsTool() {
                 };
             });
 
-            let response = await fetch(process.env.REACT_APP_API_URL + "/database", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ modelTags }), // Send modelTags to server
-                credentials: "include",
-            });
+            let response = await ApiServices.sendToDatabase(modelTags);
 
             if (!response.ok) {
                 alert(`HTTP error! status: ${response.status}`);
@@ -170,14 +163,7 @@ export default function TtsTool() {
                 };
             });
 
-            let response = await fetch(process.env.REACT_APP_API_URL + "/database", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ modelTags }), // Send modelTags to server
-                credentials: "include",
-            });
+            let response = await ApiServices.sendToDatabase(modelTags);
 
             if (!response.ok) {
                 alert(`HTTP error! status: ${response.status}`);
