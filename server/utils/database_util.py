@@ -42,7 +42,7 @@ def send_to_database(engine, data_objects):
                                {'email': data.email, 'audioid': audioid, 'tags': data.tags, 'score': data.score, 'quantifier': data.quantifier})
             
             trans.commit()
-            print("Data inserted successfully!")
+            
         
     #handle any errors that occur during the database connection
     except Exception as error:

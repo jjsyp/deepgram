@@ -134,7 +134,6 @@ export default function TtsTool() {
             if (!response.ok) {
                 alert(`HTTP error! status: ${response.status}`);
             } else {
-                alert('Data sent successfully!');
                 // Get a copy of the chosen models' names before clearing them
                 const oldModelNames = chosenModels.map(model => model.name);
                 setChosenModels([]);
@@ -168,7 +167,6 @@ export default function TtsTool() {
             if (!response.ok) {
                 alert(`HTTP error! status: ${response.status}`);
             } else {
-                alert('Data sent successfully!');
                 // Get a copy of the chosen models' names before clearing them
                 const oldModelNames = chosenModels.map(model => model.name);
                 //keep the current choosen models and their respective audio tables and tag tables
