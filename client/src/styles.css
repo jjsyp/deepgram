@@ -23,12 +23,14 @@ body {
   height: 100vh; /* full viewport height */
 }
 
+/* Styling for the left column */
 .left-column {
   position: sticky;
   top : 0;
   flex: 0.23;  /* Adjust this value as needed */
 }
 
+/* Styling fthat creates the black border between the columns */
 .left-column:after {
   content: "";
   position: absolute;
@@ -39,6 +41,7 @@ body {
   background: linear-gradient(to right, transparent, black, transparent);
 }
 
+/* Styling for the right column */
 .right-column {
   display: flex;
   overflow-y: auto; 
@@ -49,18 +52,12 @@ body {
   flex-direction: column;
 }
 
+/* Styling for the right column's children */
 .right-column > div {
   max-width: 80%; /* or adjust as needed */
   width: 100%;
 }
 
-.container {
-  margin: 1rem auto;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 
 .nav {
   color: white;
@@ -96,19 +93,22 @@ body {
 
 }
 
+/*container around the audio player*/
 .container {
-  margin-top: 1rem;
+  margin-top: .2rem;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+/*select model drop down*/
 .select-models {
   font-size: 20px;
   color: white;
   margin-top: 5vh;
 }
 
+/*container for the chosen models*/
 .chosen-models {
   color: white;
   margin-top: 5vh;
