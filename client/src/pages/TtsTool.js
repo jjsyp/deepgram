@@ -202,7 +202,7 @@ export default function TtsTool() {
                 for (let i = 0; i < oldModelNames.length; i++) {
                     const newModel = oldModelNames[i];
                     const createdModel = await createModel(newModel);
-                    setChosenModels(prevModels => [...prevModels, { name: newModel, audio: createdModel.audio_file }]);
+                    setChosenModels(prevModels => [...prevModels, { name: newModel, audio: createdModel.audio_file, text: createdModel.audio_text }]);
                     setAudioPlayerStates(prevStates => [...prevStates, true]);
 
                 }
