@@ -179,7 +179,6 @@ export default function TtsTool() {
                 };
             });
 
-            console.log(modelTags);
             let response = await fetch(process.env.REACT_APP_API_URL + "/database", {
                 method: 'POST',
                 headers: {
