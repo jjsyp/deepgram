@@ -69,6 +69,7 @@ export default function TtsTool() {
                 console.error('Fetch error:', error);
                 navigate('/');
             });
+
         ApiServices.fetchModelList().then(response => {
             if (!response.ok) {
                 throw new Error('HTTP error ' + response.status);
@@ -81,7 +82,10 @@ export default function TtsTool() {
     }, []);
 
 
-    //function to handle the model selection
+    /**
+     * This function handles model selection and creates model.
+     * @param {object} e refers to event object triggered when a model is selected.
+     */
     async function handleModelSelection(e) {
         const newModel = e.target.value;
 
@@ -101,6 +105,11 @@ export default function TtsTool() {
         setCurrentModel('');
     }
 
+    /**
+    * This function makes a POST request to '/createModel' endpoint to create a model with given name.
+    * @param {string} modelName The name of the model to be created.
+    * @return {object} The created model object.
+    */
     async function createModel(modelName) {
         let response = await ApiServices.createModel(modelName);
         if (response.ok) {
@@ -114,7 +123,9 @@ export default function TtsTool() {
         }
     }
 
-
+    /**
+     * This function sends model-tags pairs to the backend to be stored in database.
+     */
     async function sendToDatabase() {
         try {
             // Map over all chosen models and create an array of model-tag pairs
@@ -148,7 +159,9 @@ export default function TtsTool() {
         }
     }
 
-    //function that sends all information to the database but retains the current models, resets the tags, and loads new audio
+    /**
+    * This function sends data to the database, retains current models, resets tags and loads new audio files.
+    */
     async function saveAndKeep() {
         try {
             // Map over all chosen models and create an array of model-tag pairs
@@ -191,6 +204,11 @@ export default function TtsTool() {
         }
     }
 
+    /**
+    * This function handles the operation of adding tag to tagDictionary state object.
+    * @param {string} model parameter is the model for which tag needs to be added.
+    * @param {string} tag parameter refers to the tag to be added.
+    */
     const handleTagAdded = (model, tag) => {
         setTagDictionary(prevDict => ({
             ...prevDict,
@@ -198,6 +216,12 @@ export default function TtsTool() {
         }));
     };
 
+
+    /**
+    * This function handles the operation of removing tag from tagDictionary state object.
+    * @param {string} model parameter is the model from which tag needs to be removed.
+    * @param {string} tag parameter refers to the tag to be removed.
+    */
     const handleTagRemoved = (model, tag) => {
         setTagDictionary(prevDict => ({
             ...prevDict,
@@ -205,6 +229,11 @@ export default function TtsTool() {
         }));
     };
 
+
+    /**
+    * This function handles the operation of removing the selected model from chosenModels state array.
+    * @param {string} modelName is the model name to be removed.
+    */
     function handleRemove(modelName) {
         setChosenModels(prevModels => prevModels.filter(model => model.name !== modelName));
 
@@ -218,7 +247,11 @@ export default function TtsTool() {
         setAllModels(prevModels => [...prevModels, modelName]);
     }
 
-    //function to handle score selection
+    /**
+    * This function handles the operation of changing score for a selected model.
+    * @param {string} model parameter refers to the model for which score needs to be updated.
+    * @param {string} score parameter refers to the new score to be set.
+    */
     const handleScoreChanged = (model, score) => {
         setSelectedScores({
             ...selectedScores,
