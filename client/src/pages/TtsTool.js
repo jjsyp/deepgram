@@ -30,8 +30,12 @@ export default function TtsTool() {
     const [tagDictionary, setTagDictionary] = useState(initialTagStates);
     const [audioPlayerStates, setAudioPlayerStates] = useState(initialAudioStates);
     const [selectedScores, setSelectedScores] = useState({});
-    
-    
+
+    /*const for setting the value of the quantifier.  Original dev did not have
+    sufficient info on how the quantifier value is set, as such please use the usestate's 
+    setQuantifierText or build a getQuantifier function for updating new quantifiers as 
+    in house dev team sees fit */
+    const [quantifierText, setQuantifierText] = useState("");
 
     // Navigation hook for programmatically navigating with react router
     const navigate = useNavigate();
@@ -128,7 +132,9 @@ export default function TtsTool() {
                 return {
                     modelName: model.name,
                     tags: tagDictionary[model.name] || [], // Retrieve tags for this model from `tagDictionary`
-                    score: isNaN(potentialScore) ? -1 : potentialScore
+                    score: isNaN(potentialScore) ? -1 : potentialScore,
+                    quantifier: quantifierText
+                    
                 };
             });
 
@@ -168,7 +174,8 @@ export default function TtsTool() {
                 return {
                     modelName: model.name,
                     tags: tagDictionary[model.name] || [], // Retrieve tags for this model from `tagDictionary`
-                    score: isNaN(potentialScore) ? -1 : potentialScore
+                    score: isNaN(potentialScore) ? -1 : potentialScore,
+                    quantifier: quantifierText
                 };
             });
 
@@ -255,8 +262,8 @@ export default function TtsTool() {
                         on DeepGram's side, as such the quantifier container has been set up to display text
                         but will need a function built in house to populate the appropriate value*/
                     }
-                    <div className={`${process.env.REACT_APP_HIDE_QUANTIFIER === 'true' ? 'hidden' : ''}`}> 
-                        <QuantifierContainer text = ""/>
+                    <div className={`${process.env.REACT_APP_HIDE_QUANTIFIER === 'true' ? 'hidden' : ''}`}>
+                        <QuantifierContainer text={quantifierText} />
                     </div>
                     <div className="select-models">Choose a model</div>
                     <select value={currentModel} onChange={handleModelSelection}>
@@ -278,7 +285,7 @@ export default function TtsTool() {
                 </div>
                 <div className="right-column">
                     <div className={`${process.env.REACT_APP_HIDE_TEXT === 'true' ? 'hidden' : ''}`}>
-                        <TextContainer text={ chosenModels.length > 0 ? chosenModels[0].text : "No model audio loaded" } />
+                        <TextContainer text={chosenModels.length > 0 ? chosenModels[0].text : "No model audio loaded"} />
                     </div>
                     {
                         chosenModels.map((model, i) => {

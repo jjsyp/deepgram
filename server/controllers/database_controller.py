@@ -29,6 +29,7 @@ def frontend_send_to_database():
         model = session_models[model_name]  # get the model from the session
         model['tags'] = tags # add the tags to the model
         model['score'] = score
+        model['quantifier'] = tag['quantifier']
 
         # Create a ModelData instance
         model = ModelData(model['model'], model['language'], model['tier'], model['text'], model['audiofile'], model['email'], model['tags'], model['score'], model['quantifier'])
