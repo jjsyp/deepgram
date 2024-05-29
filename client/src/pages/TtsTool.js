@@ -6,6 +6,7 @@ import ModelTagTable from '../components/AudioPlayer/AudioTags';
 import '../styles.css';
 import TextContainer from '../components/Contaniers/TextContainer';
 import QuantifierContainer from '../components/Contaniers/QuantifierContainer';
+import ApiServices from '../services/ApiServices';
 
 /**
  * TtsTool component, a functional component that has state values userEmail 
@@ -46,15 +47,14 @@ export default function TtsTool() {
      * it redirects to the home page.
      */
     useEffect(() => {
-        fetch(process.env.REACT_APP_API_URL + '/api/auth/user', { credentials: 'include' })
-            .then(response => {
-                // If HTTP Status is not 200 OK, throw an error
-                if (!response.ok) {
-                    throw new Error('HTTP error ' + response.status);
-                }
-                // Convert response body to JSON
-                return response.json();
-            })
+        ApiServices.fetchUserDetails().then(response => {
+            // If HTTP Status is not 200 OK, throw an error
+            if (!response.ok) {
+                throw new Error('HTTP error ' + response.status);
+            }
+            // Convert response body to JSON
+            return response.json();
+        })
             .then(data => {
                 // If data contains email attribute, set it as userEmail
                 if (data.email) {
@@ -69,13 +69,12 @@ export default function TtsTool() {
                 console.error('Fetch error:', error);
                 navigate('/');
             });
-        fetch(process.env.REACT_APP_API_URL + '/model-list', { credentials: 'include' }) // replace '/model-list-endpoint' with the actual endpoint for fetching model names
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('HTTP error ' + response.status);
-                }
-                return response.json();
-            })
+        ApiServices.fetchModelList().then(response => {
+            if (!response.ok) {
+                throw new Error('HTTP error ' + response.status);
+            }
+            return response.json();
+        })
             .then(data => setAllModels(data.models))
             .catch(error => console.error('Fetch error:', error));
         // Empty dependency array means this effect runs once when the component mounts.
@@ -103,15 +102,7 @@ export default function TtsTool() {
     }
 
     async function createModel(modelName) {
-        let response = await fetch(process.env.REACT_APP_API_URL + "/modeldata", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            credentials: "include",
-            body: JSON.stringify({ model_name: modelName })
-        });
-
+        let response = await ApiServices.createModel(modelName);
         if (response.ok) {
             let result = await response.json();
 
@@ -134,7 +125,7 @@ export default function TtsTool() {
                     tags: tagDictionary[model.name] || [], // Retrieve tags for this model from `tagDictionary`
                     score: isNaN(potentialScore) ? -1 : potentialScore,
                     quantifier: quantifierText
-                    
+
                 };
             });
 
