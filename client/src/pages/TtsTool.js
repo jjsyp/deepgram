@@ -31,9 +31,6 @@ export default function TtsTool() {
     const [audioPlayerStates, setAudioPlayerStates] = useState(initialAudioStates);
     const [selectedScores, setSelectedScores] = useState({});
     
-
-    //
-    const audioText = "sample text";
     
 
     // Navigation hook for programmatically navigating with react router
@@ -272,7 +269,9 @@ export default function TtsTool() {
                     <button onClick={saveAndKeep}>Save and Keep</button>
                 </div>
                 <div className="right-column">
-                <TextContainer text={ chosenModels.length > 0 ? chosenModels[0].text : "No model audio loaded" } />
+                    <div className={`${process.env.REACT_APP_HIDE_TEXT === 'true' ? 'hidden' : ''}`}>
+                        <TextContainer text={ chosenModels.length > 0 ? chosenModels[0].text : "No model audio loaded" } />
+                    </div>
                     {
                         chosenModels.map((model, i) => {
                             // Convert base64 to ArrayBuffer
