@@ -2,6 +2,41 @@ import base64
 
 
 class ModelData(object):
+    """
+    A class to represent the Model data.
+
+    ...
+
+    Attributes
+    ----------
+    model : str
+        name or ID of the model
+    language : str
+        language of the model
+    tier : str
+        tier level for the model
+    text : str
+        the transcribed text from the model's audio
+    audiofile : bytes
+        the audio file itself
+    tags : list[str]
+        labels assigned to the model data
+    score : int
+        the score or rating given to the model
+    quantifier : str
+        a string that quantifies or describes the model
+    email : str
+        the email ID of the user 
+
+    Methods
+    -------
+    to_dict():
+        Converts the ModelData instance to a dictionary.
+        
+    from_dict(data: dict):
+        Creates a ModelData instance from a given dictionary.
+    """
+
     model: str
     language: str
     tier: str
@@ -13,6 +48,10 @@ class ModelData(object):
     email: str
 
     def __init__(self, model, language, tier, text, audiofile, email, tags=None, score = None, quantifier = None):
+        """
+        Constructs all necessary attributes for the ModelData object.
+        """
+        
         self.model = model
         self.language = language
         self.tier = tier
@@ -25,6 +64,14 @@ class ModelData(object):
         
 
     def to_dict(self):
+        """
+        Converts the ModelData instance to a dictionary.
+
+        Returns
+        -------
+        dict
+            a dictionary with the instance attributes as key-value pairs.
+        """
         return {
             'model': self.model,
             'language': self.language,
@@ -39,6 +86,19 @@ class ModelData(object):
 
     @classmethod
     def from_dict(cls, data):
+        """
+        Creates a ModelData instance from the given dictionary.
+
+        Parameters
+        ----------
+        data : dict
+            The dictionary containing the model data.
+
+        Returns
+        -------
+        ModelData
+            The ModelData instance created from the dictionary data.
+        """
         instance = cls(data['model'], data['language'], data['tier'], data['text'], base64.b64decode(data['audiofile']), data['email'])  # convert string back to bytes
         instance.tags = data['tags']
         instance.score = data['score']

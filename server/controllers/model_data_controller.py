@@ -1,3 +1,9 @@
+"""
+model_data_controller.py 
+====================
+contains the routes for creating a new modelData object and storing it in the session, 
+and for sending the model list and tag list to the client.
+"""
 from flask import Blueprint, request, jsonify, session
 from services.model_data_service import create_model_data, store_model_data_in_session
 from models.model_data import ModelData

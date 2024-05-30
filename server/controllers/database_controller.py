@@ -1,3 +1,9 @@
+"""
+database_controller.py
+=====================
+Flask controller for handling requests related to the database.
+Responsible for sending data to the database.
+"""
 from utils.database_util import send_to_database
 from utils.database import get_db
 from flask import jsonify, request, session, Blueprint
@@ -9,6 +15,19 @@ database_controller = Blueprint("database_controller", __name__)
 
 @database_controller.route("/database", methods=["POST"])
 def frontend_send_to_database():
+    """
+    Handle POST requests to '/database',
+    Fetch the model tag data from the request body and session.
+    Creates a list of ModelData instances and sends to database.
+    Removes the model data from the session once it is sent to database.
+
+    JSON request body should have `modelTags` field with list of dictionaries.
+    Each dictionary should have 'modelName', 'tags', 'score' and 'quantifier' fields.
+    'modelName' is used as the key to fetch corresponding model data from the user session.
+
+    Returns:
+        jsonify: a message indicating successful insertion.
+    """
     engine = get_db()
 
     # Load modelTagss from the request body
