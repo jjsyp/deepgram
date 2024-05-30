@@ -267,7 +267,9 @@ export default function TtsTool() {
                     {
                         /* Origininal developer did not have details on how the quantifier is saved or accessed
                         on DeepGram's side, as such the quantifier container has been set up to display text
-                        but will need a function built in house to populate the appropriate value*/
+                        but will need a function built in house to populate the appropriate value
+                        
+                        env params control if quantifer div is displayed*/
                     }
                     <div className={`${process.env.REACT_APP_HIDE_QUANTIFIER === 'true' ? 'hidden' : ''}`}>
                         <QuantifierContainer text={quantifierText} />
@@ -291,6 +293,9 @@ export default function TtsTool() {
                     <button onClick={saveAndClear}>Save and Clear</button>
                 </div>
                 <div className="right-column">
+                    {
+                        /*env params control if quantifer div is displayed*/
+                    }
                     <div className={`${process.env.REACT_APP_HIDE_TEXT === 'true' ? 'hidden' : ''}`}>
                         <TextContainer text={chosenModels.length > 0 ? chosenModels[0].text : "No model audio loaded"} />
                     </div>
