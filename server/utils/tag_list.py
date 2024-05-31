@@ -4,7 +4,7 @@ tag_list.py
 contains a function to create a list of tag names retrieved from the database.
 """
 
-from utils.database import get_db
+from utils.flask_db_context import get_db
 from sqlalchemy import text
 
 def create_tag_list():

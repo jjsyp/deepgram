@@ -5,7 +5,7 @@ Flask controller for handling requests related to the database.
 Responsible for sending data to the database.
 """
 from utils.database_util import send_to_database
-from utils.database import get_db
+from utils.flask_db_context import get_db
 from flask import jsonify, request, session, Blueprint
 from models.model_data import ModelData
 from services.model_data_service import remove_model_data_from_session

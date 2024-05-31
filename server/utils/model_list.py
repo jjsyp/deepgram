@@ -4,7 +4,7 @@ model_list.py
 contains the function create_model_list() which retrieves the names of the models from the database.
 """
 
-from utils.database import get_db
+from utils.flask_db_context import get_db
 from sqlalchemy import text
 
 def create_model_list():
