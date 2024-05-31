@@ -1,7 +1,7 @@
 """
 database_util.py
 =====================
-Contains functions for creating a database engine and sending data to the database.
+Contains function for sending data to the database.
 """
 
 from sqlalchemy import text
