@@ -6,8 +6,6 @@ contains the routes for creating a new modelData object and storing it in the se
 from flask import Blueprint, request, jsonify, session
 from services.model_data_service import create_model_data, store_model_data_in_session
 from models.model_data import ModelData
-from utils.database_util import send_to_database
-from utils.flask_db_context import get_db
 from utils.model_list import create_model_list
 from utils.tag_list import create_tag_list
 
