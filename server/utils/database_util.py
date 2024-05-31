@@ -4,36 +4,7 @@ database_util.py
 Contains functions for creating a database engine and sending data to the database.
 """
 
-from sqlalchemy import create_engine, text
-
-
-
-def create_database_engine(dbname, user, password, host, port):
-    """
-    Create a database engine for the given database credentials.
-
-    Parameters
-    ----------
-    dbname : str
-        name of the database
-    user : str
-        user name for the database
-    password : str
-        password for the database
-    host : str
-        host server of the database
-    port : str
-        port number to connect to the database
-
-    Returns
-    -------
-    engine : sqlalchemy.engine.Engine
-        Engine object for the PostgreSQL database.
-    """
-    print(dbname, user, password, host, port)
-    engine = create_engine(f'postgresql://{user}:{password}@{host}:{port}/{dbname}')
-    print('Engine for PostgreSQL database created.')
-    return engine
+from sqlalchemy import text
 
 
 #funciton to send data to the database using the existing connection
