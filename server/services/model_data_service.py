@@ -16,6 +16,10 @@ def create_model_data(model):
 
     Returns:
         modelData: A new modelData object.
+        
+    Development Notes:
+        The function should call get_model_storage in utils.storage_util to retrieve the model's data.
+        ensure that new functions that pull model data from other sources are constructed to return the same parameters as this function.
     """
     
     file_contents = get_model_storage(model)

@@ -6,21 +6,32 @@ from sqlalchemy import create_engine
 from controllers.database_controller import frontend_send_to_database
 import os
 
-# Create engine instance to be used across the application.
+# Global variable to hold the database engine instance.
 engine = None
 
 def create_app():
+    """
+    Creates and configures the Flask application.
+
+    This function loads environment variables, creates server configurations, and initializes
+    necessary extensions like Session and CORS. It also imports and registers the blueprints 
+
+    Returns
+    -------
+    app: Flask
+        The created Flask application.
+    """
     
-    # Load environment variables from .env file
-    load_dotenv()
+  
+    load_dotenv()   # Load environment variables from .env file
 
     app = Flask(__name__)
     app.config.update(
-        SECRET_KEY=os.getenv("SECRET_KEY"),
-        SESSION_TYPE='filesystem',
-        SESSION_COOKIE_SECURE=False, 
-        SESSION_COOKIE_HTTPONLY=True,
-        SESSION_COOKIE_SAMESITE='Lax',
+        SECRET_KEY=os.getenv("SECRET_KEY"),     # Secret key for the Flask app
+        SESSION_TYPE='filesystem',              # Store flask session data on the file system.
+        SESSION_COOKIE_SECURE=False,            # Cookies will be sent over HTTP and not HTTPS. set to True in production
+        SESSION_COOKIE_HTTPONLY=True,           # Cookies cannot be accessed by client-side scripts.
+        SESSION_COOKIE_SAMESITE='Lax',          # Prevents the cookie from being sent in cross-site requests.
     )
 
     # Configuring Session for the Flask app
@@ -40,8 +51,8 @@ def create_app():
 
     # Create database engine AFTER app creation
     @app.before_request
-    def before_request():
-        if 'db' not in g:
+    def before_request(): # This function runs before each request to the server
+        if 'db' not in g: # Set up the db engine in the application context if not done already
             g.db = create_engine(f'postgresql://{os.getenv("DB_USER")}:{os.getenv("DB_PASS")}@{os.getenv("DB_HOST")}:{os.getenv("DB_PORT")}/{os.getenv("DB_NAME")}')
 
     return app
