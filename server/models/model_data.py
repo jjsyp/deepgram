@@ -108,4 +108,6 @@ class ModelData(object):
 '''For larger files like audio files, a preferable approach would be:
 Store the actual MP3 file in a directory on your file system.
 Save the path to this file in your modelStorage object or the model_data.
-When you need to access the file, extract the path from the session and open the file at that location.'''
+When you need to access the file, extract the path from the session and open the file at that location.
+
+If not using a file system, which is recommended if this application is used by multiple users, you can use a cloud storage service like Amazon S3 or Google Cloud Storage to store the files.'''
