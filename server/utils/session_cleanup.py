@@ -3,7 +3,13 @@ import time
 import shutil
 
 def clear_flask_session_folder():
-    """Clears files in flask_session folder that have not been accessed in a set time frame."""
+    """Clears files in flask_session folder that have not been accessed in a set time frame.
+    
+    Dev Note:
+    This function is intended for product on initial launch,  Should the data stored in flask sessions be moved elsewhere
+    this funciton should no longer be needed and can be safely removed from in server.py"
+    """
+    
     folder = 'flask_session'
     print('Clearing session folder...')
     for filename in os.listdir(folder):

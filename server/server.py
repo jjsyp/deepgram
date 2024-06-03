@@ -57,6 +57,7 @@ def create_app():
             g.db = create_engine(f'postgresql://{os.getenv("DB_USER")}:{os.getenv("DB_PASS")}@{os.getenv("DB_HOST")}:{os.getenv("DB_PORT")}/{os.getenv("DB_NAME")}')
 
 
+    #this function is created is created in session.cleanup in utils folder.  Note on functionality there should flask session scheme be changed.
     scheduler = BackgroundScheduler() # Create a scheduler to run the session cleanup function
     scheduler.add_job(clear_flask_session_folder, 'interval', hours=4) # Run the session cleanup function every 4 hours
     scheduler.start()    
