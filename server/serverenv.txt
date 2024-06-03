@@ -1,0 +1,29 @@
+Sample env file for Server
+Params:
+SECRET KEY = server side secret key for signing 
+OAUTHLIB INSECURE TRANSPORT  = setting that allows for oath to be carried out over HTTP, remove in production to use https
+FRONTEND URL = URL for front end
+GOOGLE CLIENT ID = client ID provided by google oauth to identify application
+GOOGLE CLIENT SECRET  = secret key provided by google oauth
+GOOGLE REDIRECT URI = redirect uri used by oauth after authentication. format = https://<BACKENDURL>/api/auth/signin-google/callback.  Replace BACKENDURL
+    with the url your server is running on. for testing in http on localhost use this format: http://localhost:5000/api/auth/signin-google/callback
+GOOGLE_DISCOVERY_URL = URL that points to google oauths openid connect configuration.  this url does not change from application to application and is already filled in below sample/
+DB HOST = database host name
+DB NAME = the name of the database
+DB USER = the username with access to the database
+DB PASS = the password associated with above username
+DB PORT = the port the database is using
+
+#.env
+SECRET_KEY=
+OAUTHLIB_INSECURE_TRANSPORT=1  #remove this in production
+FRONTEND_URL=
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+GOOGLE_REDIRECT_URI=
+GOOGLE_DISCOVERY_URL=https://accounts.google.com/.well-known/openid-configuration
+DB_HOST=
+DB_NAME=
+DB_USER=
+DB_PASS=
+DB_PORT=

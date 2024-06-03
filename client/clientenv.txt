@@ -1,0 +1,10 @@
+sample env for client.  
+Params:
+URL is the api host.
+TEXT controls if the text box displaying the text from the audio files is displayed
+QUANTIFIER controls if the box displaying the quantifier is displayed
+
+#.env
+REACT_APP_API_URL=http://localhost:5000
+REACT_APP_HIDE_TEXT=false
+REACT_APP_HIDE_QUANTIFIER=true
