@@ -3,6 +3,8 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 from flask_session import Session
 from sqlalchemy import create_engine
+from apscheduler.schedulers.background import BackgroundScheduler
+from utils.session_cleanup import clear_flask_session_folder
 import os
 
 # Global variable to hold the database engine instance.
@@ -53,6 +55,11 @@ def create_app():
     def before_request(): # This function runs before each request to the server
         if 'db' not in g: # Set up the db engine in the application context if not done already
             g.db = create_engine(f'postgresql://{os.getenv("DB_USER")}:{os.getenv("DB_PASS")}@{os.getenv("DB_HOST")}:{os.getenv("DB_PORT")}/{os.getenv("DB_NAME")}')
+
+
+    scheduler = BackgroundScheduler() # Create a scheduler to run the session cleanup function
+    scheduler.add_job(clear_flask_session_folder, 'interval', hours=4) # Run the session cleanup function every 4 hours
+    scheduler.start()    
 
     return app
 
