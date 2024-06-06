@@ -2,11 +2,45 @@ Read me place holder
 
 Purpose:
 
+Program designed to provide front end users, analysts, with a tool for benchmarking audio.  analysts will have the
+capability to choose TTS models from a drop down, listen to audio from these models, provide feedback in the form of 
+predetermined tags, set by admins with access to the proper database, and a 0-10 rating system.
+
+These results are saved to a database to allow for efficient grouping and viewing of how these models are performing 
+according to the analysts.
+
+
+Inital Dev Note:
+Following setup instructions allow for a functional progam using information saved locally.  Refer to the Future Development section
+for notes on changes needed to incorporate other functionality.
+
 Setup:
 
     Server:
 
+    It is highly recommeded to create a python virtual enviroment before continuing to future steps.
+
+    Naviagte to the the /server directory and enter the command "pip install -r requirements.txt" this will install all 
+    necessary dependencies for the server.
+
+    create a .env file within the server folder.  There already exists a txt file named "serverenv.txt" file within the server
+    folder that contains a template and a description for all necessary env variables.
+
+    To initialize the server, navigate to the server directy and execucate the file from the command line with the appropriate command.
+    in orignal development this was "python3 server.py"
+
     Client:
+
+    Requirements are listed in the package.json.
+    simply run `npm install` to install all dependencies.
+
+    Note that Node.js and npm must already be installed on your machine.   
+    you can check this by running `node -v` and `npm -v` in your terminal.
+    
+        for instructions on installing Node.js on your machine visit https://nodejs.org/en/download
+            Note that as of this writing, the latest version of Node.js also includes npm.
+            more details on which npm version is includes with node.js can be found at https://nodejs.org/en/download
+
 
     Database:
 
@@ -16,4 +50,6 @@ Future Development:
 
 Common Troubleshooting:
 
-
+ValueError
+ValueError: invalid literal for int() with base 10: 'None'
+env for database not configured correctly
