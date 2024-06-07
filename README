@@ -1,24 +1,25 @@
-Read me place holder
-
 Purpose:
 
-Program designed to provide front end users, analysts, with a tool for benchmarking audio.  analysts will have the
-capability to choose TTS models from a drop down, listen to audio from these models, provide feedback in the form of 
-predetermined tags, set by admins with access to the proper database, and a 0-10 rating system.
+    Program designed to provide front end users, analysts, with a tool for benchmarking audio.  analysts will have the
+    capability to choose TTS models from a drop down, listen to audio from these models, provide feedback in the form of 
+    predetermined tags, set by admins with access to the proper database, and a 0-10 rating system.
 
-These results are saved to a database to allow for efficient grouping and viewing of how these models are performing 
-according to the analysts.
+    These results are saved to a database to allow for efficient grouping and viewing of how these models are performing 
+    according to the analysts.
 
 
 Inital Dev Note:
-Following setup instructions allow for a functional progam using information saved locally.  Refer to the Future Development section
-for notes on changes needed to incorporate other functionality.
+    The following setup instructions allow for a functional progam using information saved locally.  Refer to the Future Development section
+    for notes on changes needed to incorporate other functionality.
 
 Setup:
 
     Server:
 
     It is highly recommeded to create a python virtual enviroment before continuing to future steps.
+
+    Inital build was created using python version 3.10.12.  It is recommended to set this version to the default in your virtual enviroment
+    to avoid potential compatibility issues.
 
     Naviagte to the the /server directory and enter the command "pip install -r requirements.txt" this will install all 
     necessary dependencies for the server.
@@ -31,6 +32,9 @@ Setup:
 
     Client:
 
+    create a .env file within the client folder.  There already exists a txt file named "clientenv.txt" file within the client
+    folder that contains a template and a description for all necessary env variables.
+
     Requirements are listed in the package.json.
     simply run `npm install` to install all dependencies.
 
@@ -41,14 +45,103 @@ Setup:
             Note that as of this writing, the latest version of Node.js also includes npm.
             more details on which npm version is includes with node.js can be found at https://nodejs.org/en/download
 
+    To run a development build run "npm start" while in the client directory.
+
+    To create a production build run "npm run build" while in the client directory.  This will create a build folder 
+    that can be ran behind.
 
     Database:
+
+    The initial build require the use of four seperate databases.  Initial build used databases created with postGRES and 
+    the following are instructions to create the same databases used in inital testing.
+
+    Tag table, this table contains the list of tags that analysts will have access to for labeling audio files.
+
+    CREATE TABLE tags (
+    tag varchar(50),
+    primary key(tag)
+    );
+
+    Model table, this table contains the list of models that the analysts may choose from.
+
+    CREATE TABLE models (
+    name varchar(50),
+    primary key(name)
+    );
+
+    Note that this table only servers to provide the names of models for use as keys when searching other databases or files 
+    for the associated audio, text, etc.  This table can other be used to mirror the list of available models as they are stored in 
+    other databases.  Future dev can also remove this table and instead change the create model list function to retrieve model names 
+    from whatever databases are currently being used that store all model information
+
+    
+    Audio table, this talble contains the model information for a particular audio file.  Creates table sections for a unique  id, model name,
+    model tier, language the audio is in, text associated with the audio, and the audio file itself.
+
+    CREATE TABLE audio (
+    id serial primary key,
+    model varchar(30) not null,
+    tier varchar(30),
+    language varchar(30),
+    text varchar(200),
+    audiofile bytea not null    
+    );
+
+
+    Tagging table, this table is the table that stores the analysts input on the model.  it contains sections for: the analysts email, timestamp when the data is submitted to the database, audio ID*, the tags selected, the score**, and the quantifier***
+
+    CREATE TABLE tagging (
+    email varchar(100),
+    timestamp timestamptz default current_timestamp,
+    audioid int references audio(id),
+    tags text [],
+    score int,
+    quantifier varchar(30),
+    primary key (email, timestamp)
+    );
+
+    
+    *The audio id is a reference to the id in the audio table.  Whenever model information is sent to the database, if the combination of the model name and text is unique and not in the database already, a new id is created in the audio table.  when an analysts submits data to the database if that model name and text match in the database, the tags will be associated with that unique id.  This allows multiple different analyst submissions to be associated with the singular model they were all listening to.
+
+    **If the analysts does not selected a score from 0-10 a default value of -1 is assigned to score.  This allows those accessing the database to ignore values of -1 when attempting to evaluate model scores
+
+    ***default quantifies are empty strings.
 
 
 Future Development:
 
 
+    As noted previously, above steps should allow for a functional dev build using model data saved locally.  There are numerous changes that can be made to allow to allow for differring functionality within the application.  While most functions that allow for future changes have been noted with dev notes in their documentation, they will also be listed here.
+
+Server:
+    The first and most necessary change will be integrating your own storage system into the application.  The initial build saves to models' data locally however you will want to integrate a method for accessing your own database that contains the model information.
+
+    The model_data.py file in server/utils contains the functions for reading information from the file system, after establishing a connection to your databases, I would recomment created the functions that handle retrival here.
+
+    Utilze your new function in model_data_service.py in server/services.  Ensure your fucntion still returns the same information as the original function.  The create_model_data function takes the model name as a key, it is most likely here that you will also want to add new function for determining how or what audio files will be pulled given the model name.
+    After those changes, the program should function normally but now pull from your own databases.
+      Note that the create model data function is called very frequantly and may require a more streamlined approach depending on how it accesses model data.
+
+
+
+    Initial build uses flask session, saved locally, for holding data.  These sessions currently hold the audio file.  This could cause memory issues depending on the number of users as the system hosting the server will be storing multiple audio files per analyst.  If this is a concern, a recommened solution is to create a new database that holds the audio file and is accessed by the user's unique flask id.  Keep in mind that such an approach will require you to change multiple other functions:
+        create_model_request in server/controllers/model_data_controller.py which initially saves the audio file to the flask session
+
+        frontend_send_to_database in server/controllers/database_controller.py which pulls the audio file from the flask session before storing 
+            it in the database.
+
+
+    If local flask sessions are not used in future iterations, remove session_cleanup.py in server/utils and remove its calls in the server.py.  This function handles automatic cleanup of local flask sessions and would not be needed if local flask sessions arent used.
+
+
+Client:
+
+
+
+
 Common Troubleshooting:
+
+safari port 3000
 
 ValueError
 ValueError: invalid literal for int() with base 10: 'None'
