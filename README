@@ -116,7 +116,7 @@ Future Development:
 Server:
     The first and most necessary change will be integrating your own storage system into the application.  The initial build saves to models' data locally however you will want to integrate a method for accessing your own database that contains the model information.
 
-    The model_data.py file in server/utils contains the functions for reading information from the file system, after establishing a connection to your databases, I would recomment created the functions that handle retrival here.
+    The model_data.py file in server/models contains the functions for reading information from the file system, after establishing a connection to your databases, I would recomment created the functions that handle retrival here.
 
     Utilze your new function in model_data_service.py in server/services.  Ensure your fucntion still returns the same information as the original function.  The create_model_data function takes the model name as a key, it is most likely here that you will also want to add new function for determining how or what audio files will be pulled given the model name.
     After those changes, the program should function normally but now pull from your own databases.
@@ -158,3 +158,9 @@ safari port 3000
 ValueError
 ValueError: invalid literal for int() with base 10: 'None'
 env for database not configured correctly
+
+pip install -r requirements.txt not installing some of the reqs
+wrong python version.
+
+Text or quantifier not displaying on front end.
+client env values
