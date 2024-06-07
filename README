@@ -75,7 +75,7 @@ Setup:
     from whatever databases are currently being used that store all model information
 
     
-    Audio table, this talble contains the model information for a particular audio file.  Creates table sections for a unique  id, model name,
+    Audio table, this talble contains the model information for a particular audio file.  Creates table sections for a unique  id*, model name,
     model tier, language the audio is in, text associated with the audio, and the audio file itself.
 
     CREATE TABLE audio (
