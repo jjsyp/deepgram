@@ -14,6 +14,25 @@ Inital Dev Note:
 
 Setup:
 
+    Authentication:
+
+    Applicaiton uses google oauth for authentication.  You will need to set up our own project at
+    https://console.cloud.google.com
+
+    You will need to define which APIs you want to use, create credentials, and identify access scopes.  Google has a guide on doing so here:
+    https://developers.google.com/identity/protocols/oauth2/web-server
+
+    for initial build testing you may use the following:
+    Authorized JavaScript Origins:
+        http://localhost:3000
+        
+        http://localhost
+        
+    Redirect URI:
+        http://localhost:5000/api/auth/signin-google/callback
+
+    For future deployment change the local host values to reflect the front and back end respectively.
+
     Server:
 
     It is highly recommeded to create a python virtual enviroment before continuing to future steps.
@@ -116,7 +135,7 @@ Future Development:
 Server:
     The first and most necessary change will be integrating your own storage system into the application.  The initial build saves to models' data locally however you will want to integrate a method for accessing your own database that contains the model information.
 
-    The model_data.py file in server/models contains the functions for reading information from the file system, after establishing a connection to your databases, I would recomment created the functions that handle retrival here.
+    The storage_util.py file in server/utils contains the functions for reading information from the file system, after establishing a connection to your databases, I would recomment created the functions that handle retrival here.
 
     Utilze your new function in model_data_service.py in server/services.  Ensure your fucntion still returns the same information as the original function.  The create_model_data function takes the model name as a key, it is most likely here that you will also want to add new function for determining how or what audio files will be pulled given the model name.
     After those changes, the program should function normally but now pull from your own databases.
