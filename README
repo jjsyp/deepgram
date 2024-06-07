@@ -134,7 +134,19 @@ Server:
     If local flask sessions are not used in future iterations, remove session_cleanup.py in server/utils and remove its calls in the server.py.  This function handles automatic cleanup of local flask sessions and would not be needed if local flask sessions arent used.
 
 
+    Quantifier:  Original developer did not have sufficient information on how the quantifier is determined or where it is saved in relation to the rest of model data.  As such, no functions exisit on the server side that support it.  Client side currently supports a default, an empty string, value as well as a const for changing and displaying the quantifier for analysts.  Should future dev decide to implement the quantifier a supporting function will need to be added that can access it and relay it to the front end.
+
 Client:
+
+    Refer to the above comment in the server section about the quantifier.  As long as a string value is set to the quantifier in TTSTool.js, that value will be saved to the database.  No value will result in an empty string being saved.
+
+
+    The text displayed in TextContainer is the text associated with the first model the anaylist chooses.  As such it is assumed that the text for all models being evaluated is the same.  If this is not that case and you do not wish to display the text container, simply change the env file param handling text from false to true.  If you wish to display a text container for each audio player, you will need to generate an textContainer after each audio player is created and change the textcontainer mapping  chosenModels[0].text to chosenModels[x].text where x increments from 0 with each model chosen.
+
+
+    
+    Note that when saving scores to the database, the drop down has "rate model" and "no rating", both of these are saved as value of -1.  If you it is a requirement that a score be chosen, remove the two string options in client/src/components/audioplayer/audiotags.js.
+
 
 
 
