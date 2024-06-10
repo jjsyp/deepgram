@@ -176,19 +176,40 @@ Client:
 
 Common Troubleshooting:
 
-websocket error
-safari port 3000
+Site cannnot be reached after attempting login:
+    Check server env for correct frontend url
+    Check client env for correct backend url
 
-ValueError
-ValueError: invalid literal for int() with base 10: 'None'
-env for database not configured correctly
+websocket error:
+    if using a mac and local testing, this is caused by apple defaulting another application on port 3000, for loca testing change frontend to an unused port.
 
-pip install -r requirements.txt not installing some of the reqs
-wrong python version.
+on attempted login:    
+    Access blocked: The OAuth client was not found: Error 401: invalid_client:
+    
+    invalid google client id or client secret. check server env settings and ensure they match with google developer console settings for this app.
+
+On attemted login:
+    JSONDecodeError:
+    requests.exceptions.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+    invalid google discovery url, confirm correct in server env. default value for this param is in the serverenv.txt sample.s
+
+On attempted login when returning the ttstool:
+    Uncaught runtime errors:
+    read properties of null (reading 'map')
+    TypeError: Cannot read properties of null (reading 'map')
+
+    database env information incorrect or missing, check server env file and that the database is constructed properly.
+    
+    This same error occurs for any incorrect value between all DB params in the env file.
+
+
+Modules not found/missing dependencies after attempted "pip install -r requirements.txt":
+    Likey cause is a python version mismatch since some versions of python do not support certain modules. configure your virtual enviroment to python version: 3:10:12.
 
 Text or quantifier not displaying on front end.
-client env values
+    client env values control whether or not these boxes display.
 
 cleanup function running twice
-debug is set to true, known bug
+    debug is set to true in server.py.  This is a known issue with that the debug true value can interfere with how functions are called. Setting debug to false as it will be in production should resolve the issue.
 
