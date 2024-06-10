@@ -180,10 +180,10 @@ Site cannnot be reached after attempting login:
     Check server env for correct frontend url
     Check client env for correct backend url
 
-websocket error:
+Websocket error:
     if using a mac and local testing, this is caused by apple defaulting another application on port 3000, for loca testing change frontend to an unused port.
 
-on attempted login:    
+On attempted login:    
     Access blocked: The OAuth client was not found: Error 401: invalid_client:
     
     invalid google client id or client secret. check server env settings and ensure they match with google developer console settings for this app.
@@ -207,9 +207,9 @@ On attempted login when returning the ttstool:
 Modules not found/missing dependencies after attempted "pip install -r requirements.txt":
     Likey cause is a python version mismatch since some versions of python do not support certain modules. configure your virtual enviroment to python version: 3:10:12.
 
-Text or quantifier not displaying on front end.
+Text or quantifier not displaying on webpage.
     client env values control whether or not these boxes display.
 
-cleanup function running twice
+Cleanup function running twice
     debug is set to true in server.py.  This is a known issue with that the debug true value can interfere with how functions are called. Setting debug to false as it will be in production should resolve the issue.
 
