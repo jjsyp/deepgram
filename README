@@ -22,7 +22,7 @@ Setup:
     You will need to define which APIs you want to use, create credentials, and identify access scopes.  Google has a guide on doing so here:
     https://developers.google.com/identity/protocols/oauth2/web-server
 
-    for initial build testing you may use the following:
+    for initial build testing on local host you may use the following values creating :
     Authorized JavaScript Origins:
         http://localhost:3000
         
@@ -31,7 +31,8 @@ Setup:
     Redirect URI:
         http://localhost:5000/api/auth/signin-google/callback
 
-    For future deployment change the local host values to reflect the front and back end respectively.
+    For build deployment change the local host values to reflect the front and back end respectively.
+
 
     Server:
 
@@ -67,12 +68,15 @@ Setup:
     To run a development build run "npm start" while in the client directory.
 
     To create a production build run "npm run build" while in the client directory.  This will create a build folder 
-    that can be ran behind.
+    that can be ran behind 
+
 
     Database:
 
     The initial build require the use of four seperate databases.  Initial build used databases created with postGRES and 
     the following are instructions to create the same databases used in inital testing.
+
+    Installation instructions and how to configure user profiles for postgres can be found at https://www.postgresql.org/
 
     Tag table, this table contains the list of tags that analysts will have access to for labeling audio files.
 
@@ -120,7 +124,7 @@ Setup:
     );
 
     
-    *The audio id is a reference to the id in the audio table.  Whenever model information is sent to the database, if the combination of the model name and text is unique and not in the database already, a new id is created in the audio table.  when an analysts submits data to the database if that model name and text match in the database, the tags will be associated with that unique id.  This allows multiple different analyst submissions to be associated with the singular model they were all listening to.
+    *The audio id is a reference to the id in the audio table.  Whenever model information is sent to the database, if the combination of the model name, version, language and text is unique and not in the database already, a new id is created in the audio table.  when an analysts submits data to the database if that model name and text match in the database, the tags will be associated with that unique id.  This allows multiple different analyst submissions to be associated with the singular model they were all listening to.
 
     **If the analysts does not selected a score from 0-10 a default value of -1 is assigned to score.  This allows those accessing the database to ignore values of -1 when attempting to evaluate model scores
 
@@ -172,6 +176,7 @@ Client:
 
 Common Troubleshooting:
 
+websocket error
 safari port 3000
 
 ValueError
@@ -183,3 +188,7 @@ wrong python version.
 
 Text or quantifier not displaying on front end.
 client env values
+
+cleanup function running twice
+debug is set to true, known bug
+
